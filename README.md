@@ -1,2 +1,2 @@
-# ANG
-A.N.G Clinic Appointment System
+Appointment and Verification System 
+with QR Integration for A.N.G Dental Care Center
