@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A.N.G Dental Care Center</title>
-    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/index.css?v=1.0.2">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
 
@@ -15,12 +16,12 @@
         </a>
         
         <ul class="nav">
-            <li><a href="#">HOME</a></li>
-            <li><a href="#">ABOUT</a></li>
-            <li><a href="#">SERVICE</a></li>
-            <li><a href="#">DENTISTS</a></li>
-            <li><a href="#">GALLERY</a></li>
-            <li><a href="#">CONTACT</a></li>
+            <li><a href="#home">HOME</a></li>
+            <li><a href="#about">ABOUT</a></li>
+            <li><a href="#services">SERVICE</a></li>
+            <li><a href="#dentist">DENTISTS</a></li>
+            <li><a href="#gallery">GALLERY</a></li>
+            <li><a href="#contact">CONTACT</a></li>
         </ul>
 
         <div class="nav-right-content">
@@ -29,7 +30,7 @@
         </div>
     </header>
 
-    <section class="home">
+    <section class="home" id="home">
         <div class="home-content">
             <div class="home-details">
                 <h1>Welcome to A.N.G Dental Care</h1>
@@ -40,7 +41,7 @@
         </div>
     </section>
 
-    <section class="about">
+    <section class="about" id="about">
         <div class="about-details">
             <h1>ABOUT US</h1>
             <p>With our caring and dedicated staff. we strive to provide you with the most comfortable and 
@@ -71,7 +72,7 @@
         </div>
     </section>
 
-    <section class="services">
+    <section class="services" id="services">
         <div class="services-details">
             <h1>Services</h1>
             <p>With our caring and dedicated staff. we strive to provide you with the most comfortable and 
@@ -90,7 +91,7 @@
         </div>
     </section>
 
-    <section class="dentist">
+    <section class="dentist" id="dentist">
         <div class="dentist-profile">
             <h1>ABOUT THE DENTIST</h1>
             <img src="../Img/logo.png" alt="">
@@ -107,12 +108,37 @@
         </div>
     </section>
 
-    <section class="gallery">
-        gallery
+    <section class="gallery" id="gallery">
+        <div class="gallery-details">
+            <h1>GALLERY</h1>
+        </div>
+        <div class="gallery-img">
+            <img src="../Img/logo.png" alt="">
+            <img src="../Img/logo.png" alt="">
+            <img src="../Img/logo.png" alt="">
+            <img src="../Img/logo.png" alt="">
+            <img src="../Img/logo.png" alt="">
+        </div>
     </section>
 
-    <section class="contact">
-        contact
+    <section class="contact" id="contact">
+        <div class="contact-details">
+            <h1>CONTACT</h1>
+        </div>
+
+        <div class="contact-container">
+            <div class="contact-left">
+                <img src="../Img/logo.png" alt="">
+            </div>
+            <div class="contact-right">
+                <ul>
+                    <li><i class='bx bxs-phone-call'></i>0915-755-6527</li>
+                    <li><i class='bx bxl-gmail' ></i>angdentalcarecenter@gmail.com</li>
+                    <li><i class='bx bxl-facebook-square' ></i>A.N.G Dental Care Center</li>
+                    <li><i class='bx bxs-map' ></i>2nd Floor, 07 M. Villarica Rd Prenza 2 Marilao Bulacan</li>
+                </ul>
+            </div>
+        </div>
     </section>
 
     <script src="../js/index.js"></script>

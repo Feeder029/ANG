@@ -1,4 +1,5 @@
 *{
+    scroll-behavior: smooth;
     padding: 0;
     margin: 0;
     box-sizing: border-box;
@@ -231,6 +232,71 @@ header{
 }
 .dentist-details p{
     font-size: 20px;
+}
+
+.gallery{
+    height: 100vh;
+    width: 100%;
+    background-color: rgb(58, 44, 27);
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.gallery-details h1{
+    font-size: 10vh;
+    text-align: center;  
+}
+
+.gallery-img img{
+    margin: 30px 50px;
+    height: 30vh;
+    width: 40vh;    
+}
+
+.contact{
+    height: 70vh;
+    width: 100%;
+    background-color: rgb(216, 216, 216);
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.contact-details{
+    font-size: 5vh;
+}
+
+.contact-container{
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    background-color: aqua;
+    justify-content: center;
+}
+
+.contact-left img{
+    height: 60vh;
+    width: 60vh;
+}
+
+.contact-right ul{
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    padding: 20px;
+    
+}
+
+.contact-right li{
+    text-align: left;
+    font-size: 30px;
+}
+
+.contact-right li i{
+    font-size: 50px;
+    margin-top: 10px;
+    color: blueviolet;
 }
 
 
