@@ -7,6 +7,7 @@
     text-decoration: none;
     font-family: Arial, Helvetica, sans-serif;
 }
+
 :root{
     --black: #000 ;
     --white: #fff;
@@ -59,11 +60,16 @@ header{
     display: none;
 }
 
+.home, .about, .services, .dentist, .contact, .gallery{
+    padding: 30px;
+}
+
 /* section home */
 .home{
     background-color: var(--background);
     height: 100vh;
     width: 100%;
+    
 }
 .home-content {
     display: flex;
@@ -94,7 +100,7 @@ header{
 /* section about */
 .about{
     width: 100%;
-    height: 100vh;
+    height: 110vh;
     background-color: seagreen;
 }
 
@@ -193,7 +199,7 @@ header{
 
 /* section dendist*/
 .dentist{
-    height: 100vh;
+    height: 110vh;
     width: 100%;
     background-color: bisque;
 }
@@ -296,7 +302,7 @@ header{
 .contact-right li i{
     font-size: 50px;
     margin-top: 10px;
-    color: blueviolet;
+    color: rgb(195, 255, 0);
 }
 
 footer{
