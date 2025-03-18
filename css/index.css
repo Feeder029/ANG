@@ -24,7 +24,7 @@
     
 }
 header{
-    position: fixed;
+    position: sticky;
     width: 100%;
     top: 0;
     right: 0;
@@ -255,7 +255,7 @@ header{
 }
 
 .contact{
-    height: 70vh;
+    height: 80vh;
     width: 100%;
     background-color: rgb(216, 216, 216);
     display: flex;
@@ -299,6 +299,11 @@ header{
     color: blueviolet;
 }
 
+footer{
+    height: 10vh;
+    width: 100%;
+    display: flex;
+}
 
 /* media screen */
 @media(max-width:1770px){
