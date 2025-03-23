@@ -11,7 +11,7 @@
 :root{
     --black: #000 ;
     --white: #fff;
-    --Blue: #54cad3;
+    --Blue: #155E95;
     --background: #F7F7F7; ;
 }
 .nav{
@@ -36,6 +36,13 @@ header{
     justify-content: space-between;
     background-color: #fff;
 }
+.logo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 10px;
+}
 .logo img{
     width: 70px;
     height: auto;
@@ -48,7 +55,7 @@ header{
     display: inline-block;
     padding: 9px 24px;
     border: none;
-    border-radius: 10px;
+    border-radius: 4px;
     color: var(--white);
     background-color: var(--Blue);
 }
@@ -63,23 +70,25 @@ header{
 
 /* section home */
 .home{
-    background-color: var(--background);
-    height: 100vh;
+    height: 50vh;
     width: 100%;
+    background-color: var(--white);
     
 }
 .home-content {
     display: flex;
     flex-direction: row;
-    padding:0 4vh 0 4vh;
-    height: 100%;
+    height: auto;
+    width: 100%;
 }
 .home-details{
     width: 50%;
-    height: 100%;
+    height: 50vh;
     display: flex;
     flex-direction: column;
     padding-top: 10%;
+    padding-left:4vh;
+    background-color: #E8F9FF;
 }
 .home-details h1{
     font-size: 50px;
@@ -93,106 +102,123 @@ header{
     background-color: var(--Blue);
     color: var(--white);
     border: none;
-    border-radius: 10px;
+    border-radius: 4px;
     padding: 13px;
     cursor: pointer;
     width: 160px;
 }
 .home-img{
     width: 50%;
-    height: 100%;
-    background-color: red;
+    height: 50vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: #E8F9FF;
+    
 }
 .home-img img{
    height: 100%;
    width: 100%;
    object-fit: cover;
+   
 }
+
 /* section about */
 .about{
     width: 100%;
-    height: 110vh;
-    background-color: seagreen;
+    height: auto;
+    background-color: var(--white);
 }
 
 .about-details{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
-    background-color: purple;
     width: 100%;
-    height: 25vh;
+    height: 50vh;
     padding: 0 4vh 0 4vh;
-    gap: 30px;
 }
-.about-details h1{
-    font-size: 50px;
-    
+.about-details-left{
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items:center;
+    justify-content: right;
+    padding: 2vh;
+}
+.about-details-left img{
+    width: 500px;
+    height: 250px;
+    object-fit: cover;
+    object-position: top;
+}
+.about-details-right{
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-right: 10%;
+    gap: 20px;
+}
+.about-details-right h1{
+    font-size: 30px;  
+}
+.about-details-right p{
+    font-size: 18px;  
 }
 .about-container{
     display: flex;
     flex-direction: row;
     width: 100%;
-    height: 75vh;
+    height: auto;
+    background-color: var(--white);
 }
-.about-left{
-    background-color: yellow;
-    width: 50%;
+
+.about-container-details{
     display: flex;
-    justify-content: right;
-    padding: 0 4vh 0 0;
-    
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 80px;
+    padding: 50px;
 }
-.about-left img{
-    width: 80%;
-    height: 80%;
+.about-box-details{
+    width: 300px;
+    height: 150px;
 }
-.about-right{
-    display: flex;
-    flex-direction: column;
-    background-color: crimson;
-    width: 50%;
-    padding: 0 4vh 0 4vh;
-    gap: 10px;
-}
-.about-right h1{
+.about-container-details h1{
     font-size: 30px;
-    padding-bottom: 5px;
+    padding-bottom: 10px;
 }
-.about-right p{
+.about-container-details p{
     font-size: 20px;
 }
-.about-right li{
+.about-container-details li{
     font-size: 20px;
 }
 
-/* section about */
+/* section service */
 .services{
     width: 100%;
     height: auto;
+    background-color: #F5F5F5;
 }
 .services-details{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    flex-wrap:wrap;
-    background-color: purple;
     width: 100%;
-    height: 25vh;
-    padding: 0 4vh 0 4vh;
-    gap: 30px;
+    height: auto;
 }
 .services-details h1{
-    font-size: 50px;
-    
-}
-.services-details p{
-    font-size: 20px;
+    font-size: 30px;
+    padding: 20px;
+    padding-top:50px ;
 }
 .service-box-container{
     display: flex;
@@ -200,129 +226,232 @@ header{
     justify-content: center;
     flex-wrap: wrap;
     gap: 10px;
+    padding-bottom: 90px;
+   
 }
 .service-box{
-    padding: 20px;
+    padding: 15px;
 }
-.service-box img{
+.service-card{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: seagreen;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.service-card h1 h2{
+    font-size: 10px;
+}
+.service-card img{
     background-color: crimson;
     width: 300px;
-    height: 400px;
+    height: 300px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
 /* section dendist*/
 .dentist{
-    height: 110vh;
+    height: auto;
     width: 100%;
-    background-color: bisque;
+    padding-left: 4vh;
+    padding-right: 4vh;
 }
 .dentist-profile{
     width: 100%;
-    height: 75vh;
-    background-color: burlywood;
+    height: auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 20px;
+    padding: 30px;
 }
 .dentist-profile h1{
-    font-size: 50px;
+    font-size: 30px;
+    padding: 20px;
 }
 .dentist-profile img{
     background-color: #fff;
-    height: 75%;
-    width: 40%;
+    height: 500px;
+    width: 500px;
+    border-radius: 4px;
 }
 .dentist-details{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: purple;
+    background-color: #37AFE1;
     width: 100%;
-    height: 25vh;
-    padding: 0 4vh 0 4vh;
-    gap: 30px;
+    height: auto;
+    padding: 2vh 4vh 2vh 4vh;
+    gap: 20px;
+    color: var(--white);
+    border-radius: 4px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 .dentist-details h1{
-    font-size: 50px;
-    
+    font-size: 30px;
 }
 .dentist-details p{
-    font-size: 20px;
+    font-size: 18px;
 }
 
 /* section gallery*/
 .gallery{
     height: auto;
     width: 100%;
-    background-color: rgb(58, 44, 27);
     display: flex;
     flex-direction: column;
     text-align: center;
+    margin-bottom: 90px;
 }
 
 .gallery-details h1{
-    font-size: 10vh;
+    font-size: 30px;
+    padding: 40px 0 20px 0;
     text-align: center;  
 }
 
 .gallery-img img{
-    margin: 30px 50px;
+    margin: 20px 20px;
     height: 30vh;
-    width: 40vh;    
+    width: 40vh; 
+    border: none; 
+    border-radius: 4px;
 }
 
 .contact{
-    height: 80vh;
+    height: auto;
     width: 100%;
-    background-color: rgb(216, 216, 216);
     display: flex;
     flex-direction: column;
     text-align: center;
+    
 }
-
-.contact-details{
-    font-size: 5vh;
-}
-
 .contact-container{
-    padding: 20px;
+    padding: 40px;
     display: flex;
     flex-direction: row;
-    background-color: aqua;
     justify-content: center;
+    
 }
 
 .contact-left img{
-    height: 60vh;
+    height: 40vh;
     width: 60vh;
+    border-radius: 4px;
 }
 
 .contact-right ul{
     display: flex;
     flex-direction: column;
-    gap: 50px;
+    gap: 30px;
     padding: 20px;
     
 }
 
 .contact-right li{
+    justify-content: center;
     text-align: left;
-    font-size: 30px;
+    font-size: 20px;
 }
 
 .contact-right li i{
-    font-size: 50px;
-    margin-top: 10px;
-    color: rgb(195, 255, 0);
+    font-size: 40px;
+    color: rgb(0, 0, 0);
 }
 
+
+/* Footer */
+
 footer{
-    height: 10vh;
+    bottom: 0;
     width: 100%;
+    background-color: var(--Blue);
+    color: aliceblue;
+    padding: 70px;
+}
+
+.main-content{
     display: flex;
+    flex-direction: row;
+}
+.main-content .box{
+    flex-basis: 50%;
+    padding: 10px 20px;
+}
+.box h2{
+    font-size: 30px;
+}
+.box .content{
+    margin: 20px 0 0 0;
+}
+.left .content{
+    margin: 20px 0 0 0;
+}
+.left .content a{
+    padding: 0 2px;
+}
+.left .content a span{
+    height: 40px;
+    width: 40px;
+    line-height: 40px;
+    text-align: center;
+    font-size:20px ;
+}
+.left .content p{
+    text-align: justify;
+}
+.place{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.place i{
+    color: #37AFE1;
+    font-size: 30px;
+    text-shadow: 2px 2px 4px #000000;
+}
+.name-email-container{
+    display: flex;
+    gap: 20px;
+    height: auto;
+    width: 100%;
+
+}
+.text{
+    padding: 5px 0 5px 0;
+}
+.name{
+    width: 50%;
+}
+.email{
+    width: 50%;
+}
+.btn{
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+.btn button{
+    width: 40%;
+    height: 30px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    color: var(--white);
+    background-color: #37AFE1;
+    font-size: 17px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+.right input{
+    width: 100%;
+    height: 30px;
 }
 
 /* media screen */
