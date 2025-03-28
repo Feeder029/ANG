@@ -36,7 +36,15 @@ body{
 .side-bar{
     background-color: aliceblue;
     padding: 15px;
-    height: 100%;
+    height: 80vh;
     width: 15%;
     margin: 15px;
+}
+
+ul{
+    padding: 10px;
+
+}
+ul li{
+    font-size: 3vh;
 }
