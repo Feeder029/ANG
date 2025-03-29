@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 29, 2025 at 07:37 AM
+-- Generation Time: Mar 29, 2025 at 04:10 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -34,7 +34,7 @@ CREATE TABLE `account` (
   `Acc_Username` varchar(30) NOT NULL,
   `Acc_Password` varchar(128) NOT NULL,
   `Acc_Email` varchar(320) NOT NULL,
-  `Acc_DateCreated` date NOT NULL,
+  `Acc_DateCreated` date NOT NULL DEFAULT current_timestamp(),
   `Acc_Profile` longblob NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -46,6 +46,8 @@ CREATE TABLE `account` (
 
 CREATE TABLE `address` (
   `AddressID` int(10) NOT NULL,
+  `Add_HouseNo` varchar(100) NOT NULL,
+  `Add_LotNo` varchar(100) NOT NULL,
   `Add_Street` varchar(255) DEFAULT NULL,
   `Add_Barangay` varchar(100) DEFAULT NULL,
   `Add_City` varchar(100) DEFAULT NULL,
@@ -390,7 +392,7 @@ ALTER TABLE `address`
 -- AUTO_INCREMENT for table `appointment`
 --
 ALTER TABLE `appointment`
-  MODIFY `AppointmentID` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `AppointmentID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `blling`
@@ -414,7 +416,7 @@ ALTER TABLE `name`
 -- AUTO_INCREMENT for table `patient`
 --
 ALTER TABLE `patient`
-  MODIFY `PatientID` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `PatientID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `paymentmethod`
