@@ -12,21 +12,23 @@
 
     <header>
         <a href="#" class="logo">
-            <img src="../Img/anglogo.png" alt="" draggable="false">
+            A.N.G Dental Care Center
+            <!-- <img src="../Img/anglogo.png" alt="" draggable="false"> -->
             <!-- <p>A.N.G Dental Care Center</p> -->
         </a>
         
+       <div class="content">
         <ul class="nav">
-            <li><a href="#home">HOME</a></li>
-            <li><a href="#about">ABOUT</a></li>
-            <li><a href="#services">SERVICE</a></li>
-            <li><a href="#dentist">DENTISTS</a></li>
-            <li><a href="#gallery">GALLERY</a></li>
-            <li><a href="#contact">CONTACT</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Service</a></li>
+            <li><a href="#dentist">Dentist</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#contact">Contact</a></li>
         </ul>
+       </div>
 
         <div class="nav-right-content">
-            <a href="../login/user_login.html" class="sign-in">Login</a>
+            <a href="../login/user_login.html" class="sign-in"><span>Login</span></a>
           <i id="menu-icon" class="fa-solid fa-bars"></i>
         </div>
     </header>
@@ -36,7 +38,7 @@
             <div class="home-details">
                 <h1>Welcome to A.N.G Dental Care</h1>
                 <h2>Your One-Stop Dental Care Provider!</h2>
-                <button>Book an Appointment</button>
+                <button><span>Book an Appointment</span></button>
             </div>
             <div class="home-img">
                 <img src="../Img/homebackground-remove.png" alt="">
@@ -62,7 +64,7 @@
         <div class="about-container">
             <div class="about-container-details">
                 <div class="about-box-details">
-                    <h1>OPEN HOURS</h1>
+                    <h1><i class="fa-solid fa-clock"></i>OPEN HOURS</h1>
                 <ul>
                     <li>Monday-Tuesday (9am-6pm)</li>
                     <li>Thursday-Saturday (9am-6pm)</li>
@@ -71,13 +73,13 @@
                 </div>
                
                <div class="about-box-details">
-                <h1>PAYMENT</h1>
+                <h1><i class="fa-solid fa-wallet"></i>PAYMENT</h1>
                 <p>Our Clinic only accept <br>
                      Cash, Gcash, Maya, and <br> Bank Transfer Via Instapay</p>
                </div>
 
                 <div class="about-box-details">
-                    <h1>WHY US?</h1>
+                    <h1><i class="fa-solid fa-magnifying-glass"></i>WHY US?</h1>
                 <ul>
                     <li>Professional Dentist</li>
                     <li>Advance Technology</li>
@@ -95,38 +97,75 @@
 
         <div class="service-box-container">
             <div class="service-box">
-               <div class="service-card">
+               <div class="service-circle">
                     <img src="../Img/serviceclean.jpg" alt="">
-                    <h1>Cleaning</h1>
-                    <h2>Oral Prophylaxis</h2>
+               </div>
+               <div class="service-box-details">
+                <h1>Cleaning</h1>
+                <h2>Oral Prophylaxis Lorem ipsum dolor sit amet consectetur adipisicing elit Lorem ipsum. </h2>
                </div>
             </div>
 
             <div class="service-box">
-                <div class="service-card">
+                <div class="service-circle">
                      <img src="../Img/serviceclean.jpg" alt="">
-                     <h1>Bunot</h1>
-                     <h2>Tooth Extraction</h2>
+                </div>
+                <div class="service-box-details">
+                 <h1>Cleaning</h1>
+                 <h2>Oral Prophylaxis Lorem ipsum dolor sit amet consectetur adipisicing elit Lorem ipsum. </h2>
                 </div>
              </div>
 
              <div class="service-box">
-                <div class="service-card">
+                <div class="service-circle">
                      <img src="../Img/serviceclean.jpg" alt="">
-                     <h1>Pasta</h1>
-                     <h2>Tooth Restoration</h2>
+                </div>
+                <div class="service-box-details">
+                 <h1>Cleaning</h1>
+                 <h2>Oral Prophylaxis Lorem ipsum dolor sit amet consectetur adipisicing elit Lorem ipsum. </h2>
                 </div>
              </div>
 
              <div class="service-box">
-                <div class="service-card">
-                     <img src="../Img/serviceteeth.jpg" alt="">
-                     <h1>Pustiso</h1>
-                     <h2>Complete Denture</h2>
+                <div class="service-circle">
+                     <img src="../Img/serviceclean.jpg" alt="">
+                </div>
+                <div class="service-box-details">
+                 <h1>Cleaning</h1>
+                 <h2>Oral Prophylaxis Lorem ipsum dolor sit amet consectetur adipisicing elit Lorem ipsum. </h2>
+                </div>
+             </div>
+
+             <div class="service-box">
+                <div class="service-circle">
+                     <img src="../Img/serviceclean.jpg" alt="">
+                </div>
+                <div class="service-box-details">
+                 <h1>Cleaning</h1>
+                 <h2>Oral Prophylaxis Lorem ipsum dolor sit amet consectetur adipisicing elit Lorem ipsum. </h2>
+                </div>
+             </div>
+
+             <div class="service-box">
+                <div class="service-circle">
+                     <img src="../Img/serviceclean.jpg" alt="">
+                </div>
+                <div class="service-box-details">
+                 <h1>Cleaning</h1>
+                 <h2>Oral Prophylaxis Lorem ipsum dolor sit amet consectetur adipisicing elit Lorem ipsum. </h2>
                 </div>
              </div>
 
         </div>
+
+        <div class="service-button">
+            <button class="more-service">
+                <span class="circle" aria-hidden="true">
+                <span class="icon arrow"></span>
+                </span>
+                <span class="button-text">More Service</span>
+              </button>
+         </div>
     </section>
 
     <section class="dentist" id="dentist">
@@ -164,15 +203,11 @@
     <section class="contact" id="contact">
         <div class="contact-container">
             <div class="contact-left">
-                <img src="../Img/buildingarea.jpg" alt="">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3857.7633140577414!2d120.98130327587653!3d14.782357372599401!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397ada4bb1f19e9%3A0x1bf264bc3ff814e1!2sA.N.G%20Dental%20Care%20Center!5e0!3m2!1sen!2sph!4v1743279896448!5m2!1sen!2sph" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
             <div class="contact-right">
-                <ul>
-                    <li><i class='bx bxs-phone-call'></i>0915-755-6527</li>
-                    <li><i class='bx bxl-gmail' ></i>angdentalcarecenter@gmail.com</li>
-                    <li><i class='bx bxl-facebook-square' ></i>A.N.G Dental Care Center</li>
-                    <li><i class='bx bxs-map' ></i>2nd Floor, 07 M. Villarica Rd Prenza 2 Marilao Bulacan</li>
-                </ul>
+               <h1>Our Location</h1>
+               <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Consequatur, velit non. Recusandae, at? Voluptas mollitia quisquam ut natus, sunt pariatur error, nesciunt aliquid dolorum, odit animi quibusdam magni ad earum. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate inventore nostrum eum, rerum libero recusandae soluta sit beatae quasi porro tempora totam mollitia corrupti praesentium, sunt facilis. Ullam, quo hic.</p>
             </div>
         </div>
     </section>

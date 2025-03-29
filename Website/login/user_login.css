@@ -35,7 +35,7 @@ body{
     text-align: center;
     padding: 40px;
     z-index: 1;
-    transition: .6s ease-in-out 1.2s, visibility 0s 1s;
+    transition: .6s ease 0.2s, visibility 0s 0.2s;
 }
 .container.active .form-box{
     right: 50%;
@@ -81,6 +81,9 @@ form{
     font-size: 20px;
     color: #888;
 }
+#hidepassword{
+    cursor: pointer;
+}
 .forgot-link {
     margin: -15px 0 15px;
 }
@@ -117,7 +120,7 @@ form{
     left: -250%;
     border-radius: 150px;
     z-index: 2;
-    transition: 1.8s ease-in-out;
+    transition: 0.8s ease-in-out;
 }
 .container.active .toggle-box::before{
     left: 50%;
@@ -138,19 +141,19 @@ form{
 
 .toggle-panel.toggle-left{
     left: 0;
-    transition-delay: 1.2s;
+    transition-delay: 0.2s;
 }
 .container.active .toggle-panel.toggle-left{
     left: -50%;
-    transition-delay: .6s;
+    transition-delay: .2s;
 }
 .toggle-panel.toggle-right{
     right: -50%; 
-    transition-delay: .6s;
+    transition-delay: .2s;
 }
 .container.container.active .toggle-panel.toggle-right{
     right: 0;
-    transition-delay: 1.2s;
+    transition-delay: 0.2s;
 }
 .toggle-panel p {
    padding-top: 3vh;
