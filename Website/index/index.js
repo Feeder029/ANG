@@ -5,3 +5,4 @@ menu.onclick = () => {
     menu.classList.toggle('fa-xmark');
     nav.classList.toggle('open');
 }
+

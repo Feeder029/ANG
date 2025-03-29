@@ -5,9 +5,9 @@ ob_start();
 // Call and Use all of the important files
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-require('../../Extensions/PHPMailer-master/src/Exception.php');
-require('../../Extensions/PHPMailer-master/src/PHPMailer.php');
-require('../../Extensions/PHPMailer-master/src/SMTP.php');
+require('../../../Extensions/PHPMailer-master/src/Exception.php');
+require('../../../Extensions/PHPMailer-master/src/PHPMailer.php');
+require('../../../Extensions/PHPMailer-master/src/SMTP.php');
 
 // Send Messages to Client's Account
 if (isset($_POST["send"])) {
@@ -45,7 +45,7 @@ if (isset($_POST["send"])) {
                         icon: 'success',
                         confirmButtonText: 'OK'
                     }).then(() => {
-                        window.location.href = 'index.html'; 
+                        window.location.href = '../index.html'; 
                     });
                 });
             </script>";
@@ -61,7 +61,7 @@ if (isset($_POST["send"])) {
                     icon: 'error',
                     confirmButtonText: 'OK'
                 }).then(() => {
-                    window.location.href = 'index.html';
+                    window.location.href = '../index.html';
                 });
             });
         </script>";
