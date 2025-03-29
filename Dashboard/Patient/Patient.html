@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="Patient.css">
+    <title>Patient</title>
+</head>
+<body>
+
+    <nav class="nav-bar">
+        <div class="nav-left">
+            <h1>PATIENTS</h1>
+            <p>ALL OF THE PATIENTS AND THEIR ACCOUNTS</p>
+        </div>
+        <div class="nav-right">
+            <Button>EXPORT TO EXCEL</Button>
+            <button>ADD PATIENT</button>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="top-container">
+            <div class="search-container">
+                <i class='bx bx-search' id="search-icon"></i>
+                <p>|</p>
+                <input type="search" name="" id="search" placeholder="Search for patient">
+            </div>
+            <div class="date-container">
+                <input type="date" name="" id="">
+                <p>TO</p>
+                <input type="date" name="" id="">
+            </div>
+        </div>
+        <div class="table-container">
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>PATIENT</th>
+                    <th>GENDER</th>
+                    <th>CONTACT NO</th>
+                    <th id="address-head">ADDRESS</th>
+                    <th id="date-head">DATE CREATED</th>
+                    <th id="action-head">ACTION</th>
+                </tr>
+                <tr id="data">
+                    <td>0005</td>
+                    <td class="patient">
+                        <img src="../img/posa.jpg" alt="">
+                        <div class="patient-name">
+                            <h2>PATIENT NAME</h2>
+                            <p>patient@gmail.com</p>
+                        </div>
+                    </td>
+                    <td>Male</td>
+                    <td>0987654321</td>
+                    <td>Marilao Bulacan</td>
+                    <td>01-01-2025</td>
+                    <td class="action">
+                        <a href="" id="edit"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <a href="" id="delete"><i class="fa-solid fa-trash"></i></a>
+                        <a href="" id="view"><i class="fa-solid fa-eye"></i></a>
+                    </td>
+                </tr>
+                
+            </table>
+        </div>
+    </div>
+</body>
+</html>

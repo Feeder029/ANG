@@ -8,43 +8,138 @@
 }
 
 body{
-    background-color: rgb(203, 203, 203);
+    background-color:#f0f3f6;
 }
 
 .nav-bar{
-    background-color:rgb(244, 244, 244);
+    background-color:#4990e2;
     position: sticky;
-    height: 13vh;
+    height: 12vh;
     width: 100%;
     display: flex;
     flex-direction: row;
     padding: 15px;
-    
+    border-radius: 0 0 15px 15px;
 }
 
 .nav-left img{
     height: 8vh;
     width: 8vh;
+
+}
+
+.nav-left{
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    gap: 10px;
+}
+
+.nav-left h2{
+    color: #ffffff;
+    margin: auto;
 }
 
 .nav_right{
     display: flex;
     flex-direction: row;
     margin-left: auto;
+    
+}
+
+.nav-icons{
+    margin: auto;
+    display: flex;
+    position: relative;
+    gap: 15px;
+    right: 20px;
+}
+.nav-icons .bx{
+    font-size: 3vh;
+    color: #ffffff;
+}
+
+.profile{
+    display: flex;
+    flex-direction: row;
+    background-color: #3884dc;
+    width: 32vh;
+    border-radius: 50px;
+    padding: 12px;
+}
+
+.profile img{
+    border-radius: 50px;
+    height: 40px;
+    width: 40px;
+    padding: 0;
+  
+}
+
+#profile-dropdown{
+    font-size: 3.2vh;
+    margin: auto;
+    position: relative;
+    margin-right: 0;
+    color:#ffffff;
+}
+
+.profile-id{
+    margin-right: auto;
+
+    padding: 5px;
+}
+
+.profile-id h3{
+    margin-top: -10px;
+    font-size: 2.5vh;
+}
+
+.profile-id p{
+    margin-top: 5px;
+    font-size: 1.5vh;
+}
+
+.profile-id{
+    flex-direction: column;
+
+    
 }
 
 .side-bar{
-    background-color: aliceblue;
+    background-color:#ffffff;
     padding: 15px;
-    height: 80vh;
-    width: 15%;
-    margin: 15px;
+    height: 100%;
+    width: 200px;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    margin: 10px;
+    border-radius: 15px;
 }
 
 ul{
     padding: 10px;
 
 }
-ul li{
-    font-size: 3vh;
+ul a{
+    padding: 10px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+}
+
+ul a:hover{
+    color:  #3884dc;
+}
+
+.iframe-container{
+    background-color:#ffffff;
+    width: 85%;
+    height: 100%;
+    display: flex;
+    position: fixed;
+    margin: 10px 10px 0 220px;
+    border-radius: 15px;
 }

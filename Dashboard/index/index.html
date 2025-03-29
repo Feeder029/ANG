@@ -11,31 +11,38 @@
     <nav class="nav-bar">
         <div class="nav-left">
             <img src="../img/anglogo.png" alt="" id="logo">
-            <input type="search" name="" id="search" placeholder="Search">
+            <h2>A.N.G Dental Care</h2>
         </div>
         <div class="nav_right">
-            <i class='bx bx-bell'></i>
-            <h2 id="name">NAME</h2>
-            <img src="../img/anglogo.png" alt="" id="profile">
-            <button>Dropdown</button>
+            <div class="nav-icons">
+                <a href=""><i class='bx bxs-moon'></i></a>
+                <a href=""><i class='bx bx-bell'></i></a>
+            </div>
+            <div class="profile">
+                <img src="../img/anglogo.png" alt="" id="profile-img">
+                <div class="profile-id">
+                    <h3 id="name">NAME</h2>
+                    <p id="position">Position</p>
+                </div>
+                <a href="" id="profile-dropdown"><i class='bx bx-chevron-down'></i></a>
+            </div>
         </div>
     </nav>
 
     <div class="side-bar">
         <ul>
-            <li>Dashboard</li>
-            <li>Doctor</li>
-            <li>Patient</li>
-            <li>Schedule</li>
-            <li>Appointment</li>
-            <li>Billing</li>
-            <li>Inbox</li>
-            <li>ASDASDASD</li>
+            <a href="#">Dashboard</a>
+            <a href="../Patient/Patient.html" target="iframe">Patient</a>
+            <a href="../Appointment/Appointment.html" target="iframe">Appointment</a>
+            <a href="../Schedule/Schedule.html" target="iframe">Schedule</a>
+            <a href="../Dentist/Dentist.html" target="iframe">Dentist</a>
+            <a href="../Billing/Billing.html" target="iframe">Billing</a>
+            <a href="../Inbox/Inbox.html" target="iframe">Inbox</a>
         </ul>
     </div>
 
-    <div class="iframe-container">
-        <iframe src="" frameborder="0"></iframe>
-    </div>
+    
+    <iframe src="" frameborder="0" name="iframe" class="iframe-container"></iframe>
+    
 </body>
 </html>
