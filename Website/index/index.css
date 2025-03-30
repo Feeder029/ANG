@@ -148,6 +148,7 @@ header{
     padding-top: 10%;
     padding-left:4vh;
     background-color: var(--sidecolor);
+    border-radius: 0% 100% 0% 100% / 89% 0% 100% 11% ;
 }
 .home-details h1{
     font-size: 50px;
@@ -211,12 +212,14 @@ header{
     justify-content: center;
     align-items: center;
     background-color: var(--sidecolor);
+    border-radius:  100% 0% 100% 0% / 0% 100% 11% 89% ;
     
 }
 .home-img img{
    height: 100%;
    width: 100%;
    object-fit: cover;
+   border-radius:  100% 0% 100% 0% / 0% 100% 11% 89% ;
    
 }
 
@@ -462,52 +465,52 @@ header{
 
 /* section dendist*/
 .dentist{
-    height: auto;
+    height: 100vh;
     width: 100%;
-    padding-left: 4vh;
-    padding-right: 4vh;
-    background-color: seagreen;
+    display: flex;
+    flex-direction: row;
 }
 .dentist-profile{
-    width: 100%;
-    height: auto;
+    width: 50%;
+    height: 100%;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 20px;
+    flex-direction: column;
     padding: 30px; 
-    background-color: crimson;
+    background-color: var(--white);
 }
 .dentist-profile h1{
     font-size: 30px;
     padding: 20px;
 }
 .dentist-profile img{
-    background-color: #fff;
-    height: 500px;
-    width: 500px;
-    border-radius: 4px;
+    height: auto;
+    width: 770px;
+    background-color: var(--sidecolor);
+    border-radius: 66% 34% 50% 50% / 65% 33% 67% 35% ;
+    
 }
+
 .dentist-details{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #37AFE1;
-    width: 100%;
+    width: 50%;
     height: auto;
-    padding: 2vh 4vh 2vh 4vh;
-    gap: 20px;
-    color: var(--white);
-    border-radius: 4px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding-left: 10%;
+    color: var(--black);
+    z-index: 2; 
 }
 .dentist-details h1{
     font-size: 30px;
+    
 }
 .dentist-details p{
     font-size: 18px;
+    padding: 2vh;
+    text-align: justify;
 }
 
 /* section gallery*/
@@ -517,7 +520,10 @@ header{
     display: flex;
     flex-direction: column;
     text-align: center;
-    margin-bottom: 90px;
+    background-color: var(--sidecolor);
+    border-radius:100% 0% 100% 0% / 10% 85% 15% 90% ;
+    padding: 90px 0 200px 0;
+    margin-bottom: 50px;
 }
 
 .gallery-details h1{
@@ -587,6 +593,7 @@ footer{
     background-color: var(--Blue);
     color: aliceblue;
     padding: 50px;
+ 
 }
 
 .main-content{
@@ -692,10 +699,14 @@ footer{
     .service-box-container{
         padding: 0 5vh 0 5vh;
     }
+     /* service dentist */
+    .dentist-profile img{
+        width: 600px;
 
+    }
 }
 @media(max-width:950px){
-    /* header section */
+    /* header  */
    #menu-icon{
     display: block;
    }
@@ -725,22 +736,23 @@ footer{
     left: 0;
    }
 
+
    /* service section */
    .service-box-container{
     padding: 0 5vh 0px 5vh;
-}
+    }
     /* about section */
     .about-details{
     flex-direction: column;
-}
-.about-details-left{
+    }
+    .about-details-left{
     justify-content: center;
     width: 100%;
-}
+    }
     .about-details-right{
    padding: 0 10vh 0 10vh;
    width: 100%;
-}
+    }
 
       /* contact section */
       .contact-container{
@@ -749,6 +761,24 @@ footer{
     }
     .contact-right{
         width: 100%;
+    }
+    
+    /* section dendist*/
+    .dentist{
+        flex-direction: column;
+    }
+    .dentist-details{
+        width: 100%;
+        padding: 10vh 10vh 0 10vh;
+    }
+    .dentist-profile{
+        width: 100%;
+    }
+
+    /* footer*/
+    .main-content{
+        flex-direction: column;
+        gap: 20px;
     }
 }
 
@@ -765,6 +795,21 @@ footer{
      .contact-right {
       width: 400px;
     }
+
+    /* home section */
+   .home-img{
+    display: none;
+   }
+   .home-details{
+    width: 100%;
+   }
+   .home-details h1{
+    font-size: 40px;
+   }
+   .home-details h2{
+    font-size: 22px;
+    padding-bottom: 60px;
+   }
 }
 
 @media(max-width:570px){
@@ -783,5 +828,21 @@ footer{
         padding: 0 4vh 0 4vh;
         width: 100%;
      }
-     
+     /* service dentist */
+    .dentist-profile img{
+        width: 420px;
+    }
+    .dentist-details{
+        padding: 10vh 4vh 0 4vh;
+    }
+
+    /* home section */
+
+   .home-details h1{
+    font-size: 26px;
+   }
+   .home-details h2{
+    font-size: 16px;
+   }
+
 }
