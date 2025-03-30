@@ -243,3 +243,7 @@ tr:nth-child(even) {
 #date-head{
     width: 12%;
 }
+
+#gender, #contact, #datecreated, #gender-head, #contact-head, #date-head{
+    text-align: center;
+}
