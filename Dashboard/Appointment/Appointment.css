@@ -222,6 +222,7 @@ tr:nth-child(even) {
     border: none;
     cursor: pointer;
     padding-right: 10px;
+    background-color: transparent;
 }
 
 #edit{
@@ -244,7 +245,7 @@ tr:nth-child(even) {
 
 #date-head, #time-head, #status-head, #procedure-head, #datesubmit-head{
     text-align: center;
-    width: 120px;
+    width: 140px;
 }
 
 #date, #time, #procedure, #status, #submitdate{

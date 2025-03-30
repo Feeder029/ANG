@@ -239,6 +239,7 @@ tr:nth-child(even) {
     border: none;
     cursor: pointer;
     padding-right: 10px;
+    background-color: transparent;
 }
 
 #edit{
