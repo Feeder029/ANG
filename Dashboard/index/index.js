@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const links = document.querySelectorAll(".side-bar ul a");
+    const links = document.querySelectorAll(".side-bar ul button");
     const iframe = document.querySelector("iframe");
 
-    if (!document.querySelector(".side-bar ul a.active")) {
+    if (!document.querySelector(".side-bar ul button.active")) {
         links[0].classList.add("active");
         iframe.src = "../Dashboard/Dashboard.html"; 
     }

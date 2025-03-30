@@ -167,7 +167,7 @@ body{
 
 .side-bar{
     background-color:#ffffff;
-    padding: 15px;
+    padding: 10px;
     height: 100%;
     width: 200px;
     position: fixed;
@@ -178,22 +178,31 @@ body{
 }
 
 ul{
-    padding: 10px;
+    padding-top: 15px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 
 }
-ul a{
+ul button{
     padding: 10px;
     text-decoration: none;
-    font-size: 25px;
+    font-size: 20px;
     color: #818181;
     display: block;
+    width: 100%;
+    text-align: left;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
 }
 
-ul a:hover{
+ul button:hover{
     color:  #3884dc;
 }
 
-ul a.active {
+ul button.active {
     color: #3884dc; 
     font-weight: bold;
 }
