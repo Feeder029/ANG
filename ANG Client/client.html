@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A.N.G DENTAL CARE</title>
+    <!-- Add Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="client.css">
+    <link rel="stylesheet" href="appointment.css">
+    <link rel="stylesheet" href="schedule.css">
+    <link rel="stylesheet" href="billing.css">
+    <link rel="stylesheet" href="profile.css">
+</head>
+<body>
+    <!-- Header with logo and user info -->
+    <header>
+        <div class="logo">
+            <i class="fas fa-tooth"></i>
+            A.N.G DENTAL CARE
+        </div>
+        <div class="user-panel">
+            <div class="icon"><i class="fas fa-moon"></i></div>
+            <div class="icon"><i class="fas fa-envelope"></i></div>
+            <div class="account">
+                <img src="/api/placeholder/50/50" alt="User">
+                <div class="account-info">
+                    <div class="username">LASTNAME</div>
+                    <div class="account-label">ACCOUNT</div>
+                </div>
+                <div style="margin-left: 5px;"><i class="fas fa-chevron-down"></i></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar with navigation icons -->
+    <div class="sidebar">
+        <div class="sidebar-item" data-panel="appointments">
+            <i class="far fa-calendar-alt"></i>
+        </div>
+        <div class="sidebar-item" data-panel="schedule">
+            <i class="far fa-clock"></i>
+        </div>
+        <div class="sidebar-item" data-panel="billings">
+            <i class="fas fa-file-invoice-dollar"></i>
+        </div>
+        <div class="sidebar-item" data-panel="profile">
+            <i class="far fa-user"></i>
+        </div>
+        <div class="sidebar-item" data-panel="settings" style="margin-top: auto;">
+            <i class="fas fa-cog"></i>
+        </div>
+    </div>
+
+    <!-- Main content area -->
+    <div class="main-content">
+        <!-- Panel content sections -->
+        <div id="appointments-panel" class="panel-content active">
+            <!-- Appointment header -->
+            <div class="appointment-header">
+                <div>
+                    <div class="appointment-title">BOOK AN APPOINTMENT</div>
+                    <div class="appointment-subtitle">SELECT DATE, TIME, AND PROCEDURE .</div>
+                </div>
+                <button class="book-btn">BOOK APPOINTMENT</button>
+            </div>
+
+            <!-- Date & Time section -->
+            <div class="section-title">PREFFERED DATE & TIME</div>
+
+            <!-- Date and Time container -->
+            <div class="date-time-container">
+                <!-- Calendar -->
+                <div class="calendar-container">
+                    <div class="calendar-header">
+                        <div class="calendar-nav prev"><i class="fas fa-chevron-left"></i></div>
+                        <div class="month-year">March 2025</div>
+                        <div class="calendar-nav next"><i class="fas fa-chevron-right"></i></div>
+                    </div>
+                    <div class="calendar-grid" id="calendar-grid">
+                        <!-- Calendar headers and days will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Time slots -->
+                <div class="time-slots-container">
+                    <div class="time-slots-title">AVAILABLE TIME SLOTS</div>
+                    <div class="time-slots">
+                        <div class="time-slot">9:00 AM</div>
+                        <div class="time-slot active">10:00 AM</div>
+                        <div class="time-slot">11:00 AM</div>
+                        <div class="time-slot">12:00 PM</div>
+                        <div class="time-slot">1:00 PM</div>
+                        <div class="time-slot">2:00 PM</div>
+                        <div class="time-slot">3:00 PM</div>
+                        <div class="time-slot">4:00 PM</div>
+                        <div class="time-slot">5:00 PM</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Procedure section -->
+            <div class="section-title">PREFFERED PROCEDURE:</div>
+            <div class="procedures-container">
+                <div class="procedure-nav prev"><i class="fas fa-chevron-left"></i></div>
+                <div class="procedures" id="procedures">
+                    <div class="procedure-item" data-procedure="extraction">
+                        <i class="fas fa-tooth"></i>
+                        <div class="procedure-name">TOOTH EXTRACTION</div>
+                    </div>
+                    <div class="procedure-item active" data-procedure="cleaning">
+                        <i class="fas fa-teeth"></i>
+                        <div class="procedure-name">TEETH CLEANING</div>
+                    </div>
+                    <div class="procedure-item" data-procedure="filling">
+                        <i class="fas fa-fill-drip"></i>
+                        <div class="procedure-name">DENTAL FILLING</div>
+                    </div>
+                    <div class="procedure-item" data-procedure="crown">
+                        <i class="fas fa-crown"></i>
+                        <div class="procedure-name">DENTAL CROWN</div>
+                    </div>
+                    <div class="procedure-item" data-procedure="root-canal">
+                        <i class="fas fa-teeth-open"></i>
+                        <div class="procedure-name">ROOT CANAL</div>
+                    </div>
+                    <div class="procedure-item" data-procedure="braces">
+                        <i class="fas fa-grin"></i>
+                        <div class="procedure-name">BRACES</div>
+                    </div>
+                </div>
+                <div class="procedure-nav next"><i class="fas fa-chevron-right"></i></div>
+            </div>
+        </div>
+
+        <!-- Schedule panel content -->
+        <div id="schedule-panel" class="panel-content">
+            <div class="schedule-header">
+                <div class="schedule-title">APPOINTMENT HISTORY</div>
+                <div class="schedule-subtitle">THIS IS YOUR PAST & CURRENT APPOINTMENTS</div>
+            </div>
+            
+            <div class="tab-navigation">
+                <div class="tab-item active" data-tab="all">ALL <span class="tab-count">4</span></div>
+                <div class="tab-item" data-tab="pending">PENDING <span class="tab-count">0</span></div>
+                <div class="tab-item" data-tab="confirmed">CONFIRMED <span class="tab-count">0</span></div>
+                <div class="tab-item" data-tab="completed">COMPLETED <span class="tab-count">0</span></div>
+                <div class="tab-item" data-tab="cancelled">CANCELLED <span class="tab-count">0</span></div>
+                <div class="tab-item" data-tab="rescheduled">RESCHEDULED <span class="tab-count">0</span></div>
+            </div>
+            
+            <div class="schedule-search-bar">
+                <div class="search-container">
+                    <i class="fas fa-search"></i>
+                    <input type="text" class="search-input" placeholder="SEARCH FOR AN APPOINTMENT">
+                </div>
+                <div class="date-range">
+                    <input type="date" class="date-input from-date">
+                    <span class="to-text">TO</span>
+                    <input type="date" class="date-input to-date">
+                </div>
+            </div>
+            
+            <table class="appointments-table">
+                <thead>
+                    <tr>
+                        <th>Appointment Date</th>
+                        <th>Appointment Time</th>
+                        <th>Procedure</th>
+                        <th>Status</th>
+                        <th>QR Code</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>22/03/2025</td>
+                        <td>9:00 PM</td>
+                        <td>PASTA</td>
+                        <td>PENDING</td>
+                        <td><img src="/api/placeholder/100/100" alt="QR Code" class="qr-code"></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn btn-cancel">CANCEL APPOINTMENT</button>
+                                <button class="btn btn-download">DOWNLOAD QR CODE</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>20/03/2025</td>
+                        <td>1:00 PM</td>
+                        <td>PASTA</td>
+                        <td>PENDING</td>
+                        <td><img src="/api/placeholder/100/100" alt="QR Code" class="qr-code"></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn btn-cancel">CANCEL APPOINTMENT</button>
+                                <button class="btn btn-download">DOWNLOAD QR CODE</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>02/01/2024</td>
+                        <td>4:00 PM</td>
+                        <td>TOOTH EXTRACTION</td>
+                        <td>COMPLETED</td>
+                        <td><img src="/api/placeholder/100/100" alt="QR Code" class="qr-code"></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn btn-cancel">CANCEL APPOINTMENT</button>
+                                <button class="btn btn-download">DOWNLOAD QR CODE</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Billings panel content -->
+        <div id="billings-panel" class="panel-content">
+            <div class="billings-header">
+                <div class="billings-title">BILLINGS HISTORY</div>
+                <div class="billings-subtitle">THIS IS YOUR PAST & CURRENT BILLINGS</div>
+            </div>
+            
+            <div class="tab-navigation">
+                <div class="tab-item active" data-tab="all">ALL <span class="tab-count">1</span></div>
+                <div class="tab-item" data-tab="pending">PENDING <span class="tab-count">0</span></div>
+                <div class="tab-item" data-tab="paid">PAID <span class="tab-count">0</span></div>
+                <div class="tab-item" data-tab="unpaid">UNPAID <span class="tab-count">0</span></div>
+            </div>
+            
+            <div class="billings-search-bar">
+                <div class="search-container">
+                    <i class="fas fa-search"></i>
+                    <input type="text" class="search-input" placeholder="SEARCH FOR AN BILLING">
+                </div>
+                <div class="date-range">
+                    <input type="date" class="date-input from-date">
+                    <span class="to-text">TO</span>
+                    <input type="date" class="date-input to-date">
+                </div>
+            </div>
+            
+            <table class="billings-table">
+                <thead>
+                    <tr>
+                        <th>BILLING DATE</th>
+                        <th>SERVICE</th>
+                        <th>AMOUNT</th>
+                        <th>PAYMENT</th>
+                        <th>PAYMENT METHOD</th>
+                        <th>STATUS</th>
+                        <th>RECIEPT</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>02/01/2024</td>
+                        <td>PASTA</td>
+                        <td>800</td>
+                        <td>900</td>
+                        <td>Maya</td>
+                        <td>Paid</td>
+                        <td>
+                            <button class="download-btn">
+                                <i class="fas fa-download"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Profile panel content -->
+        <div id="profile-panel" class="panel-content">
+            <div class="profile-header">
+                <div>
+                    <div class="profile-title">PROFILE</div>
+                    <div class="profile-subtitle">THIS IS YOUR PERSONAL INFORMATION!</div>
+                </div>
+                <button class="edit-profile-btn">EDIT PROFILE</button>
+            </div>
+
+            <div class="profile-content">
+                <div class="profile-left">
+                    <div class="profile-image">
+                        <img src="https://via.placeholder.com/200" alt="Profile Picture">
+                    </div>
+                    <button class="change-profile-btn">CHANGE PROFILE</button>
+
+                    <div class="profile-field">
+                        <div class="field-label">EMAIL:</div>
+                        <input type="text" class="field-input" readonly>
+                    </div>
+
+                    <div class="profile-field">
+                        <div class="field-label">FACEBOOK ACCOUNT:</div>
+                        <input type="text" class="field-input" readonly>
+                    </div>
+
+                    <div class="profile-field">
+                        <div class="field-label">CONTACT NUMBER:</div>
+                        <input type="text" class="field-input" readonly>
+                    </div>
+                </div>
+
+                <div class="profile-right">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <div class="field-label">FIRST NAME:</div>
+                            <input type="text" class="field-input" readonly>
+                        </div>
+                        <div class="form-group">
+                            <div class="field-label">LAST NAME:</div>
+                            <input type="text" class="field-input" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <div class="field-label">MIDDLE NAME:</div>
+                            <input type="text" class="field-input" readonly>
+                        </div>
+                        <div class="form-group">
+                            <div class="field-label">SUFFIX:</div>
+                            <input type="text" class="field-input" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <div class="field-label">GENDER</div>
+                            <select class="dropdown-select">
+                                <option value="" selected disabled></option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <div class="field-label">AGE:</div>
+                            <input type="text" class="field-input" readonly>
+                        </div>
+                        <div class="form-group">
+                            <div class="field-label">DATE OF BIRTH</div>
+                            <div class="date-input">
+                                <input type="text" class="field-input" readonly>
+                                <span class="calendar-icon">📅</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <div class="field-label">HOUSE NO.</div>
+                            <input type="text" class="field-input" readonly>
+                        </div>
+                        <div class="form-group">
+                            <div class="field-label">LOT NO.</div>
+                            <input type="text" class="field-input" readonly>
+                        </div>
+                        <div class="form-group">
+                            <div class="field-label">STREET</div>
+                            <input type="text" class="field-input" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <div class="field-label">BARANGAY</div>
+                            <select class="dropdown-select">
+                                <option value="" selected disabled></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <div class="field-label">CITY</div>
+                            <select class="dropdown-select">
+                                <option value="" selected disabled></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <div class="field-label">PROVINCE</div>
+                            <select class="dropdown-select">
+                                <option value="" selected disabled></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings panel content -->
+        <div id="settings-panel" class="panel-content">
+            <h2>Settings</h2>
+            <p>Adjust your account settings and notifications.</p>
+            <div style="height: 300px; background-color: #f5f5f5; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-top: 20px;">
+                <p>Your settings options will appear here</p>
+            </div>
+        </div>
+    </div>
+<script src="client.js"></script>
+</body>
+</html>

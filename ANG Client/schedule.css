@@ -1,0 +1,159 @@
+/* Schedule panel styles */
+.schedule-header {
+    margin-bottom: 20px;
+}
+
+.schedule-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    text-transform: uppercase;
+}
+
+.schedule-subtitle {
+    font-size: 16px;
+    color: #666;
+    margin-top: 5px;
+    text-transform: uppercase;
+}
+
+.tab-navigation {
+    display: flex;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 20px;
+}
+
+.tab-item {
+    padding: 10px 15px;
+    margin-right: 10px;
+    cursor: pointer;
+    position: relative;
+    color: #777;
+}
+
+.tab-item.active {
+    color: #4a90e2;
+    font-weight: bold;
+}
+
+.tab-item.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #4a90e2;
+}
+
+.tab-count {
+    display: inline-block;
+    margin-left: 5px;
+    color: #777;
+}
+
+.schedule-search-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.search-container {
+    position: relative;
+    flex: 1;
+    max-width: 600px;
+}
+
+.search-container i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #777;
+}
+
+.search-input {
+    width: 100%;
+    padding: 12px 15px 12px 40px;
+    border-radius: 25px;
+    border: none;
+    background-color: #f0f0f0;
+    font-size: 14px;
+}
+
+.date-range {
+    display: flex;
+    align-items: center;
+}
+
+.date-input {
+    padding: 8px 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    margin: 0 5px;
+    width: 150px;
+    text-align: center;
+}
+
+.date-input::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+}
+
+.to-text {
+    font-weight: bold;
+    color: #666;
+}
+
+.appointments-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.appointments-table th {
+    background-color: #f9f9f9;
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+    color: #333;
+    font-weight: bold;
+}
+
+.appointments-table td {
+    padding: 20px 15px;
+    border-bottom: 1px solid #eee;
+    color: #555;
+}
+
+.qr-code {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.btn {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.btn-cancel {
+    background-color: #ff6b6b;
+    color: white;
+}
+
+.btn-download {
+    background-color: #1dd1a1;
+    color: white;
+}
