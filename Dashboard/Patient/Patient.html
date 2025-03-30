@@ -27,16 +27,36 @@
                 <p>|</p>
                 <input type="search" name="" id="search" placeholder="Search for patient">
             </div>
-            <div class="date-container">
-                <input type="date" name="" id="">
-                <p>TO</p>
-                <input type="date" name="" id="">
+            <div class="sort-container">
+                <h3>Sort By</h3>
+                <button id="sort-btn"><i class="fa-solid fa-sort"></i></button>
+                <select name="sort" id="sort">
+                        <option value="">Default</option>
+                        <option value="">ID</option>
+                        <option value="">Name</option>
+                        <option value="">Gender</option>
+                        <option value="">Date Created</option>
+                    <!-- <option value="">Date 
+                        <select name="date-option" id="date-option">
+                            <div class="date-container" style="display: none;">
+                                <input type="date" name="" id="">
+                                <p>TO</p>
+                                <input type="date" name="" id="">
+                            </div>
+                        </select>
+                    </option> -->
+                    <!-- <optgroup label="_____________">
+                        <option value="">Ascending</option>
+                        <option value="">Descending</option>
+                    </optgroup> -->
+                </select>
             </div>
+          
         </div>
         <div class="table-container">
             <table>
-                <tr>
-                    <th>ID</th>
+                <tr id="head">
+                    <th id="id-head">ID</th>
                     <th>PATIENT</th>
                     <th>GENDER</th>
                     <th>CONTACT NO</th>
@@ -45,7 +65,7 @@
                     <th id="action-head">ACTION</th>
                 </tr>
                 <tr id="data">
-                    <td>0005</td>
+                    <td class="id">0005</td>
                     <td class="patient">
                         <img src="../img/posa.jpg" alt="">
                         <div class="patient-name">
@@ -58,12 +78,144 @@
                     <td>Marilao Bulacan</td>
                     <td>01-01-2025</td>
                     <td class="action">
-                        <a href="" id="edit"><i class="fa-solid fa-pen-to-square"></i></a>
-                        <a href="" id="delete"><i class="fa-solid fa-trash"></i></a>
-                        <a href="" id="view"><i class="fa-solid fa-eye"></i></a>
+                        <button id="edit"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button id="delete"><i class="fa-solid fa-trash"></i></button>
+                        <button id="view"><i class="fa-solid fa-eye"></i></button>
                     </td>
                 </tr>
-                
+                <tr id="data">
+                    <td class="id">0005</td>
+                    <td class="patient">
+                        <img src="../img/posa.jpg" alt="">
+                        <div class="patient-name">
+                            <h2>PATIENT NAME</h2>
+                            <p>patient@gmail.com</p>
+                        </div>
+                    </td>
+                    <td>Male</td>
+                    <td>0987654321</td>
+                    <td>Marilao Bulacan</td>
+                    <td>01-01-2025</td>
+                    <td class="action">
+                        <button id="edit"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button id="delete"><i class="fa-solid fa-trash"></i></button>
+                        <button id="view"><i class="fa-solid fa-eye"></i></button>
+                    </td>
+                </tr>
+                <tr id="data">
+                    <td class="id">0005</td>
+                    <td class="patient">
+                        <img src="../img/posa.jpg" alt="">
+                        <div class="patient-name">
+                            <h2>PATIENT NAME</h2>
+                            <p>patient@gmail.com</p>
+                        </div>
+                    </td>
+                    <td>Male</td>
+                    <td>0987654321</td>
+                    <td>Marilao Bulacan</td>
+                    <td>01-01-2025</td>
+                    <td class="action">
+                        <button id="edit"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button id="delete"><i class="fa-solid fa-trash"></i></button>
+                        <button id="view"><i class="fa-solid fa-eye"></i></button>
+                    </td>
+                </tr>
+                <tr id="data">
+                    <td class="id">0005</td>
+                    <td class="patient">
+                        <img src="../img/posa.jpg" alt="">
+                        <div class="patient-name">
+                            <h2>PATIENT NAME</h2>
+                            <p>patient@gmail.com</p>
+                        </div>
+                    </td>
+                    <td>Male</td>
+                    <td>0987654321</td>
+                    <td>Marilao Bulacan</td>
+                    <td>01-01-2025</td>
+                    <td class="action">
+                        <button id="edit"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button id="delete"><i class="fa-solid fa-trash"></i></button>
+                        <button id="view"><i class="fa-solid fa-eye"></i></button>
+                    </td>
+                </tr>
+                <tr id="data">
+                    <td class="id">0005</td>
+                    <td class="patient">
+                        <img src="../img/posa.jpg" alt="">
+                        <div class="patient-name">
+                            <h2>PATIENT NAME</h2>
+                            <p>patient@gmail.com</p>
+                        </div>
+                    </td>
+                    <td>Male</td>
+                    <td>0987654321</td>
+                    <td>Marilao Bulacan</td>
+                    <td>01-01-2025</td>
+                    <td class="action">
+                        <button id="edit"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button id="delete"><i class="fa-solid fa-trash"></i></button>
+                        <button id="view"><i class="fa-solid fa-eye"></i></button>
+                    </td>
+                </tr>
+                <tr id="data">
+                    <td class="id">0005</td>
+                    <td class="patient">
+                        <img src="../img/posa.jpg" alt="">
+                        <div class="patient-name">
+                            <h2>PATIENT NAME</h2>
+                            <p>patient@gmail.com</p>
+                        </div>
+                    </td>
+                    <td>Male</td>
+                    <td>0987654321</td>
+                    <td>Marilao Bulacan</td>
+                    <td>01-01-2025</td>
+                    <td class="action">
+                        <button id="edit"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button id="delete"><i class="fa-solid fa-trash"></i></button>
+                        <button id="view"><i class="fa-solid fa-eye"></i></button>
+                    </td>
+                </tr>
+                <tr id="data">
+                    <td class="id">0005</td>
+                    <td class="patient">
+                        <img src="../img/posa.jpg" alt="">
+                        <div class="patient-name">
+                            <h2>PATIENT NAME</h2>
+                            <p>patient@gmail.com</p>
+                        </div>
+                    </td>
+                    <td>Male</td>
+                    <td>0987654321</td>
+                    <td>Marilao Bulacan</td>
+                    <td>01-01-2025</td>
+                    <td class="action">
+                        <button id="edit"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button id="delete"><i class="fa-solid fa-trash"></i></button>
+                        <button id="view"><i class="fa-solid fa-eye"></i></button>
+                    </td>
+                </tr>
+                <tr id="data">
+                    <td class="id">0005</td>
+                    <td class="patient">
+                        <img src="../img/posa.jpg" alt="">
+                        <div class="patient-name">
+                            <h2>PATIENT NAME</h2>
+                            <p>patient@gmail.com</p>
+                        </div>
+                    </td>
+                    <td>Male</td>
+                    <td>0987654321</td>
+                    <td>Marilao Bulacan</td>
+                    <td>01-01-2025</td>
+                    <td class="action">
+                        <button id="edit"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button id="delete"><i class="fa-solid fa-trash"></i></button>
+                        <button id="view"><i class="fa-solid fa-eye"></i></button>
+                    </td>
+                </tr>
             </table>
         </div>
     </div>

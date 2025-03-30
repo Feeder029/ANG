@@ -135,11 +135,24 @@ ul a:hover{
 }
 
 .iframe-container{
-    background-color:#ffffff;
-    width: 85%;
+    background-color:#c14f4f;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    border-radius: 15px;
+    margin: 10px 10px 0 220px;
+}
+
+iframe{
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.container{
+    width: 100%;
     height: 100%;
     display: flex;
     position: fixed;
-    margin: 10px 10px 0 220px;
-    border-radius: 15px;
+    flex-direction: row;
 }

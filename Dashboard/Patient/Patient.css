@@ -9,6 +9,7 @@
 
 body{
     background-color:#f0f3f6;
+    overflow: hidden;
 }
 
 .nav-bar{
@@ -74,10 +75,10 @@ body{
     display: flex;
     flex-direction: row;
     margin: 10px;
-    padding: 10px;
+    padding: 5px;
     width: 30%;
     height: fit-content;
-    gap: 10px;
+    gap: 8px;
 }
 
 #search-icon{
@@ -93,11 +94,40 @@ body{
 
 #search{
     margin: auto;
+    padding: 0;
     background-color:#f0f3f6;
     border: none;
     width: 100%;
     height: 100%;
     font-size: 20px;
+    outline: none;
+}
+
+.sort-container{
+    margin-left: auto;
+    display:flex;
+    flex-direction: row;
+    padding: 20px;
+    gap: 10px;
+}
+
+#sort-btn{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+#sort-btn i{
+    font-size: 20px;
+}
+
+#sort{
+    border-color: #f0f3f6;
+    cursor: pointer;
+    padding: 6px;
+}
+#sort option{
+    cursor: pointer;
 }
 
 .date-container{
@@ -122,17 +152,18 @@ body{
     position: relative;
     width: 100%;
     padding: 15px;
-
+    overflow:auto;
 }
 
 table {
     width: 100%;
+    height: 100%;
     border-collapse: separate;
     border-spacing: 0 7px;
     text-align: left;
-    border-radius: 20px;
-    overflow: hidden;
+    padding-bottom: 50px;
 }
+
 
 th, td {
     padding: 8px; 
@@ -144,12 +175,12 @@ th {
 }
 
 tr{
-    border-radius: 20px;
+    border-radius: 25px;
 }
 
 
 tr:nth-child(even) {
-    background-color: #f2f2f2; 
+    background-color:#f0f3f6; 
 }
 
 .patient{
@@ -182,7 +213,9 @@ tr:nth-child(even) {
     text-align: center;
 }
 
-.action a{
+.action button{
+    border: none;
+    cursor: pointer;
     padding-right: 10px;
 }
 
