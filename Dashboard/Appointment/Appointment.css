@@ -15,7 +15,7 @@ body{
 .nav-bar{
     background-color:#ffffff;
 
-    height: 12vh;
+    height: 9vh;
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -25,12 +25,12 @@ body{
 
 .nav-left{
     display: flex;
-
+    padding: 10px;
+    position: relative;
     flex-direction: column;
 }
 
 .nav-right{
-    padding: 10px;
     margin-left: auto;
     display: flex;
     gap: 20px;
@@ -39,10 +39,10 @@ body{
 }
 
 .nav-right button{
-    padding: 10px;
-    width: 25vh;
+    padding: 5px;
+    width: 20vh;
     height: 5vh;
-    border-radius: 15px;
+    border-radius: 10px;
     font-size: 2vh;
     border: none;
     cursor: pointer;
@@ -145,6 +145,8 @@ table {
     border-spacing: 0 7px;
     text-align: left;
     padding-bottom: 50px;
+    top: -30px;
+    position: relative;
 }
 
 
@@ -153,12 +155,25 @@ th, td {
 }
 
 th {
-    background-color: #ddd;
+    background-color:#ffffff;
+    height: 60px;
+    font-weight: bolder;
     
+}
+#head{
+    box-shadow: 0 4px 0px rgba(0, 0, 0, 0.1);
+  
+}
+
+thead{
+
+    position: sticky;
+    top: -20px;
+    z-index: 1;
 }
 
 tr{
-    border-radius: 25px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 
@@ -166,8 +181,12 @@ tr:nth-child(even) {
     background-color:#f0f3f6; 
 }
 
+#id-head{
+    width: 75px;
+}
+
 #patient-head{
-    width: 50vh;
+    width: 40vh;
 }
 .patient{
     display: flex;
@@ -244,4 +263,56 @@ tr:nth-child(even) {
     padding: 5px;
     border-radius: 10px;
     color: rgb(255, 255, 255);
+}
+
+.status-container{
+    padding-top: 15px;
+    display:inline-flex;
+    justify-content: left;
+    gap: 10px;
+    
+}
+
+.status-container button{
+    padding: 2px;
+    width: 18vh;
+    height: 5vh;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 2vh;
+    background-color: #ffffff;
+}
+
+#book-status{
+    color:  rgb(96, 96, 194);
+}
+#book-status:hover{
+    background-color: rgb(96, 96, 194);
+    color: #ffffff;
+}
+
+#complete-status{
+    color: rgb(131, 198, 64);
+}
+#complete-status:hover{
+    background-color:  rgb(131, 198, 64);
+    color: #ffffff;
+}
+
+#cancel-status{
+    color:  rgb(207, 69, 69);
+}
+#cancel-status:hover{
+    background-color: rgb(207, 69, 69);
+    color: #ffffff;
+}
+
+#resched-status{
+    color: rgb(183, 183, 82);
+}
+
+#resched-status:hover{
+    background-color: rgb(183, 183, 82);
+    color: #ffffff;
 }
