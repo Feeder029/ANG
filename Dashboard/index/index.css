@@ -193,6 +193,11 @@ ul a:hover{
     color:  #3884dc;
 }
 
+ul a.active {
+    color: #3884dc; 
+    font-weight: bold;
+}
+
 .iframe-container{
     background-color:#c14f4f;
     width: 100%;
