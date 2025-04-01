@@ -49,6 +49,16 @@ body{
     cursor: pointer;
 }
 
+.nav-right #add-btn{
+    background-color: #5CB338;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.nav-right #export-btn{
+    background-color: blue;
+}
+
 .container{
     background-color: #ffffff;
     height: 80vh;

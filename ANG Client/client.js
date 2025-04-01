@@ -202,7 +202,7 @@
                 alert(`Booking appointment for:\nDate: ${formattedDate}\nTime: ${selectedTimeSlot}\nProcedure: ${selectedProcedure}`);
                 
                 // Switch to schedule panel to show the new appointment
-                // document.querySelector('.sidebar-item[data-panel="schedule"]').click();
+                document.querySelector('.sidebar-item[data-panel="schedule"]').click();
             });
             
             // Search functionality

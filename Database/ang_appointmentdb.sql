@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 29, 2025 at 04:10 PM
+-- Generation Time: Apr 01, 2025 at 10:44 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -31,11 +31,11 @@ CREATE TABLE `account` (
   `AccountID` int(10) NOT NULL,
   `StatusID` int(10) NOT NULL,
   `UserTypeID` int(10) NOT NULL,
-  `Acc_Username` varchar(30) NOT NULL,
-  `Acc_Password` varchar(128) NOT NULL,
-  `Acc_Email` varchar(320) NOT NULL,
-  `Acc_DateCreated` date NOT NULL DEFAULT current_timestamp(),
-  `Acc_Profile` longblob NOT NULL
+  `ACC_Username` varchar(30) NOT NULL,
+  `ACC_Password` varchar(128) NOT NULL,
+  `ACC_Email` varchar(320) NOT NULL,
+  `ACC_DateCreated` date NOT NULL DEFAULT current_timestamp(),
+  `ACC_Profile` longblob NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -46,12 +46,12 @@ CREATE TABLE `account` (
 
 CREATE TABLE `address` (
   `AddressID` int(10) NOT NULL,
-  `Add_HouseNo` varchar(100) NOT NULL,
-  `Add_LotNo` varchar(100) NOT NULL,
-  `Add_Street` varchar(255) DEFAULT NULL,
-  `Add_Barangay` varchar(100) DEFAULT NULL,
-  `Add_City` varchar(100) DEFAULT NULL,
-  `Add_Province` varchar(100) DEFAULT NULL
+  `ADD_HouseNo` varchar(100) NOT NULL,
+  `ADD_LotNo` varchar(100) NOT NULL,
+  `ADD_Street` varchar(255) DEFAULT NULL,
+  `ADD_Barangay` varchar(100) DEFAULT NULL,
+  `ADD_City` varchar(100) DEFAULT NULL,
+  `ADD_Province` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -65,10 +65,10 @@ CREATE TABLE `appointment` (
   `PatientID` int(10) DEFAULT NULL,
   `ServicesID` int(10) DEFAULT NULL,
   `StatusID` int(10) DEFAULT NULL,
-  `App_ChosenDate` date DEFAULT NULL,
-  `App_ChosenTime` time DEFAULT NULL,
-  `App_Submission` datetime DEFAULT NULL,
-  `App_QR` longblob NOT NULL
+  `APP_ChosenDate` date DEFAULT NULL,
+  `APP_ChosenTime` time DEFAULT NULL,
+  `APP_Submission` datetime DEFAULT NULL,
+  `APP_QR` longblob NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -97,7 +97,8 @@ CREATE TABLE `blling` (
   `BillingID` int(10) NOT NULL,
   `AppointmentID` int(10) DEFAULT NULL,
   `PaymentMethodID` int(10) DEFAULT NULL,
-  `StatusID` int(10) DEFAULT NULL
+  `StatusID` int(10) DEFAULT NULL,
+  `BILL_Date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -182,10 +183,10 @@ CREATE TABLE `patientlist` (
 ,`N_MiddleName` varchar(100)
 ,`N_Suffix` varchar(10)
 ,`N_FirstName` varchar(100)
-,`Add_Street` varchar(255)
-,`Add_Barangay` varchar(100)
-,`Add_City` varchar(100)
-,`Add_Province` varchar(100)
+,`ADD_Street` varchar(255)
+,`ADD_Barangay` varchar(100)
+,`ADD_City` varchar(100)
+,`ADD_Province` varchar(100)
 ,`P_Gender` varchar(30)
 ,`P_DOB` date
 ,`P_Age` int(10)
@@ -212,10 +213,9 @@ CREATE TABLE `paymentmethod` (
 
 CREATE TABLE `services` (
   `ServiceID` int(10) NOT NULL,
-  `Ser_Name` varchar(30) DEFAULT NULL,
-  `Ser_Details` varchar(320) DEFAULT NULL,
-  `Ser_MaxPrice` decimal(10,2) DEFAULT NULL,
-  `Ser_MinPrice` decimal(10,2) DEFAULT NULL
+  `SER_Name` varchar(30) DEFAULT NULL,
+  `SER_Details` varchar(320) DEFAULT NULL,
+  `SER_Duration` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -226,7 +226,7 @@ CREATE TABLE `services` (
 
 CREATE TABLE `status` (
   `StatusID` int(10) NOT NULL,
-  `Stat_Name` varchar(30) NOT NULL
+  `STAT_Name` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -262,7 +262,7 @@ CREATE TABLE `usertype` (
 --
 DROP TABLE IF EXISTS `appointmentlist`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `appointmentlist`  AS SELECT `a`.`App_ChosenDate` AS `App_ChosenDate`, `a`.`App_ChosenTime` AS `App_ChosenTime`, `a`.`App_Submission` AS `App_Submission`, `a`.`App_QR` AS `App_QR`, `d`.`Ser_Name` AS `Ser_Name`, `e`.`Stat_Name` AS `Stat_Name`, concat(`c`.`N_FirstName`,' ',concat(left(`c`.`N_MiddleName`,1),'.'),' ',`c`.`N_LastName`,' ',`c`.`N_LastName`) AS `DisplayName` FROM ((((`appointment` `a` join `patient` `b` on(`a`.`PatientID` = `b`.`PatientID`)) join `name` `c` on(`b`.`NameID` = `c`.`NameID`)) join `services` `d` on(`a`.`ServicesID` = `d`.`ServiceID`)) join `status` `e` on(`a`.`StatusID` - `e`.`StatusID`)) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `appointmentlist`  AS SELECT `a`.`APP_ChosenDate` AS `App_ChosenDate`, `a`.`APP_ChosenTime` AS `App_ChosenTime`, `a`.`APP_Submission` AS `App_Submission`, `a`.`APP_QR` AS `App_QR`, `d`.`SER_Name` AS `Ser_Name`, `e`.`STAT_Name` AS `Stat_Name`, concat(`c`.`N_FirstName`,' ',concat(left(`c`.`N_MiddleName`,1),'.'),' ',`c`.`N_LastName`,' ',`c`.`N_LastName`) AS `DisplayName` FROM ((((`appointment` `a` join `patient` `b` on(`a`.`PatientID` = `b`.`PatientID`)) join `name` `c` on(`b`.`NameID` = `c`.`NameID`)) join `services` `d` on(`a`.`ServicesID` = `d`.`ServiceID`)) join `status` `e` on(`a`.`StatusID` - `e`.`StatusID`)) ;
 
 -- --------------------------------------------------------
 
@@ -271,7 +271,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `dentistlist`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `dentistlist`  AS SELECT concat(`b`.`N_FirstName`,' ',concat(left(`b`.`N_MiddleName`,1),'.'),' ',`b`.`N_LastName`,' ',`b`.`N_LastName`) AS `DisplayName`, `b`.`N_LastName` AS `N_LastName`, `b`.`N_MiddleName` AS `N_MiddleName`, `b`.`N_Suffix` AS `N_Suffix`, `b`.`N_FirstName` AS `N_FirstName`, `c`.`Add_Street` AS `Add_Street`, `c`.`Add_Barangay` AS `Add_Barangay`, `c`.`Add_City` AS `Add_City`, `c`.`Add_Province` AS `Add_Province`, `a`.`D_Gender` AS `D_Gender`, `a`.`D_YearsofExperience` AS `D_YearsofExperience`, `a`.`D_Specialty` AS `D_Specialty`, `a`.`DentistID` AS `DentistID` FROM ((`dentist` `a` join `name` `b` on(`a`.`NameID` = `b`.`NameID`)) join `address` `c` on(`a`.`AddressID` = `c`.`AddressID`)) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `dentistlist`  AS SELECT concat(`b`.`N_FirstName`,' ',concat(left(`b`.`N_MiddleName`,1),'.'),' ',`b`.`N_LastName`,' ',`b`.`N_LastName`) AS `DisplayName`, `b`.`N_LastName` AS `N_LastName`, `b`.`N_MiddleName` AS `N_MiddleName`, `b`.`N_Suffix` AS `N_Suffix`, `b`.`N_FirstName` AS `N_FirstName`, `c`.`ADD_Street` AS `Add_Street`, `c`.`ADD_Barangay` AS `Add_Barangay`, `c`.`ADD_City` AS `Add_City`, `c`.`ADD_Province` AS `Add_Province`, `a`.`D_Gender` AS `D_Gender`, `a`.`D_YearsofExperience` AS `D_YearsofExperience`, `a`.`D_Specialty` AS `D_Specialty`, `a`.`DentistID` AS `DentistID` FROM ((`dentist` `a` join `name` `b` on(`a`.`NameID` = `b`.`NameID`)) join `address` `c` on(`a`.`AddressID` = `c`.`AddressID`)) ;
 
 -- --------------------------------------------------------
 
@@ -280,7 +280,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `patientlist`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `patientlist`  AS SELECT concat(`b`.`N_FirstName`,' ',concat(left(`b`.`N_MiddleName`,1),'.'),' ',`b`.`N_LastName`,' ',`b`.`N_LastName`) AS `DisplayName`, `b`.`N_LastName` AS `N_LastName`, `b`.`N_MiddleName` AS `N_MiddleName`, `b`.`N_Suffix` AS `N_Suffix`, `b`.`N_FirstName` AS `N_FirstName`, `c`.`Add_Street` AS `Add_Street`, `c`.`Add_Barangay` AS `Add_Barangay`, `c`.`Add_City` AS `Add_City`, `c`.`Add_Province` AS `Add_Province`, `a`.`P_Gender` AS `P_Gender`, `a`.`P_DOB` AS `P_DOB`, `a`.`P_Age` AS `P_Age`, `a`.`P_FacebookAccount` AS `P_FacebookAccount`, `a`.`P_ContactNo` AS `P_ContactNo` FROM ((`patient` `a` join `name` `b` on(`a`.`NameID` = `b`.`NameID`)) join `address` `c` on(`a`.`AddressID` = `c`.`AddressID`)) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `patientlist`  AS SELECT concat(`b`.`N_FirstName`,' ',concat(left(`b`.`N_MiddleName`,1),'.'),' ',`b`.`N_LastName`,' ',`b`.`N_LastName`) AS `DisplayName`, `b`.`N_LastName` AS `N_LastName`, `b`.`N_MiddleName` AS `N_MiddleName`, `b`.`N_Suffix` AS `N_Suffix`, `b`.`N_FirstName` AS `N_FirstName`, `c`.`ADD_Street` AS `ADD_Street`, `c`.`ADD_Barangay` AS `ADD_Barangay`, `c`.`ADD_City` AS `ADD_City`, `c`.`ADD_Province` AS `ADD_Province`, `a`.`P_Gender` AS `P_Gender`, `a`.`P_DOB` AS `P_DOB`, `a`.`P_Age` AS `P_Age`, `a`.`P_FacebookAccount` AS `P_FacebookAccount`, `a`.`P_ContactNo` AS `P_ContactNo` FROM ((`patient` `a` join `name` `b` on(`a`.`NameID` = `b`.`NameID`)) join `address` `c` on(`a`.`AddressID` = `c`.`AddressID`)) ;
 
 --
 -- Indexes for dumped tables
