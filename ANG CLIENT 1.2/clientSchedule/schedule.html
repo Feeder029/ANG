@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="../clientSchedule/schedule.css">
+    <title>Appointment History</title>
+</head>
+<body>
+    <div class="main-content">
+        <!-- Schedule panel content -->
+        <div id="schedule-panel" class="panel-content">
+            <div class="schedule-header">
+                <div class="schedule-title">APPOINTMENT HISTORY</div>
+            </div>
+            
+            <div class="search-tabs-date">
+                <!-- Search bar -->
+                <div class="search-container">
+                    <i class="fas fa-search"></i>
+                    <input type="text" class="search-input" placeholder="SEARCH FOR AN APPOINTMENT">
+                </div>
+                
+                <!-- Tab navigation next to search bar -->
+                <div class="tab-navigation">
+                    <div class="tab-item active" data-tab="all">ALL <span class="tab-count">4</span></div>
+                    <div class="tab-item" data-tab="pending">PENDING <span class="tab-count">0</span></div>
+                    <div class="tab-item" data-tab="confirmed">CONFIRMED <span class="tab-count">0</span></div>
+                    <div class="tab-item" data-tab="completed">COMPLETED <span class="tab-count">0</span></div>
+                    <div class="tab-item" data-tab="cancelled">CANCELLED <span class="tab-count">0</span></div>
+                    <div class="tab-item" data-tab="rescheduled">RESCHEDULED <span class="tab-count">0</span></div>
+                </div>
+                
+                <!-- Stylish date range after tab navigation -->
+                <div class="date-range">
+                    <label>
+                        <i class="fas fa-calendar-alt"></i>
+                        <input type="date" class="date-input from-date">
+                    </label>
+                    <span class="to-text">TO</span>
+                    <label>
+                        <i class="fas fa-calendar-alt"></i>
+                        <input type="date" class="date-input to-date">
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Separate container for the table -->
+            <div class="table-container">
+                <table class="appointments-table">
+                    <thead>
+                        <tr>
+                            <th>Appointment Date</th>
+                            <th>Appointment Time</th>
+                            <th>Procedure</th>
+                            <th>Status</th>
+                            <th>QR Code</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>22/03/2025</td>
+                            <td>9:00 PM</td>
+                            <td>PASTA</td>
+                            <td>PENDING</td>
+                            <td><img src="/api/placeholder/100/100" alt="QR Code" class="qr-code"></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn btn-cancel btn-tooltip" data-tooltip="Cancel Appointment">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                    <button class="btn btn-download btn-tooltip" data-tooltip="Download QR Code">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>20/03/2025</td>
+                            <td>1:00 PM</td>
+                            <td>PASTA</td>
+                            <td>PENDING</td>
+                            <td><img src="/api/placeholder/100/100" alt="QR Code" class="qr-code"></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn btn-cancel btn-tooltip" data-tooltip="Cancel Appointment">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                    <button class="btn btn-download btn-tooltip" data-tooltip="Download QR Code">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>02/01/2024</td>
+                            <td>4:00 PM</td>
+                            <td>TOOTH EXTRACTION</td>
+                            <td>COMPLETED</td>
+                            <td><img src="/api/placeholder/100/100" alt="QR Code" class="qr-code"></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn btn-cancel btn-tooltip" data-tooltip="Cancel Appointment">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                    <button class="btn btn-download btn-tooltip" data-tooltip="Download QR Code">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabItems = document.querySelectorAll('.tab-item');
+            
+            tabItems.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    tabItems.forEach(item => item.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    // You can add filter functionality here
+                    const tabType = this.getAttribute('data-tab');
+                    console.log(`Tab ${tabType} clicked`);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

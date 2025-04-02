@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="appointment.css">
+    <title>Dental Appointment</title>
+</head>
+<body>
+<div class="main-content"> 
+    <!-- Appointment header -->
+    <div id="appointment-panel" class="panel-content">
+        <div class="appointment-header">
+            <div>
+                <div class="appointment-title">BOOK AN APPOINTMENT</div>
+            </div>
+            <button class="book-btn">BOOK APPOINTMENT</button>
+        </div>
+
+        <!-- Three column layout container -->
+        <div class="three-column-container">
+            <!-- Column 1: Calendar -->
+            <div class="column calendar-column">
+                <div class="column-title">SELECT DATE</div>
+                <div class="calendar-container">
+                    <div class="calendar-header">
+                        <div class="calendar-nav prev"><i class="fas fa-chevron-left"></i></div>
+                        <div class="month-year">March 2025</div>
+                        <div class="calendar-nav next"><i class="fas fa-chevron-right"></i></div>
+                    </div>
+                    <div class="calendar-grid" id="calendar-grid">
+                        <!-- Calendar headers and days will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column 2: Time slots -->
+            <div class="column time-column">
+                <div class="column-title">SELECT TIME</div>
+                <div class="time-slots-container">
+                    <div class="time-slots">
+                        <!-- <div class="time-slot">8:00 AM</div> -->
+                        <div class="time-slot">9:00 AM</div>
+                        <div class="time-slot active">10:00 AM</div>
+                        <div class="time-slot">11:00 AM</div>
+                        <div class="time-slot">12:00 PM</div>
+                        <div class="time-slot">1:00 PM</div>
+                        <div class="time-slot">2:00 PM</div>
+                        <div class="time-slot">3:00 PM</div>
+                        <div class="time-slot">4:00 PM</div>
+                        <div class="time-slot">5:00 PM</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column 3: Procedures -->
+                <div class="column procedure-column">
+                    <div class="column-title">SELECT PROCEDURE</div>
+                    <div class="procedure-container">
+                        <div class="procedure-cards">
+                            <div class="procedure-card active" data-procedure="extraction">
+                                <img src="https://cdn-icons-png.flaticon.com/128/993/993324.png" alt="Tooth" class="procedure-icon">
+                                <div class="procedure-name">TOOTH EXTRACTION</div>
+                            </div>
+                            <div class="procedure-card " data-procedure="cleaning">
+                                <img src="https://cdn-icons-png.flaticon.com/128/3124/3124658.png" alt="Toothbrush" class="procedure-icon">
+                                <div class="procedure-name">TEETH CLEANING</div>
+                            </div>
+                            <div class="procedure-card" data-procedure="filling">
+                                <img src="https://cdn-icons-png.flaticon.com/128/5720/5720877.png" alt="Dental Drill" class="procedure-icon">
+                                <div class="procedure-name">DENTAL FILLING</div>
+                            </div>
+                            <div class="procedure-card" data-procedure="crown">
+                                <img src="https://cdn-icons-png.flaticon.com/128/9441/9441118.png" alt="Dental Crown" class="procedure-icon">
+                                <div class="procedure-name">DENTAL CROWN</div>
+                            </div>
+                            <div class="procedure-card" data-procedure="root-canal">
+                                <img src="https://cdn-icons-png.flaticon.com/128/6200/6200723.png" alt="Teeth" class="procedure-icon">
+                                <div class="procedure-name">ROOT CANAL</div>
+                            </div>
+                            <div class="procedure-card" data-procedure="braces">
+                                <img src="https://cdn-icons-png.flaticon.com/128/3906/3906774.png" alt="Smile" class="procedure-icon">
+                                <div class="procedure-name">BRACES</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+    <script src="appointment.js"></script>
+</body>
+</html>

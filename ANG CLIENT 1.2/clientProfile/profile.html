@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="../clientProfile/profile.css">
+    <title>Billing</title>
+</head>
+<body>
+
+<div class="main-content"> 
+   <!-- Profile panel content -->
+    <div id="profile-panel" class="panel-content">
+        <div class="profile-header">
+            <div>
+                <div class="profile-title">PROFILE</div>
+            </div>
+            <button class="edit-profile-btn">EDIT PROFILE</button>
+        </div>
+
+        <div class="profile-content">
+            <div class="profile-left">
+                <div class="profile-image">
+                    <img src="https://via.placeholder.com/200" alt="Profile Picture">
+                </div>
+                <button class="change-profile-btn">CHANGE PROFILE</button>
+
+                <div class="profile-field">
+                    <div class="field-label">EMAIL:</div>
+                    <input type="text" class="field-input" readonly>
+                </div>
+
+                <div class="profile-field">
+                    <div class="field-label">FACEBOOK ACCOUNT:</div>
+                    <input type="text" class="field-input" readonly>
+                </div>
+
+                <div class="profile-field">
+                    <div class="field-label">CONTACT NUMBER:</div>
+                    <input type="text" class="field-input" readonly>
+                </div>
+            </div>
+
+            <div class="profile-right">
+                <div class="form-row">
+                    <div class="form-group">
+                        <div class="field-label">FIRST NAME:</div>
+                        <input type="text" class="field-input" readonly>
+                    </div>
+                    <div class="form-group">
+                        <div class="field-label">LAST NAME:</div>
+                        <input type="text" class="field-input" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <div class="field-label">MIDDLE NAME:</div>
+                        <input type="text" class="field-input" readonly>
+                    </div>
+                    <div class="form-group">
+                        <div class="field-label">SUFFIX:</div>
+                        <input type="text" class="field-input" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <div class="field-label">GENDER</div>
+                        <select class="dropdown-select">
+                            <option value="" selected disabled></option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <div class="field-label">AGE:</div>
+                        <input type="text" class="field-input" readonly>
+                    </div>
+                    <div class="form-group">
+                        <div class="field-label">DATE OF BIRTH</div>
+                        <div class="date-input">
+                            <input type="text" class="field-input" readonly>
+                            <span class="calendar-icon">📅</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <div class="field-label">HOUSE NO.</div>
+                        <input type="text" class="field-input" readonly>
+                    </div>
+                    <div class="form-group">
+                        <div class="field-label">LOT NO.</div>
+                        <input type="text" class="field-input" readonly>
+                    </div>
+                    <div class="form-group">
+                        <div class="field-label">STREET</div>
+                        <input type="text" class="field-input" readonly>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <div class="field-label">BARANGAY</div>
+                        <select class="dropdown-select">
+                            <option value="" selected disabled></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <div class="field-label">CITY</div>
+                        <select class="dropdown-select">
+                            <option value="" selected disabled></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <div class="field-label">PROVINCE</div>
+                        <select class="dropdown-select">
+                            <option value="" selected disabled></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <script src="schedule.js"></script>
+</body>
+</html>

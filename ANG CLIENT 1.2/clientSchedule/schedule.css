@@ -1,0 +1,393 @@
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    list-style: none;
+    text-decoration: none;
+}
+
+body {
+    background-color: #f0f3f6;
+    font-family: Arial, sans-serif;
+}
+
+/* .main-content {
+    padding: 20px;
+} */
+
+.panel-content {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.panel-content.active {
+    display: block;
+}
+
+/* Schedule panel styles */
+.schedule-header {
+    margin-bottom: 20px;
+}
+
+.schedule-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    text-transform: uppercase;
+}
+
+.schedule-subtitle {
+    font-size: 16px;
+    color: #666;
+    margin-top: 5px;
+    text-transform: uppercase;
+}
+
+/* Modified layout for search, tabs and date range */
+.search-tabs-date {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: space-between; /* This will push items to the edges */
+}
+
+.search-container {
+    position: relative;
+    flex: 0 0 300px;
+}
+
+.search-container i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #777;
+}
+
+.search-input {
+    width: 100%;
+    padding: 12px 15px 12px 40px;
+    border-radius: 25px;
+    border: none;
+    background-color: #f0f0f0;
+    font-size: 14px;
+}
+
+/* Tab navigation right next to search bar */
+.tab-navigation {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    border-radius: 25px;
+    background-color: #f0f0f0;
+    padding: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    margin: 0 15px; /* Add some spacing */
+    
+}
+
+.tab-item {
+    padding: 8px 15px;
+    cursor: pointer;
+    position: relative;
+    color: #777;
+    white-space: nowrap;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.tab-item.active {
+    color: white;
+    font-weight: bold;
+    background-color: #4a90e2;
+    box-shadow: 0 2px 5px rgba(74, 144, 226, 0.3);
+}
+
+.tab-count {
+    display: inline-block;
+    margin-left: 5px;
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* Stylish date range - positioned on the right */
+.date-range {
+    display: flex;
+    align-items: center;
+    background-color: #f0f0f0;
+    border-radius: 25px;
+    padding: 5px 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    margin-left: auto; /* This pushes it to the right */
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    .search-tabs-date {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .search-container, .tab-navigation, .date-range {
+        width: 100%;
+        margin-bottom: 10px;
+        margin-left: 0; /* Reset margin for mobile */
+    }
+}
+
+.date-range label {
+    display: flex;
+    align-items: center;
+    margin: 0 5px;
+}
+
+.date-input {
+    border: none;
+    background-color: transparent;
+    padding: 8px;
+    border-radius: 5px;
+    color: #555;
+    cursor: pointer;
+    font-family: inherit;
+    position: relative;
+    width: 110px;
+}
+
+.date-input:focus {
+    outline: none;
+    background-color: rgba(74, 144, 226, 0.1);
+}
+
+.date-range i {
+    color: #4a90e2;
+    margin-right: 5px;
+}
+
+.to-text {
+    font-weight: bold;
+    color: #666;
+    padding: 0 8px;
+}
+
+/* Table container */
+.table-container {
+    background-color: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+/* Stylish appointments table */
+.appointments-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 10px;
+}
+
+/* Table header styles */
+.appointments-table thead {
+    position: relative;
+}
+
+.appointments-table th {
+    background-color: #f5f7fa;
+    padding: 16px 20px;
+    text-align: left;
+    color: #4a5568;
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: none;
+    border-bottom: 2px solid #e2e8f0;
+    position: relative;
+    transition: background-color 0.3s;
+}
+
+.appointments-table th:first-child {
+    border-top-left-radius: 8px;
+}
+
+.appointments-table th:last-child {
+    border-top-right-radius: 8px;
+}
+
+/* Hover effect for table headers */
+.appointments-table th:hover {
+    background-color: #edf2f7;
+}
+
+/* Table row styling */
+.appointments-table tbody tr {
+    transition: all 0.2s ease;
+}
+
+.appointments-table tbody tr:hover {
+    background-color: rgba(74, 144, 226, 0.04);
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Table cell styling */
+.appointments-table td {
+    padding: 20px;
+    border: none;
+    border-bottom: 1px solid #edf2f7;
+    color: #4a5568;
+    font-size: 14px;
+    vertical-align: middle;
+}
+
+/* Add subtle alternating row coloring */
+.appointments-table tbody tr:nth-child(even) {
+    background-color: #fafbfc;
+}
+
+/* Status indicators (if applicable) */
+.status-indicator {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.status-confirmed {
+    background-color: #48bb78;
+}
+
+.status-pending {
+    background-color: #ed8936;
+}
+
+.status-cancelled {
+    background-color: #e53e3e;
+}
+
+/* Improved QR code display */
+.qr-code {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.qr-code:hover {
+    transform: scale(1.1);
+}
+
+/* action buttons */
+.btn {
+    width: 45px;
+    height: 45px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-cancel {
+    background-color: #ff6b6b;
+    color: white;
+}
+
+.btn-cancel:hover {
+    background-color: #e74c3c;
+}
+
+.btn-download {
+    background-color: #1dd1a1;
+    color: white;
+}
+
+.btn-download:hover {
+    background-color: #10ac84;
+}
+
+/* Action buttons container */
+.action-buttons {
+    display: flex;
+    gap: 12px;
+    flex-direction: row;
+}
+
+/* Tooltip for buttons */
+.btn-tooltip {
+    position: relative;
+}
+
+.btn-tooltip:before {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s, visibility 0.3s;
+    pointer-events: none;
+    margin-bottom: 5px;
+}
+
+.btn-tooltip:hover:before {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Empty table state */
+.empty-table {
+    text-align: center;
+    padding: 40px 0;
+    color: #a0aec0;
+}
+
+/* Responsive table adjustments */
+@media (max-width: 768px) {
+    .appointments-table {
+        display: block;
+        overflow-x: auto;
+    }
+    
+    .appointments-table th, 
+    .appointments-table td {
+        padding: 15px 12px;
+        font-size: 13px;
+    }
+    
+    .qr-code {
+        width: 70px;
+        height: 70px;
+    }
+}

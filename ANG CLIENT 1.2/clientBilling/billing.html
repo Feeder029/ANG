@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="../clientBilling/billing.css">
+    <title>Billing History</title>
+</head>
+<body>
+    <div class="main-content">
+        <!-- Billings panel content -->
+        <div id="billings-panel" class="panel-content">
+            <div class="billings-header">
+                <div class="billings-title">BILLING HISTORY</div>
+            </div>
+            
+            <div class="search-tabs-date">
+                <!-- Search bar -->
+                <div class="search-container">
+                    <i class="fas fa-search"></i>
+                    <input type="text" class="search-input" placeholder="SEARCH FOR A BILLING">
+                </div>
+                
+                <!-- Tab navigation next to search bar -->
+                <div class="tab-navigation">
+                    <div class="tab-item active" data-tab="all">ALL <span class="tab-count">1</span></div>
+                    <div class="tab-item" data-tab="pending">PENDING <span class="tab-count">0</span></div>
+                    <div class="tab-item" data-tab="paid">PAID <span class="tab-count">0</span></div>
+                    <div class="tab-item" data-tab="unpaid">UNPAID <span class="tab-count">0</span></div>
+                </div>
+                
+                <!-- Stylish date range after tab navigation -->
+                <div class="date-range">
+                    <label>
+                        <i class="fas fa-calendar-alt"></i>
+                        <input type="date" class="date-input from-date">
+                    </label>
+                    <span class="to-text">TO</span>
+                    <label>
+                        <i class="fas fa-calendar-alt"></i>
+                        <input type="date" class="date-input to-date">
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Separate container for the table -->
+            <div class="table-container">
+                <table class="billings-table">
+                    <thead>
+                        <tr>
+                            <th>Billing Date</th>
+                            <th>Service</th>
+                            <th>Amount</th>
+                            <th>Payment</th>
+                            <th>Payment Method</th>
+                            <th>Status</th>
+                            <th>Receipt</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>02/01/2024</td>
+                            <td>PASTA</td>
+                            <td>800</td>
+                            <td>900</td>
+                            <td>Maya</td>
+                            <td>Paid</td>
+                            <td>
+                                <button class="btn btn-download btn-tooltip" data-tooltip="Download Receipt">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>03/01/2024</td>
+                            <td>BRACE</td>
+                            <td>25000</td>
+                            <td>25000</td>
+                            <td>Cash</td>
+                            <td>Paid</td>
+                            <td>
+                                <button class="btn btn-download btn-tooltip" data-tooltip="Download Receipt">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabItems = document.querySelectorAll('.tab-item');
+            
+            tabItems.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    tabItems.forEach(item => item.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    // You can add filter functionality here
+                    const tabType = this.getAttribute('data-tab');
+                    console.log(`Tab ${tabType} clicked`);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
