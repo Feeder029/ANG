@@ -15,17 +15,16 @@ body{
 .nav-bar{
     background-color:#ffffff;
 
-    height: 9vh;
+    height: 20vh;
     width: 100%;
     display: flex;
     flex-direction: row;
-    padding: 15px;
+    padding: 10px;
     border-radius: 15px;
 }
 
 .nav-left{
     display: flex;
-    padding: 10px;
     position: relative;
     flex-direction: column;
 }
@@ -271,49 +270,61 @@ tr:nth-child(even) {
     display:inline-flex;
     justify-content: left;
     gap: 10px;
-    
 }
 
 .status-container button{
-    padding: 2px;
-    width: 18vh;
-    height: 5vh;
+    padding: 5px;
+    width: fit-content;
+    height: 10vh;
     border-radius: 10px;
-    border: none;
+    border: 0.5px solid;
     cursor: pointer;
-    font-size: 2vh;
-    background-color: #ffffff;
+    font-size: 20px;
+    text-align: left;
+    border-left: 5px solid ;
 }
 
+.status-container button:hover{
+    border-left: 5px solid;
+}
 #book-status{
     color:  rgb(96, 96, 194);
+    background-color:  #ceceec;
 }
+
 #book-status:hover{
     background-color: rgb(96, 96, 194);
     color: #ffffff;
+    border-left: 5px solid  rgb(96, 96, 194);
 }
 
 #complete-status{
     color: rgb(131, 198, 64);
+    background-color: #dcefc8;
 }
 #complete-status:hover{
     background-color:  rgb(131, 198, 64);
     color: #ffffff;
+    border-left: 5px solid   rgb(131, 198, 64);
 }
 
 #cancel-status{
     color:  rgb(207, 69, 69);
+    background-color:  #f4d4d4;
 }
 #cancel-status:hover{
     background-color: rgb(207, 69, 69);
     color: #ffffff;
+    border-left: 5px solid rgb(207, 69, 69);
 }
 
 #resched-status{
     color: rgb(183, 183, 82);
+    background-color:  #ececd0;
 }
 
 #resched-status:hover{
     background-color: rgb(183, 183, 82);
     color: #ffffff;
+    border-left: 5px solid rgb(183, 183, 82);
 }
