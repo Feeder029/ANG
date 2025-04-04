@@ -1,4 +1,4 @@
-/* General Reset */
+/* Base styles with improved container sizing */
 * {
     padding: 0;
     margin: 0;
@@ -11,18 +11,29 @@
 body {
     background-color: #f0f3f6;
     font-family: Arial, sans-serif;
+    line-height: 1.4;
 }
 
-/* .main-content {
-    padding: 20px;
-} */
+/* Main container sizing for desktop */
+.main-content {
+    padding: 15px;
+    width: 100%;
+    margin: 0 auto;
+}
 
+/* Panel content with better spacing and sizing */
 .panel-content {
     background-color: white;
     border-radius: 10px;
-    padding: 20px;
+    padding: 25px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
+    width: 100%;
+}
+
+/* Billings header styles */
+.billings-header {
+    margin-bottom: 25px;
 }
 
 .billings-title {
@@ -30,22 +41,22 @@ body {
     font-weight: bold;
     color: #333;
     text-transform: uppercase;
-    margin-bottom: 15px;
 }
 
-/* Layout adjustments for search, tabs, and date range */
+/* Better spacing for search/filters section */
 .search-tabs-date {
     display: flex;
     align-items: center;
+    margin-bottom: 25px;
     flex-wrap: wrap;
-    gap: 15px;
+    gap: 20px;
     justify-content: space-between;
-    margin-bottom: 20px;
 }
 
 .search-container {
     position: relative;
-    flex: 0 0 300px;
+    width: 300px;
+    max-width: 100%;
 }
 
 .search-container i {
@@ -65,7 +76,7 @@ body {
     font-size: 14px;
 }
 
-/* Tab navigation styling */
+/* Tab navigation with better spacing */
 .tab-navigation {
     display: flex;
     flex-wrap: nowrap;
@@ -74,16 +85,24 @@ body {
     background-color: #f0f0f0;
     padding: 5px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    margin: 0 15px;
+    scrollbar-width: none; /* Hide scrollbar Firefox */
+    -ms-overflow-style: none; /* Hide scrollbar IE and Edge */
+}
+
+/* Hide scrollbar for Chrome/Safari/Opera */
+.tab-navigation::-webkit-scrollbar {
+    display: none;
 }
 
 .tab-item {
     padding: 8px 15px;
     cursor: pointer;
+    position: relative;
     color: #777;
     white-space: nowrap;
     border-radius: 20px;
     transition: all 0.3s ease;
+    font-size: 14px;
 }
 
 .tab-item.active {
@@ -94,6 +113,8 @@ body {
 }
 
 .tab-count {
+    display: inline-block;
+    margin-left: 5px;
     background-color: rgba(255, 255, 255, 0.2);
     padding: 2px 6px;
     border-radius: 10px;
@@ -101,7 +122,7 @@ body {
     font-weight: bold;
 }
 
-/* Date range styling */
+/* Date range picker with improved layout */
 .date-range {
     display: flex;
     align-items: center;
@@ -109,33 +130,37 @@ body {
     border-radius: 25px;
     padding: 5px 15px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    justify-content: center;
 }
 
 .date-range label {
     display: flex;
     align-items: center;
-    margin: 0 5px;
-}
-
-.date-range i {
-    color: #4a90e2;
-    margin-right: 5px;
+    margin: 3px 5px;
+    flex-wrap: nowrap;
 }
 
 .date-input {
     border: none;
     background-color: transparent;
-    padding: 8px;
+    padding: 8px 4px;
     border-radius: 5px;
     color: #555;
     cursor: pointer;
     font-family: inherit;
+    position: relative;
     width: 110px;
+    font-size: 14px;
 }
 
 .date-input:focus {
     outline: none;
     background-color: rgba(74, 144, 226, 0.1);
+}
+
+.date-range i {
+    color: #4a90e2;
+    margin-right: 5px;
 }
 
 .to-text {
@@ -144,18 +169,25 @@ body {
     padding: 0 8px;
 }
 
-/* Table styling */
+/* Improved table container with better spacing */
 .table-container {
     background-color: white;
     border-radius: 12px;
-    padding: 25px;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    overflow-x: auto;
+    width: 100%;
 }
 
+/* Desktop-optimized table styles */
 .billings-table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
     margin-top: 10px;
+}
+
+.billings-table thead {
+    position: relative;
 }
 
 .billings-table th {
@@ -166,31 +198,76 @@ body {
     font-weight: 600;
     font-size: 14px;
     text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: none;
     border-bottom: 2px solid #e2e8f0;
+    position: relative;
+    transition: background-color 0.3s;
+}
+
+.billings-table th:first-child {
+    border-top-left-radius: 8px;
+}
+
+.billings-table th:last-child {
+    border-top-right-radius: 8px;
+}
+
+.billings-table th:hover {
+    background-color: #edf2f7;
+}
+
+.billings-table tbody tr {
+    transition: all 0.2s ease;
 }
 
 .billings-table tbody tr:hover {
     background-color: rgba(74, 144, 226, 0.04);
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .billings-table td {
-    padding: 20px;
+    padding: 16px 20px;
+    border: none;
     border-bottom: 1px solid #edf2f7;
     color: #4a5568;
     font-size: 14px;
+    vertical-align: middle;
 }
 
-/* Buttons */
+.billings-table tbody tr:nth-child(even) {
+    background-color: #fafbfc;
+}
+
+/* Status styling */
+td:nth-child(6) {
+    font-weight: bold;
+}
+
+td:nth-child(6):contains('PAID') {
+    color: #10ac84;
+}
+
+td:nth-child(6):contains('UNPAID') {
+    color: #e74c3c;
+}
+
+td:nth-child(6):contains('PENDING') {
+    color: #f39c12;
+}
+
+/* Action buttons with better styling */
 .btn {
-    width: 45px;
-    height: 45px;
+    width: 40px;
+    height: 40px;
     border: none;
     border-radius: 50%;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
+    font-size: 16px;
     transition: all 0.2s ease;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
@@ -209,7 +286,7 @@ body {
     background-color: #10ac84;
 }
 
-/* Tooltip styling */
+/* Tooltip styles */
 .btn-tooltip {
     position: relative;
 }
@@ -225,9 +302,11 @@ body {
     padding: 5px 10px;
     border-radius: 4px;
     font-size: 12px;
+    white-space: nowrap;
     visibility: hidden;
     opacity: 0;
-    transition: opacity 0.3s;
+    transition: opacity 0.3s, visibility 0.3s;
+    pointer-events: none;
     margin-bottom: 5px;
 }
 
@@ -236,22 +315,153 @@ body {
     opacity: 1;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
+/* Mobile card view - hidden by default, shown in media query */
+.billings-cards {
+    display: none;
+    width: 100%;
+}
+
+/* Card styling */
+.billing-card {
+    background: white;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+/* Card header */
+.card-header {
+    padding: 12px 15px;
+    background-color: #f5f7fa;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-title {
+    font-weight: bold;
+    color: #4a5568;
+}
+
+.card-status {
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-weight: bold;
+}
+
+.status-paid {
+    background-color: #c3f0d9;
+    color: #05603a;
+}
+
+.status-unpaid {
+    background-color: #ffd8d6;
+    color: #e53e3e;
+}
+
+.status-pending {
+    background-color: #ffeaa7;
+    color: #d68102;
+}
+
+/* Card body */
+.card-body {
+    padding: 15px;
+}
+
+.card-info-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.card-info-item:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    color: #718096;
+    font-size: 13px;
+}
+
+.info-value {
+    font-weight: 500;
+    color: #2d3748;
+    font-size: 13px;
+}
+
+/* Card footer */
+.card-footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 12px 15px;
+    background-color: #f9fafb;
+    border-top: 1px solid #e2e8f0;
+}
+
+.card-actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* Better tablet responsive styles */
+@media (max-width: 992px) {
+    .panel-content {
+        padding: 20px;
+    }
+    
     .search-tabs-date {
         flex-direction: column;
         align-items: flex-start;
+        gap: 15px;
     }
-    .search-container, .tab-navigation, .date-range {
+    
+    .search-container {
         width: 100%;
-        margin-bottom: 10px;
     }
-    .billings-table {
-        display: block;
-        overflow-x: auto;
+    
+    .tab-navigation {
+        width: 100%;
     }
-    .billings-table th, .billings-table td {
+    
+    .date-range {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+
+/* Improved mobile responsive styles */
+@media (max-width: 768px) {
+    .panel-content {
+        padding: 15px;
+    }
+    
+    .billings-table th, 
+    .billings-table td {
         padding: 15px 12px;
         font-size: 13px;
+    }
+    
+    .billings-title {
+        font-size: 20px;
+        text-align: center;
+    }
+}
+
+/* Enhanced mobile card view with better spacing and layout */
+@media (max-width: 599px) {
+    /* Hide regular table view */
+    .billings-table {
+        display: none;
+    }
+    
+    /* Show card view container */
+    .billings-cards {
+        display: block;
     }
 }

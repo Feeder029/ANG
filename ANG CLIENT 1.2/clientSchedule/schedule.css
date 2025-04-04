@@ -1,4 +1,4 @@
-
+/* Base styles with improved container sizing */
 * {
     padding: 0;
     margin: 0;
@@ -11,27 +11,29 @@
 body {
     background-color: #f0f3f6;
     font-family: Arial, sans-serif;
+    line-height: 1.4;
 }
 
-/* .main-content {
-    padding: 20px;
-} */
+/* Better container sizing for desktop */
+.main-content {
+    max-width: 100%;
+    margin: 15px auto;
+    padding: 0 15px;
+}
 
+/* Panel content with better spacing and sizing */
 .panel-content {
     background-color: white;
     border-radius: 10px;
-    padding: 20px;
+    padding: 25px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
+    width: 100%;
 }
 
-.panel-content.active {
-    display: block;
-}
-
-/* Schedule panel styles */
+/* Schedule header styles */
 .schedule-header {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
 .schedule-title {
@@ -48,19 +50,20 @@ body {
     text-transform: uppercase;
 }
 
-/* Modified layout for search, tabs and date range */
+/* Better spacing for search/filters section */
 .search-tabs-date {
     display: flex;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     flex-wrap: wrap;
-    gap: 15px;
-    justify-content: space-between; /* This will push items to the edges */
+    gap: 20px;
+    justify-content: space-between;
 }
 
 .search-container {
     position: relative;
-    flex: 0 0 300px;
+    width: 300px;
+    max-width: 100%;
 }
 
 .search-container i {
@@ -80,7 +83,7 @@ body {
     font-size: 14px;
 }
 
-/* Tab navigation right next to search bar */
+/* Tab navigation with better spacing */
 .tab-navigation {
     display: flex;
     flex-wrap: nowrap;
@@ -89,8 +92,13 @@ body {
     background-color: #f0f0f0;
     padding: 5px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    margin: 0 15px; /* Add some spacing */
-    
+    scrollbar-width: none; /* Hide scrollbar Firefox */
+    -ms-overflow-style: none; /* Hide scrollbar IE and Edge */
+}
+
+/* Hide scrollbar for Chrome/Safari/Opera */
+.tab-navigation::-webkit-scrollbar {
+    display: none;
 }
 
 .tab-item {
@@ -101,6 +109,7 @@ body {
     white-space: nowrap;
     border-radius: 20px;
     transition: all 0.3s ease;
+    font-size: 14px;
 }
 
 .tab-item.active {
@@ -120,7 +129,7 @@ body {
     font-weight: bold;
 }
 
-/* Stylish date range - positioned on the right */
+/* Date range picker with improved layout */
 .date-range {
     display: flex;
     align-items: center;
@@ -128,39 +137,27 @@ body {
     border-radius: 25px;
     padding: 5px 15px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    margin-left: auto; /* This pushes it to the right */
-}
-
-/* Responsive adjustments */
-@media (max-width: 992px) {
-    .search-tabs-date {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    
-    .search-container, .tab-navigation, .date-range {
-        width: 100%;
-        margin-bottom: 10px;
-        margin-left: 0; /* Reset margin for mobile */
-    }
+    justify-content: center;
 }
 
 .date-range label {
     display: flex;
     align-items: center;
-    margin: 0 5px;
+    margin: 3px 5px;
+    flex-wrap: nowrap;
 }
 
 .date-input {
     border: none;
     background-color: transparent;
-    padding: 8px;
+    padding: 8px 4px;
     border-radius: 5px;
     color: #555;
     cursor: pointer;
     font-family: inherit;
     position: relative;
     width: 110px;
+    font-size: 14px;
 }
 
 .date-input:focus {
@@ -179,16 +176,17 @@ body {
     padding: 0 8px;
 }
 
-/* Table container */
+/* Improved table container with better spacing */
 .table-container {
     background-color: white;
     border-radius: 12px;
-    padding: 25px;
+    padding: 20px;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-    overflow: hidden;
+    overflow-x: auto;
+    width: 100%;
 }
 
-/* Stylish appointments table */
+/* Desktop-optimized table styles */
 .appointments-table {
     width: 100%;
     border-collapse: separate;
@@ -196,7 +194,6 @@ body {
     margin-top: 10px;
 }
 
-/* Table header styles */
 .appointments-table thead {
     position: relative;
 }
@@ -224,12 +221,10 @@ body {
     border-top-right-radius: 8px;
 }
 
-/* Hover effect for table headers */
 .appointments-table th:hover {
     background-color: #edf2f7;
 }
 
-/* Table row styling */
 .appointments-table tbody tr {
     transition: all 0.2s ease;
 }
@@ -240,7 +235,6 @@ body {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-/* Table cell styling */
 .appointments-table td {
     padding: 20px;
     border: none;
@@ -250,33 +244,11 @@ body {
     vertical-align: middle;
 }
 
-/* Add subtle alternating row coloring */
 .appointments-table tbody tr:nth-child(even) {
     background-color: #fafbfc;
 }
 
-/* Status indicators (if applicable) */
-.status-indicator {
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    margin-right: 8px;
-}
-
-.status-confirmed {
-    background-color: #48bb78;
-}
-
-.status-pending {
-    background-color: #ed8936;
-}
-
-.status-cancelled {
-    background-color: #e53e3e;
-}
-
-/* Improved QR code display */
+/* QR code styling */
 .qr-code {
     width: 90px;
     height: 90px;
@@ -292,17 +264,17 @@ body {
     transform: scale(1.1);
 }
 
-/* action buttons */
+/* Action buttons with better styling */
 .btn {
-    width: 45px;
-    height: 45px;
+    width: 40px;
+    height: 40px;
     border: none;
     border-radius: 50%;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
+    font-size: 16px;
     transition: all 0.2s ease;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
@@ -330,14 +302,14 @@ body {
     background-color: #10ac84;
 }
 
-/* Action buttons container */
 .action-buttons {
     display: flex;
     gap: 12px;
     flex-direction: row;
+    justify-content: flex-start;
 }
 
-/* Tooltip for buttons */
+/* Tooltip styles */
 .btn-tooltip {
     position: relative;
 }
@@ -373,11 +345,36 @@ body {
     color: #a0aec0;
 }
 
-/* Responsive table adjustments */
+/* Better tablet responsive styles */
+@media (max-width: 992px) {
+    .panel-content {
+        padding: 20px;
+    }
+    
+    .search-tabs-date {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    
+    .search-container {
+        width: 100%;
+    }
+    
+    .tab-navigation {
+        width: 100%;
+    }
+    
+    .date-range {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+
+/* Improved mobile responsive styles */
 @media (max-width: 768px) {
-    .appointments-table {
-        display: block;
-        overflow-x: auto;
+    .panel-content {
+        padding: 15px;
     }
     
     .appointments-table th, 
@@ -389,5 +386,117 @@ body {
     .qr-code {
         width: 70px;
         height: 70px;
+    }
+    
+    .schedule-title {
+        font-size: 20px;
+        text-align: center;
+    }
+}
+
+/* Enhanced mobile card view with better spacing and layout */
+@media (max-width: 599px) {
+    /* Hide regular table view */
+    .appointments-table {
+        display: none;
+    }
+    
+    /* Show card view container */
+    .appointments-cards {
+        display: block;
+        width: 100%;
+    }
+    
+    /* Card styling */
+    .appointment-card {
+        background: white;
+        border-radius: 10px;
+        margin-bottom: 15px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+    
+    /* Card header */
+    .card-header {
+        padding: 12px 15px;
+        background-color: #f5f7fa;
+        border-bottom: 1px solid #e2e8f0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .card-title {
+        font-weight: bold;
+        color: #4a5568;
+    }
+    
+    .card-status {
+        font-size: 12px;
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-weight: bold;
+    }
+    
+    .status-pending {
+        background-color: #ffeaa7;
+        color: #d68102;
+    }
+    
+    .status-completed {
+        background-color: #c3f0d9;
+        color: #05603a;
+    }
+    
+    .status-cancelled {
+        background-color: #ffd8d6;
+        color: #e53e3e;
+    }
+    
+    /* Card body */
+    .card-body {
+        padding: 15px;
+    }
+    
+    .card-info-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .card-info-item:last-child {
+        border-bottom: none;
+    }
+    
+    .info-label {
+        color: #718096;
+        font-size: 13px;
+    }
+    
+    .info-value {
+        font-weight: 500;
+        color: #2d3748;
+        font-size: 13px;
+    }
+    
+    /* Card footer */
+    .card-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 15px;
+        background-color: #f9fafb;
+        border-top: 1px solid #e2e8f0;
+    }
+    
+    .card-qr {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .card-actions {
+        display: flex;
+        gap: 10px;
     }
 }

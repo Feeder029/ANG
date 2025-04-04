@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="../clientSchedule/schedule.css">
+    <link rel="stylesheet" href="schedule.css">
     <title>Appointment History</title>
 </head>
 <body>
@@ -47,8 +47,9 @@
                 </div>
             </div>
             
-            <!-- Separate container for the table -->
+            <!-- Separate container for the table (desktop view) -->
             <div class="table-container">
+                <!-- Table for desktop and tablet -->
                 <table class="appointments-table">
                     <thead>
                         <tr>
@@ -114,6 +115,108 @@
                         </tr>
                     </tbody>
                 </table>
+                
+                <!-- Card view for mobile -->
+                <div class="appointments-cards">
+                    <!-- Card 1 -->
+                    <div class="appointment-card">
+                        <div class="card-header">
+                            <div class="card-title">APPOINTMENT #1</div>
+                            <div class="card-status status-pending">PENDING</div>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-info-item">
+                                <div class="info-label">Date</div>
+                                <div class="info-value">22/03/2025</div>
+                            </div>
+                            <div class="card-info-item">
+                                <div class="info-label">Time</div>
+                                <div class="info-value">9:00 PM</div>
+                            </div>
+                            <div class="card-info-item">
+                                <div class="info-label">Procedure</div>
+                                <div class="info-value">PASTA</div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <img src="/api/placeholder/100/100" alt="QR Code" class="card-qr">
+                            <div class="card-actions">
+                                <button class="btn btn-cancel btn-tooltip" data-tooltip="Cancel Appointment">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                                <button class="btn btn-download btn-tooltip" data-tooltip="Download QR Code">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Card 2 -->
+                    <div class="appointment-card">
+                        <div class="card-header">
+                            <div class="card-title">APPOINTMENT #2</div>
+                            <div class="card-status status-pending">PENDING</div>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-info-item">
+                                <div class="info-label">Date</div>
+                                <div class="info-value">20/03/2025</div>
+                            </div>
+                            <div class="card-info-item">
+                                <div class="info-label">Time</div>
+                                <div class="info-value">1:00 PM</div>
+                            </div>
+                            <div class="card-info-item">
+                                <div class="info-label">Procedure</div>
+                                <div class="info-value">PASTA</div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <img src="/api/placeholder/100/100" alt="QR Code" class="card-qr">
+                            <div class="card-actions">
+                                <button class="btn btn-cancel btn-tooltip" data-tooltip="Cancel Appointment">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                                <button class="btn btn-download btn-tooltip" data-tooltip="Download QR Code">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Card 3 -->
+                    <div class="appointment-card">
+                        <div class="card-header">
+                            <div class="card-title">APPOINTMENT #3</div>
+                            <div class="card-status status-completed">COMPLETED</div>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-info-item">
+                                <div class="info-label">Date</div>
+                                <div class="info-value">02/01/2024</div>
+                            </div>
+                            <div class="card-info-item">
+                                <div class="info-label">Time</div>
+                                <div class="info-value">4:00 PM</div>
+                            </div>
+                            <div class="card-info-item">
+                                <div class="info-label">Procedure</div>
+                                <div class="info-value">TOOTH EXTRACTION</div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <img src="/api/placeholder/100/100" alt="QR Code" class="card-qr">
+                            <div class="card-actions">
+                                <button class="btn btn-cancel btn-tooltip" data-tooltip="Cancel Appointment">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                                <button class="btn btn-download btn-tooltip" data-tooltip="Download QR Code">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -121,7 +224,27 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const tabItems = document.querySelectorAll('.tab-item');
+            const appointmentsTable = document.querySelector('.appointments-table');
+            const appointmentsCards = document.querySelector('.appointments-cards');
             
+            // Function to toggle views based on screen width
+            function toggleViews() {
+                if (window.innerWidth < 600) {
+                    appointmentsTable.style.display = 'none';
+                    appointmentsCards.style.display = 'block';
+                } else {
+                    appointmentsTable.style.display = 'table';
+                    appointmentsCards.style.display = 'none';
+                }
+            }
+            
+            // Initialize on load
+            toggleViews();
+            
+            // Listen for window resize
+            window.addEventListener('resize', toggleViews);
+            
+            // Tab functionality
             tabItems.forEach(tab => {
                 tab.addEventListener('click', function() {
                     // Remove active class from all tabs
@@ -130,10 +253,66 @@
                     // Add active class to clicked tab
                     this.classList.add('active');
                     
-                    // You can add filter functionality here
+                    // Filter functionality can be added here
                     const tabType = this.getAttribute('data-tab');
                     console.log(`Tab ${tabType} clicked`);
+                    
+                    // Example filtering logic (placeholder)
+                    filterAppointments(tabType);
                 });
+            });
+            
+            // Placeholder filter function
+            function filterAppointments(tabType) {
+                // This would be implemented with actual filtering logic
+                // For demonstration, just log the action
+                console.log(`Filtering appointments by: ${tabType}`);
+            }
+            
+            // Add smooth tab scrolling for horizontal scroll
+            const tabNavigation = document.querySelector('.tab-navigation');
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+            
+            tabNavigation.addEventListener('mousedown', (e) => {
+                isDown = true;
+                startX = e.pageX - tabNavigation.offsetLeft;
+                scrollLeft = tabNavigation.scrollLeft;
+            });
+            
+            tabNavigation.addEventListener('mouseleave', () => {
+                isDown = false;
+            });
+            
+            tabNavigation.addEventListener('mouseup', () => {
+                isDown = false;
+            });
+            
+            tabNavigation.addEventListener('mousemove', (e) => {
+                if(!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - tabNavigation.offsetLeft;
+                const walk = (x - startX) * 2; // Scroll speed
+                tabNavigation.scrollLeft = scrollLeft - walk;
+            });
+            
+            // Touch events for mobile scrolling
+            tabNavigation.addEventListener('touchstart', (e) => {
+                isDown = true;
+                startX = e.touches[0].pageX - tabNavigation.offsetLeft;
+                scrollLeft = tabNavigation.scrollLeft;
+            });
+            
+            tabNavigation.addEventListener('touchend', () => {
+                isDown = false;
+            });
+            
+            tabNavigation.addEventListener('touchmove', (e) => {
+                if(!isDown) return;
+                const x = e.touches[0].pageX - tabNavigation.offsetLeft;
+                const walk = (x - startX) * 2;
+                tabNavigation.scrollLeft = scrollLeft - walk;
             });
         });
     </script>

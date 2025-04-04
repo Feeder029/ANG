@@ -25,9 +25,9 @@
                 
                 <!-- Tab navigation next to search bar -->
                 <div class="tab-navigation">
-                    <div class="tab-item active" data-tab="all">ALL <span class="tab-count">1</span></div>
+                    <div class="tab-item active" data-tab="all">ALL <span class="tab-count">2</span></div>
                     <div class="tab-item" data-tab="pending">PENDING <span class="tab-count">0</span></div>
-                    <div class="tab-item" data-tab="paid">PAID <span class="tab-count">0</span></div>
+                    <div class="tab-item" data-tab="paid">PAID <span class="tab-count">2</span></div>
                     <div class="tab-item" data-tab="unpaid">UNPAID <span class="tab-count">0</span></div>
                 </div>
                 
@@ -45,8 +45,9 @@
                 </div>
             </div>
             
-            <!-- Separate container for the table -->
+            <!-- Separate container for the table (desktop view) -->
             <div class="table-container">
+                <!-- Table for desktop and tablet -->
                 <table class="billings-table">
                     <thead>
                         <tr>
@@ -66,7 +67,7 @@
                             <td>800</td>
                             <td>900</td>
                             <td>Maya</td>
-                            <td>Paid</td>
+                            <td>PAID</td>
                             <td>
                                 <button class="btn btn-download btn-tooltip" data-tooltip="Download Receipt">
                                     <i class="fas fa-download"></i>
@@ -79,7 +80,7 @@
                             <td>25000</td>
                             <td>25000</td>
                             <td>Cash</td>
-                            <td>Paid</td>
+                            <td>PAID</td>
                             <td>
                                 <button class="btn btn-download btn-tooltip" data-tooltip="Download Receipt">
                                     <i class="fas fa-download"></i>
@@ -88,6 +89,83 @@
                         </tr>
                     </tbody>
                 </table>
+                
+                <!-- Card view for mobile -->
+                <div class="billings-cards">
+                    <!-- Card 1 -->
+                    <div class="billing-card">
+                        <div class="card-header">
+                            <div class="card-title">BILLING #1</div>
+                            <div class="card-status status-paid">PAID</div>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-info-item">
+                                <div class="info-label">Date</div>
+                                <div class="info-value">02/01/2024</div>
+                            </div>
+                            <div class="card-info-item">
+                                <div class="info-label">Service</div>
+                                <div class="info-value">PASTA</div>
+                            </div>
+                            <div class="card-info-item">
+                                <div class="info-label">Amount</div>
+                                <div class="info-value">800</div>
+                            </div>
+                            <div class="card-info-item">
+                                <div class="info-label">Payment</div>
+                                <div class="info-value">900</div>
+                            </div>
+                            <div class="card-info-item">
+                                <div class="info-label">Method</div>
+                                <div class="info-value">Maya</div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="card-actions">
+                                <button class="btn btn-download btn-tooltip" data-tooltip="Download Receipt">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Card 2 -->
+                    <div class="billing-card">
+                        <div class="card-header">
+                            <div class="card-title">BILLING #2</div>
+                            <div class="card-status status-paid">PAID</div>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-info-item">
+                                <div class="info-label">Date</div>
+                                <div class="info-value">03/01/2024</div>
+                            </div>
+                            <div class="card-info-item">
+                                <div class="info-label">Service</div>
+                                <div class="info-value">BRACE</div>
+                            </div>
+                            <div class="card-info-item">
+                                <div class="info-label">Amount</div>
+                                <div class="info-value">25000</div>
+                            </div>
+                            <div class="card-info-item">
+                                <div class="info-label">Payment</div>
+                                <div class="info-value">25000</div>
+                            </div>
+                            <div class="card-info-item">
+                                <div class="info-label">Method</div>
+                                <div class="info-value">Cash</div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="card-actions">
+                                <button class="btn btn-download btn-tooltip" data-tooltip="Download Receipt">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -95,7 +173,27 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const tabItems = document.querySelectorAll('.tab-item');
+            const billingsTable = document.querySelector('.billings-table');
+            const billingsCards = document.querySelector('.billings-cards');
             
+            // Function to toggle views based on screen width
+            function toggleViews() {
+                if (window.innerWidth < 600) {
+                    billingsTable.style.display = 'none';
+                    billingsCards.style.display = 'block';
+                } else {
+                    billingsTable.style.display = 'table';
+                    billingsCards.style.display = 'none';
+                }
+            }
+            
+            // Initialize on load
+            toggleViews();
+            
+            // Listen for window resize
+            window.addEventListener('resize', toggleViews);
+            
+            // Tab functionality
             tabItems.forEach(tab => {
                 tab.addEventListener('click', function() {
                     // Remove active class from all tabs
@@ -104,10 +202,66 @@
                     // Add active class to clicked tab
                     this.classList.add('active');
                     
-                    // You can add filter functionality here
+                    // Filter functionality can be added here
                     const tabType = this.getAttribute('data-tab');
                     console.log(`Tab ${tabType} clicked`);
+                    
+                    // Example filtering logic (placeholder)
+                    filterBillings(tabType);
                 });
+            });
+            
+            // Placeholder filter function
+            function filterBillings(tabType) {
+                // This would be implemented with actual filtering logic
+                // For demonstration, just log the action
+                console.log(`Filtering billings by: ${tabType}`);
+            }
+            
+            // Add smooth tab scrolling for horizontal scroll
+            const tabNavigation = document.querySelector('.tab-navigation');
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+            
+            tabNavigation.addEventListener('mousedown', (e) => {
+                isDown = true;
+                startX = e.pageX - tabNavigation.offsetLeft;
+                scrollLeft = tabNavigation.scrollLeft;
+            });
+            
+            tabNavigation.addEventListener('mouseleave', () => {
+                isDown = false;
+            });
+            
+            tabNavigation.addEventListener('mouseup', () => {
+                isDown = false;
+            });
+            
+            tabNavigation.addEventListener('mousemove', (e) => {
+                if(!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - tabNavigation.offsetLeft;
+                const walk = (x - startX) * 2; // Scroll speed
+                tabNavigation.scrollLeft = scrollLeft - walk;
+            });
+            
+            // Touch events for mobile scrolling
+            tabNavigation.addEventListener('touchstart', (e) => {
+                isDown = true;
+                startX = e.touches[0].pageX - tabNavigation.offsetLeft;
+                scrollLeft = tabNavigation.scrollLeft;
+            });
+            
+            tabNavigation.addEventListener('touchend', () => {
+                isDown = false;
+            });
+            
+            tabNavigation.addEventListener('touchmove', (e) => {
+                if(!isDown) return;
+                const x = e.touches[0].pageX - tabNavigation.offsetLeft;
+                const walk = (x - startX) * 2;
+                tabNavigation.scrollLeft = scrollLeft - walk;
             });
         });
     </script>
