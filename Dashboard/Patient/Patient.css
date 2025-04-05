@@ -14,7 +14,7 @@ body{
 
 .nav-bar{
     background-color:#ffffff;
-
+    border: 1px solid rgba(125, 125, 125, 0.473);
     height: 9vh;
     width: 100%;
     display: flex;
@@ -80,6 +80,7 @@ body{
     position: relative;
     top: 10px;
     border-radius: 15px;
+    border: 1px solid rgba(125, 125, 125, 0.473);
 }
 
 .top-container{
