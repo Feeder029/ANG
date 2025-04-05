@@ -47,6 +47,28 @@ body{
     cursor: pointer;
 }
 
+.nav-right #add-btn{
+    background-color: #5CB338;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.nav-right #add-btn:hover{
+    background-color: #5db338d3;
+    color:#28282898;
+}
+
+.nav-right #export-btn{
+    background-color: rgb(183, 113, 38);
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.nav-right #export-btn:hover{
+    background-color:  rgba(183, 113, 38, 0.721);
+    color: #28282898;
+}
+
 .container{
     background-color: #ffffff;
     height: 80vh;
@@ -267,7 +289,8 @@ tr:nth-child(even) {
 
 .status-container{
     padding-top: 15px;
-    display:inline-flex;
+    display:flex;
+    flex-direction: row;
     justify-content: left;
     gap: 10px;
 }

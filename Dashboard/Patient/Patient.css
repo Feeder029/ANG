@@ -55,8 +55,20 @@ body{
     font-weight: 600;
 }
 
+.nav-right #add-btn:hover{
+    background-color: #5db338d3;
+    color:#28282898;
+}
+
 .nav-right #export-btn{
-    background-color: blue;
+    background-color: rgb(183, 113, 38);
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.nav-right #export-btn:hover{
+    background-color:  rgba(183, 113, 38, 0.721);
+    color: #28282898;
 }
 
 .container{

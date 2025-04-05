@@ -169,7 +169,7 @@ body{
     background-color:#ffffff;
     padding: 10px;
     height: 100%;
-    width: 200px;
+    width: 190px;
     position: fixed;
     z-index: 1;
     left: 0;
@@ -204,7 +204,7 @@ ul button:hover{
 
 ul button.active {
     color: #3884dc; 
-    font-weight: bold;
+    font-weight:bold;
 }
 
 .iframe-container{
@@ -213,7 +213,7 @@ ul button.active {
     height: 100%;
     display: flex;
     border-radius: 15px;
-    margin: 10px 10px 0 220px;
+    margin: 10px 10px 0 210px;
 }
 
 iframe{
