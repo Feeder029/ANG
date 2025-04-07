@@ -160,7 +160,7 @@ body{
     position:absolute;   
 }
 
-.action-menu {
+/* .action-menu {
     position: absolute;
     top: 40px;
     left: 10px;
@@ -181,7 +181,7 @@ body{
 
 .hidden {
     display: none;
-}
+} */
 
 
 .card-right{
