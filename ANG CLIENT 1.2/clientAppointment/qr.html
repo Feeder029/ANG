@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto-Saving QR Code Generator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #333;
+        }
+        
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        button {
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        #qrcode {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        #status {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #4CAF50;
+            height: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>QR Generator</h1>
+        <input type="text" id="qr-text" placeholder="Enter text or URL">
+        <button id="generate-btn">Generate & Save QR Code</button>
+        <div hidden id="qrcode"></div>
+        <div id="status"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const qrText = document.getElementById('qr-text');
+            const generateBtn = document.getElementById('generate-btn');
+            const qrcodeDiv = document.getElementById('qrcode');
+            const statusDiv = document.getElementById('status');
+            
+            let qrCodeCount = 0;
+            
+            // Generate QR Code button click event
+            generateBtn.addEventListener('click', generateAndSaveQRCode);
+            
+            function generateAndSaveQRCode() {
+                const text = qrText.value.trim();
+                
+                // Validate input
+                if (text === '') {
+                    alert('Please enter text or URL');
+                    return;
+                }
+                
+                // Clear previous QR code and status
+                qrcodeDiv.innerHTML = '';
+                statusDiv.textContent = '';
+                
+                // Create new QR code
+                new QRCode(qrcodeDiv, {
+                    text: text,
+                    width: 150,
+                    height: 150,
+                    colorDark: '#000000', // Always black
+                    colorLight: '#ffffff',
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+                
+                // Wait for QR code to be created
+                setTimeout(() => {
+                    // Get the QR code image
+                    const img = qrcodeDiv.querySelector('img');
+                    
+                    if (img) {
+                        // Create filename based on input text
+                        let filename = createFilename(text);
+                        qrCodeCount++;
+                        
+                        // Create a temporary link and trigger download
+                        const link = document.createElement('a');
+                        link.href = img.src;
+                        link.download = filename;
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        
+                        // Show success message
+                        statusDiv.textContent = `QR code saved as ${filename}`;
+                    }
+                }, 200);
+            }
+            
+            function createFilename(text) {
+                // Use current date/time for unique filename
+                const now = new Date();
+                const timestamp = now.toISOString().replace(/[:.]/g, '-').substring(0, 19);
+                
+                // Clean up text for safe filename
+                let baseText = text
+                    .replace(/^https?:\/\//, '') // Remove http:// or https://
+                    .replace(/[^\w\s]/gi, '-')   // Replace special chars with hyphens
+                    .substring(0, 20);           // Limit length
+                    
+                return `qr-${baseText}-${timestamp}.png`;
+            }
+            
+            function truncateText(text, maxLength) {
+                if (text.length <= maxLength) return text;
+                return text.substring(0, maxLength) + '...';
+            }
+        });
+    </script>
+</body>
+</html>

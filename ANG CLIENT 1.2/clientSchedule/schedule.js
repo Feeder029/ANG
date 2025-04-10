@@ -1,3 +1,79 @@
+document.addEventListener('DOMContentLoaded', function() {
+
+fetch('schedule.php')
+.then(response=>response.json())
+.then(data=>{
+    let display = ``;
+
+    data.forEach(item => {
+
+        if(item.ACC==1){
+        display += `                        
+    <tr>
+    <td>${item.ACD}</td>
+    <td>${item.ACT}</td>
+    <td>${item.SN}</td>
+    <td>${item.ST}</td>
+    <td><img src="/api/placeholder/100/100" alt="QR Code" class="qr-code"></td>
+    <td>
+    <div class="action-buttons">
+    <button class="btn btn-cancel btn-tooltip" data-tooltip="Cancel Appointment">
+    <i class="fas fa-times"></i>
+    </button>
+    <button class="btn btn-download btn-tooltip" data-tooltip="Download QR Code">
+    <i class="fas fa-download"></i>
+    </button>
+    </div>
+     </td>
+     </tr>`;
+    }}
+);
+
+    document.getElementById('scheduletable').innerHTML = display; // Add to the HTML
+
+}).catch(error => console.error('Error fetching api.php data:', error));
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // document.addEventListener('DOMContentLoaded', function() {
 //     // Sidebar navigation functionality
 //     const sidebarItems = document.querySelectorAll('.sidebar-item');
