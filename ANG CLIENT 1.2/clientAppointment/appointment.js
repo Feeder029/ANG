@@ -198,14 +198,70 @@ document.addEventListener('DOMContentLoaded', function() {
     // Convert to Philippines time (UTC+8)
     const philippinesTime = new Date(now.getTime() + (8 * 60 * 60 * 1000));
     populateCalendar(philippinesTime.getFullYear(), philippinesTime.getMonth());
-    
-    // Set up event handlers
-    setupEventListeners();
+
+    ServiceDisplay();
     
     // Generate some random booked slots for demonstration
     generateRandomBookedSlots();
+
+    setupEventListeners();
 });
 
+
+//Display all of the Services on the Database
+function ServiceDisplay() {
+    // Fetch the icon data first
+    fetch('icon.json')
+    .then(response => response.json())
+    .then(iconData => {
+        
+        fetch('appointment.php') // Call the php which we will get the datas
+        .then(response => response.json())
+        .then(data => {
+            let display = '';
+            let i = 0; 
+
+            if (data.length === 0) {
+                // If there is no data, display the "No available services" message
+                display = `<h2>There are no current available services.<h2>`;
+            } else {
+
+            data.forEach(item => {
+                let stat = i === 0 ? "active" : ""; // Check if it's the first item
+
+                // Find the corresponding icon for the procedure name
+                let matchingIcon = iconData.find(icon => icon.process.toLowerCase() === item.S_NAME.toLowerCase());
+
+                // Set the icon source (if a match is found, use it, otherwise use a default icon)
+                let iconSrc = matchingIcon ? matchingIcon.icon : 'https://cdn-icons-png.flaticon.com/128/2932/2932475.png'; // Default icon
+
+                display += `
+                    <div class='procedure-card ${stat}' data-procedure="${item.S_ID}">     
+                        <img src="${iconSrc}" alt="Tooth" class="procedure-icon">
+                        <div class="procedure-name">${item.S_NAME}</div>
+                        <div hidden class="procedure-id">${item.S_ID}</div>
+                    </div>
+                `; // Hidden so users can't see the ID
+
+                i++;
+            });
+            }
+            document.getElementById('procedure').innerHTML = display; // Add to the HTML
+            
+            // Add event listeners AFTER adding the elements to DOM
+            document.querySelectorAll('.procedure-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    selectProcedure(this); // Get what got clicked
+                });
+            });
+        })
+        .catch(error => console.error('Error fetching api.php data:', error));
+    })
+    .catch(error => console.error('Error fetching icon.json data:', error));
+}
+
+
+  
 // Set up all event listeners
 function setupEventListeners() {
     // Calendar navigation
@@ -220,11 +276,11 @@ function setupEventListeners() {
     });
     
     // Procedure selection
-    document.querySelectorAll('.procedure-card').forEach(card => {
-        card.addEventListener('click', function() {
-            selectProcedure(this);
-        });
-    });
+    // document.querySelectorAll('.procedure-card').forEach(card => {
+    //     card.addEventListener('click', function() {
+    //         selectProcedure(this);
+    //     });
+    // });
     
     // Book appointment button
     document.querySelector('.book-btn').addEventListener('click', validateAndBookAppointment);
@@ -413,7 +469,8 @@ function bookAppointment() {
     // Get procedure name
     const procedureElement = document.querySelector(`.procedure-card[data-procedure="${selectedProcedure}"]`);
     const procedureName = procedureElement.querySelector('.procedure-name').textContent;
-    
+    const procedureID = procedureElement.querySelector('.procedure-id').textContent;
+
     // Create confirmation message
     const message = `
         Appointment Booked Successfully!
@@ -421,6 +478,7 @@ function bookAppointment() {
         Date: ${formattedDate}
         Time: ${selectedTime}
         Procedure: ${procedureName}
+        ID: ${procedureID}
         
         Thank you for booking with us. We look forward to seeing you!
     `;

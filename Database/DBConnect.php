@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root"; // Default XAMPP user
 $password = ""; // Default walang password
-$dbname = "pos_db"; // Database name
+$dbname = "ang_appointmentdb"; // Database name
 
 // Connect sa database
 $conn = new mysqli($servername, $username, $password, $dbname);

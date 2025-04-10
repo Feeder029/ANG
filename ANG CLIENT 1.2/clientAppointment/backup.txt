@@ -1,0 +1,72 @@
+                        <div class="procedure-card active" data-procedure="extraction">
+                            <img src="https://cdn-icons-png.flaticon.com/128/993/993324.png" alt="Tooth" class="procedure-icon">
+                            <div class="procedure-name">TOOTH EXTRACTION</div>
+                        </div>
+                        <div class="procedure-card " data-procedure="cleaning">
+                            <img src="https://cdn-icons-png.flaticon.com/128/3124/3124658.png" alt="Toothbrush" class="procedure-icon">
+                            <div class="procedure-name">TEETH CLEANING</div>
+                        </div>
+                        <div class="procedure-card" data-procedure="filling">
+                            <img src="https://cdn-icons-png.flaticon.com/128/5720/5720877.png" alt="Dental Drill" class="procedure-icon">
+                            <div class="procedure-name">DENTAL FILLING</div>
+                        </div>
+                        <div class="procedure-card" data-procedure="crown">
+                            <img src="https://cdn-icons-png.flaticon.com/128/9441/9441118.png" alt="Dental Crown" class="procedure-icon">
+                            <div class="procedure-name">DENTAL CROWN</div>
+                        </div>
+                        <div class="procedure-card" data-procedure="root-canal">
+                            <img src="https://cdn-icons-png.flaticon.com/128/6200/6200723.png" alt="Teeth" class="procedure-icon">
+                            <div class="procedure-name">ROOT CANAL</div>
+                        </div>
+                        <div class="procedure-card" data-procedure="braces">
+<img src="https://cdn-icons-png.flaticon.com/128/3906/3906774.png" alt="Smile" class="procedure-icon">
+<div class="procedure-name">BRACES</div>
+</div>
+
+-
+
+<?php
+header('Content-Type: application/json'); // Set response format
+include '../../Database/DBConnect.php';
+
+$data = json_decode(file_get_contents('php://input'), true);
+
+if (!$data) {
+        echo json_encode(['error' => 'Invalid or missing JSON data.']);
+        exit();
+}
+
+$response = [];  // Initialize response
+
+
+// For Submission of the Appointments
+if(isset($data[P_ID],$data[S_ID],$data[CDate],$data[CTime],$data[Sub],$data[QR])){
+    $Patient = $conn->real_escape_string($data[P_ID]);
+    $Services = $conn->real_escape_string($data[S_ID]);
+    $Status = 1;
+    $Date = $conn->real_escape_string($data[CDate]);
+    $Time = $conn->real_escape_string($data[CTime]);
+    $Sub = $conn->real_escape_string($data[Sub]);
+    $QR = $conn->real_escape_string($data[QR]);
+
+    $AppointmentQuery = "INSERT INTO 
+    `appointment`(`PatientID`, `ServicesID`, `StatusID`, `APP_ChosenDate`, `APP_ChosenTime`, `APP_Submission`, `APP_QR`) 
+    VALUES ()";
+
+    if($conn->query($AppointmentQuery)){
+        $AppID = $conn->insert_id; // Get the last inserted ID
+    } else {
+        //Input Error Handling Later
+    }
+}  
+
+// For Getting all of the Services
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    $Services_Avi = $conn->query("SELECT `ServiceID`, `SER_Name`, `SER_Details`, `SER_Duration` FROM `services`");
+    $services = [];
+    while ($row = $Services_Avi->fetch_assoc()) {
+        $services[] = $row;
+    }
+
+    echo json_encode($services);
+}
