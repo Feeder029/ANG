@@ -465,6 +465,10 @@ function bookAppointment() {
     // Format the date for display
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     const formattedDate = selectedDate.toLocaleDateString('en-US', options);
+    const options2 = { year: 'numeric', month: '2-digit', day: '2-digit' }; 
+    const GBDate= selectedDate.toLocaleDateString('en-GB', options2); 
+    const [day, month, year] = GBDate.split('/');
+    const DBDate= `${year}-${month}-${day}`;
     
     // Get procedure name
     const procedureElement = document.querySelector(`.procedure-card[data-procedure="${selectedProcedure}"]`);
@@ -472,33 +476,74 @@ function bookAppointment() {
     const procedureID = procedureElement.querySelector('.procedure-id').textContent;
 
     // Create confirmation message
-    const message = `
-        Appointment Booked Successfully!
-        
-        Date: ${formattedDate}
-        Time: ${selectedTime}
-        Procedure: ${procedureName}
-        ID: ${procedureID}
-        
-        Thank you for booking with us. We look forward to seeing you!
-    `;
+    const message = `Do you want to proceed with the appointment on ${formattedDate} at ${selectedTime} for the procedure: ${procedureName}?`;
+
+
+    Swal.fire({
+        title: 'Confirm Appointment?',
+        text: message,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, Confirm',
+        cancelButtonText: 'No, Cancel',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#aaa',
+        reverseButtons: true // optional: swaps button positions
+      }).then((result) => {
+        if (result.isConfirmed) {
+
+                 // Convertit to Military Time
+     function convertToMilitaryTime(time) {
+        let [timePart, modifier] = time.split(" ");
+        let [hours, minutes] = timePart.split(":").map(Number);
     
-    // Show confirmation
-    alert(message);
+        if (modifier === "PM" && hours < 12) {
+            hours += 12; // Convert PM hours to military time
+        }
+        if (modifier === "AM" && hours === 12) {
+            hours = 0; // Convert 12 AM to 0 hours
+        }
     
-    // Mark the time slot as booked
-    const dateKey = `${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${selectedDate.getDate()}`;
-    if (!bookedSlots[dateKey]) {
-        bookedSlots[dateKey] = [];
+        // Format hours and minutes to ensure two digits
+        let formattedMilitaryTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:00`;
+        return formattedMilitaryTime;
     }
-    bookedSlots[dateKey].push(selectedTime);
     
-    // Reset selections
-    resetSelections();
+    let formattedMilitaryTime = convertToMilitaryTime(selectedTime);
+   
+   AddAppointment(2,procedureID,DBDate,formattedMilitaryTime);
+   
+   // Mark the time slot as booked
+   const dateKey = `${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${selectedDate.getDate()}`;
+   if (!bookedSlots[dateKey]) {
+       bookedSlots[dateKey] = [];
+   }
+   bookedSlots[dateKey].push(selectedTime);
+   
+   // Reset selections
+   resetSelections();
+
+
+        } else {
+            return; 
+        }
+      });
+      
+
 }
 
+
+
 function showError(message) {
-    alert(`Error: ${message}`);
+    Swal.fire({
+        title: 'Error',
+        text: message,
+        icon: 'error',
+        position: 'top',
+        toast: true,
+        showConfirmButton: false,
+        timer: 3000
+    });
 }
 
 function resetSelections() {
@@ -551,4 +596,66 @@ function generateRandomBookedSlots() {
             timeSlots.splice(randomIndex, 1);
         }
     }
+}
+
+//Import Appointment to Database
+function AddAppointment(PID, SID, ACD, ACT) {
+    
+    fetch('appointment.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            PatientID: PID,
+            ServicesID: SID,
+            APP_ChosenDate: ACD,
+            APP_ChosenTime: ACT
+        })
+    })
+    .then(response => {
+        console.log("Response status:", response.status);
+        return response.json();
+    })
+    .then(data => {
+        console.log("Full response data:", data);
+        if (data.appointment) {
+            console.log("Appointment status:", data.appointment.status);
+            console.log("Message:", data.appointment.message);
+            
+            if (data.appointment.status === 'success') {
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'You have successfully made an Appointment!',
+                    icon: 'success',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#3085d6',
+                    backdrop: true
+                });
+            } else {
+                Swal.fire({
+                    title: 'Error',
+                    text: data.appointment.message,
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#d33'
+                });
+            }
+
+        } else {
+            console.log("Unexpected response format:", data);
+        }
+    })
+    .catch(error => {
+        console.error('Fetch error:', error);
+        Swal.fire({
+            title: 'Error',
+            text: "An error occurred while creating the appointment.",
+            icon: 'error',
+            position: 'top',
+            toast: true,
+            showConfirmButton: false,
+            timer: 3000
+        });
+    });
 }
