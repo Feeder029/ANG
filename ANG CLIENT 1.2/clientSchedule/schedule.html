@@ -24,13 +24,12 @@
                 </div>
                 
                 <!-- Tab navigation next to search bar -->
-                <div class="tab-navigation">
-                    <div class="tab-item active" data-tab="all">ALL <span class="tab-count">4</span></div>
-                    <div class="tab-item" data-tab="pending">PENDING <span class="tab-count">0</span></div>
-                    <div class="tab-item" data-tab="confirmed">CONFIRMED <span class="tab-count">0</span></div>
-                    <div class="tab-item" data-tab="completed">COMPLETED <span class="tab-count">0</span></div>
-                    <div class="tab-item" data-tab="cancelled">CANCELLED <span class="tab-count">0</span></div>
-                    <div class="tab-item" data-tab="rescheduled">RESCHEDULED <span class="tab-count">0</span></div>
+                <div class="tab-navigation" id="navigation">
+                    <div class="tab-item active" data-tab="all" onclick="GetDatas('ALL')">ALL <span class="tab-count">4</span></div>
+                    <div class="tab-item" data-tab="confirmed" onclick="GetDatas('Booked')">BOOKED<span class="tab-count">0</span></div>
+                    <div class="tab-item" data-tab="completed" onclick="GetDatas('Complete')">COMPLETED <span class="tab-count">0</span></div>
+                    <div class="tab-item" data-tab="cancelled" onclick="GetDatas('Cancelled')">CANCELLED <span class="tab-count">0</span></div>
+                    <div class="tab-item" data-tab="rescheduled" onclick="GetDatas('Rescheduled')">RESCHEDULED <span class="tab-count">0</span></div>
                 </div>
                 
                 <!-- Stylish date range after tab navigation -->
@@ -267,6 +266,6 @@
         });
     </script>
 
-    <script src="schedule.js"></script>
+    <script src="schedule.js?v=1.0.1"></script>
 </body>
 </html>

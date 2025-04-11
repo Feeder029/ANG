@@ -347,7 +347,7 @@ tr:nth-child(even) {
     background-color:  #ececd0;
 }
 
-#pending-status:hover{
+#-status:hover{
     background-color: rgb(183, 183, 82);
     color: black;
     border: none;
