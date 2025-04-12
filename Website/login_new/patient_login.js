@@ -16,7 +16,7 @@ document.getElementById("login-form").addEventListener("submit", function(event)
     if (email === "" || password === "") {
         alert("Please fill in all fields.");
     } else {
-        alert("Login Successful!");
+        Login(email,password);
     }
 });
 
@@ -35,3 +35,26 @@ document.getElementById("register-form").addEventListener("submit", function(eve
         alert("Registration Successful!");
     }
 });
+
+function Login(US,PA){
+    fetch('patient_login.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            USEREMAIL: US,
+            PASS: PA
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.status === 'success') {
+            console.log('Welcome:', data.Acc.Username);
+            window.location.href = '../../ANG CLIENT 1.2/clientIndex/index.html';  // This will navigate to a new URL
+        } else {
+            console.error('Login failed:', data.message);
+            alert("Incorrect Password or Email");
+        }
+    });
+}
