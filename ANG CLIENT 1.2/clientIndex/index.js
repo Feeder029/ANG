@@ -1,4 +1,28 @@
+import { GetCookie } from '../../Cookies/cookies.js';
+import { DeleteCookie } from '../../Cookies/cookies.js';
+
+
+function checkLoginStatus() {
+    console.log("Checklog");
+    const patientId = GetCookie('ACCID');
+    if (patientId) {
+      console.log(`Patient ID ${patientId} is logged in`);
+    } else {
+        window.location.href = '../../Website/login_new/patient_login.html';  // This will navigate to a new URL
+    }
+
+    DeleteCookie('ACCID');
+}
+
 document.addEventListener("DOMContentLoaded", function () {
+
+    console.log("Eventopen");
+
+    checkLoginStatus();
+
+
+    
+    
     const links = document.querySelectorAll(".sidebar ul button");
     const iframe = document.querySelector("iframe");
     

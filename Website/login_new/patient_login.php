@@ -35,7 +35,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         "Password" => $row["ACC_Password"],
                         "Status" => $row["StatusID"],
                         "UserTypeID" => $row["UserTypeID"],
-                        "Email" => $row["ACC_Email"]
+                        "Email" => $row["ACC_Email"],
+                        "AccID" => $row["AccountID"]
                     ];
 
                     echo json_encode([
