@@ -1,0 +1,177 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f7f7f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+}
+
+.form-box {
+    width: 100%;
+    max-width: 400px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 1.8rem;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group-inline {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+}
+
+.input-inline {
+    width: 48%;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
+    
+}
+
+input,
+select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.form-footer {
+    text-align: center;
+    margin-top: 15px;
+}
+
+p {
+    margin-top: 10px;
+    font-size: 0.9rem;
+}
+
+span {
+    color: #4CAF50;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+span:hover {
+    text-decoration: none;
+}
+
+#selectLabelMargin{
+    padding-top: 10px;
+}
+
+@media (max-width: 768px) {
+    .form-container {
+        padding: 25px;
+    }
+
+    h2 {
+        font-size: 1.6rem;
+    }
+
+    .input-group {
+        margin-bottom: 12px;
+        
+    }
+
+    button {
+        padding: 12px;
+        font-size: 1rem;
+    }
+
+    p {
+        font-size: 0.95rem;
+    }
+}
+
+
+@media (max-width: 480px) {
+    .form-container {
+        padding: 15px;  /* Reduced padding */
+    }
+
+    h2 {
+        font-size: 1.4rem;  /* Smaller heading font size */
+    }
+
+    .input-group input,
+    .input-group select {
+        font-size: 0.9rem;  /* Smaller font for inputs */
+        padding: 8px;  /* Reduced padding for inputs */
+    }
+   
+    .input-group-inline .input-inline {
+        width: 45%;  /* Reduce the width for inline inputs (e.g., gender, age, etc.) */
+    }
+
+    button {
+        padding: 10px;  /* Reduced button padding */
+        font-size: 1rem;  /* Smaller button font size */
+    }
+
+    p {
+        font-size: 0.85rem;  /* Reduced font size for paragraph */
+    }
+    label{
+        font-size: 14px;
+    }
+     option{
+        font-size: 11px;
+        padding: 1px;
+    }
+    .input-inline select{
+        font-size: 11px;
+        height: 36px;
+    }
+}
