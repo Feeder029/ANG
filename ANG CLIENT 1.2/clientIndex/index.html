@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="../clientIndex/index.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>DASHBOARD</title>
 </head>
 <body>
@@ -30,18 +31,22 @@
                     <div class="dropdown-content">
                         <button>Profile</button>
                         <button>Settings</button>
-                        <button>Logout</button>
+                        <button class="Logout">Logout</button>
                     </div>
                 </details>
             </div>
         </div>
     </nav>
 
+    <script>
+      
+    </script>
+
 
         <!-- Sidebar with navigation icons -->
         <div class="sidebar">
             <ul>
-                <button href="../clientAppointment/appointment.html?v=1.0.2" class="dashboard" title="Appointments">
+                <button href="../clientAppointment/appointment.html?v=1.0.3" class="dashboard" title="Appointments">
                     <i class="far fa-calendar-alt"></i>
                 </button>
                 <button href="../clientSchedule/schedule.html?v=1.0.2" id="schedule-panel" target="iframe" title="Schedule">
@@ -64,6 +69,6 @@
         </div>
     </div>
 
-    <script type="module" src="index.js?V=1.2"></script>
+    <script type="module" src="index.js?V=1.4"></script>
 </body>
 </html>

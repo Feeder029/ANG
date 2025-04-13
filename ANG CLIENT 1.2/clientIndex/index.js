@@ -11,17 +11,39 @@ function checkLoginStatus() {
         window.location.href = '../../Website/login_new/patient_login.html';  // This will navigate to a new URL
     }
 
-    DeleteCookie('ACCID');
+    // DeleteCookie('ACCID');
 }
+
+const logout = document.querySelectorAll(".Logout");
+
+logout.forEach(button => {
+    button.addEventListener("click", () => {
+        Swal.fire({
+            title: 'Confirm Logout?',
+            text: "Do you want to Logout?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, Confirm',
+            cancelButtonText: 'No, Cancel',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#aaa',
+            reverseButtons: true // optional: swaps button positions
+          }).then((result) => {
+            if (result.isConfirmed) {
+                DeleteCookie('ACCID');
+                window.location.href = '../../Website/login_new/patient_login.html';  // This will navigate to a new URL        
+        } });
+    });
+});
+
+
+
 
 document.addEventListener("DOMContentLoaded", function () {
 
     console.log("Eventopen");
 
     checkLoginStatus();
-
-
-    
     
     const links = document.querySelectorAll(".sidebar ul button");
     const iframe = document.querySelector("iframe");

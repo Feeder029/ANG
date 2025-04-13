@@ -17,14 +17,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Generate some random booked slots for demonstration
     generateRandomBookedSlots();
     
-    checkLoginStatus();
+    // checkLoginStatus();
 
     setupEventListeners();
 });
-
-
-
-
 
 //Display all of the Services on the Database
 function ServiceDisplay() {
