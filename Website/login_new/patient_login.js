@@ -3,6 +3,7 @@ import { GetCookie } from '../../Cookies/cookies.js';
 
 console.log(navigator.cookieEnabled);
 
+
 document.getElementById("show-register").addEventListener("click", function() {
     document.getElementById("login-box").style.display = "none";
     document.getElementById("register-box").style.display = "block";
@@ -32,12 +33,19 @@ document.getElementById("register-form").addEventListener("submit", function(eve
     const lastname = document.getElementById("lastname").value;
     const middlename = document.getElementById("middlename").value;
     const sfx = document.getElementById("suffix").value;
+    const HN = document.getElementById("house").value;
+    const LN = document.getElementById("lot").value;
+    const STR = document.getElementById("street").value;
+    const BRGY = document.getElementById("barangay").value;
+    const CTY = document.getElementById("city").value;
+    const PROV = document.getElementById("province").value;
 
     const gender = document.getElementById("gender").value;
     const email = document.getElementById("register-email").value;
     const phone = document.getElementById("phone").value;
 
-    AddName(firstname,lastname,middlename,sfx);
+    IDS(firstname, lastname, middlename, sfx, HN, LN, STR, BRGY, CTY, PROV);
+
 });
 
 function Login(US,PA){
@@ -65,11 +73,12 @@ function Login(US,PA){
     });
 }
 
-
+// For Address Dropdown Values
 function Address() {
     let MunDataGlobal = []; // To store municipality data for later use
     let BarangayDataGlobal = []; // To store barangay data for later use
 
+    //Fetch all of the JSON values
     Promise.all([
         fetch('../../Extensions/JSON_ADDRESS/table_region.json').then(res => res.json()),
         fetch('../../Extensions/JSON_ADDRESS/table_province.json').then(res => res.json()),
@@ -96,15 +105,19 @@ function Address() {
         ProvinceData.forEach(province => {
             if (province.province_name && province.region_id == 5) {
                 const option = document.createElement("option");
-                option.value = province.province_id; // Use province_id for filtering
+                option.value = province.province_name; // Use province_name as value
                 option.textContent = province.province_name;
+                option.dataset.provinceId = province.province_id; // Store ID as data attribute
                 ProvinceSelect.appendChild(option);
             }
         });
 
         // Event: When Province changes, populate cities
         ProvinceSelect.addEventListener("change", function () {
-            const selectedProvinceId = this.value;
+            const selectedProvinceName = this.value;
+            const selectedProvinceOption = Array.from(this.options).find(option => option.value === selectedProvinceName);
+            const selectedProvinceId = selectedProvinceOption ? selectedProvinceOption.dataset.provinceId : null;
+            
             CitySelect.innerHTML = '<option value="">Select a City</option>';
             BarangaySelect.innerHTML = '<option value="">Select a Barangay</option>';
             CitySelect.disabled = true;
@@ -114,8 +127,9 @@ function Address() {
                 const filteredCities = MunDataGlobal.filter(city => city.province_id == selectedProvinceId);
                 filteredCities.forEach(city => {
                     const option = document.createElement("option");
-                    option.value = city.municipality_id; // Use ID for next filtering step
+                    option.value = city.municipality_name; // Use municipality_name as value
                     option.textContent = city.municipality_name;
+                    option.dataset.municipalityId = city.municipality_id; // Store ID as data attribute
                     CitySelect.appendChild(option);
                 });
 
@@ -125,16 +139,20 @@ function Address() {
 
         // Event: When City changes, populate barangays
         CitySelect.addEventListener("change", function(){
-            const selectedCityID = this.value;
+            const selectedCityName = this.value;
+            const selectedCityOption = Array.from(this.options).find(option => option.value === selectedCityName);
+            const selectedCityId = selectedCityOption ? selectedCityOption.dataset.municipalityId : null;
+            
             BarangaySelect.innerHTML = '<option value="">Select a Barangay</option>';
             BarangaySelect.disabled = true;
 
-            if (selectedCityID) {
-                const filteredBarangays = BarangayDataGlobal.filter(barangay => barangay.municipality_id == selectedCityID);
+            if (selectedCityId) {
+                const filteredBarangays = BarangayDataGlobal.filter(barangay => barangay.municipality_id == selectedCityId);
                 filteredBarangays.forEach(barangay => {
                     const option = document.createElement("option");
-                    option.value = barangay.barangay_id; // Use barangay_id as the value
+                    option.value = barangay.barangay_name; // Use barangay_name as value
                     option.textContent = barangay.barangay_name;
+                    option.dataset.barangayId = barangay.barangay_id; // Store ID as data attribute
                     BarangaySelect.appendChild(option);
                 });
 
@@ -145,8 +163,8 @@ function Address() {
     .catch(error => console.error('Error fetching address data:', error));
 }
 
-
-function AddName(First,Last,Middle,Suffix) {
+//Add the Name to the Database
+function AddName(First, Last, Middle, Suffix) {
     // Ensure all values exist and are not empty
     if (!First || !Last) {
         alert("Error: First name and last name are required");
@@ -157,7 +175,7 @@ function AddName(First,Last,Middle,Suffix) {
     const middleName = Middle || "";
     const suffix = Suffix || "";
     
-    fetch('patient_login.php', {
+    return fetch('patient_login.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -178,20 +196,25 @@ function AddName(First,Last,Middle,Suffix) {
         
         if (data.name && data.name.status === 'success') {
             alert('Success! Name record inserted successfully.');
+            // Return the nameID from the successful response
+            return data.name.nameID;
         } else {
             const errorMsg = data.name ? data.name.message : 
                              (data.message || 'An error occurred while adding name information.');
             alert('Error: ' + errorMsg);
+            throw new Error(errorMsg);
         }
     })
     .catch(error => {
         console.error('Fetch error:', error);
         alert('Error: An error occurred while processing your request.');
+        throw error;
     });
 }
 
+//Add the Address to the Database
 function AddAddress(H,L,S,B,C,P){
-    fetch('patient_login.php', {
+    return fetch('patient_login.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -212,12 +235,15 @@ function AddAddress(H,L,S,B,C,P){
     .then(data => {
         console.log("Full response data:", data);
         
-        if (data.name && data.name.status === 'success') {
-            alert('Success! Name record inserted successfully.');
+        if (data.Address && data.Address.status === 'success') {
+            alert('Success! Address record inserted successfully.');
+            // Return the nameID from the successful response
+            return data.Address.AddressID;
         } else {
-            const errorMsg = data.name ? data.name.message : 
-                             (data.message || 'An error occurred while adding name information.');
+            const errorMsg = data.Address ? data.Address.message : 
+                             (data.message || 'An error occurred while adding Address information.');
             alert('Error: ' + errorMsg);
+            throw new Error(errorMsg);
         }
     })
     .catch(error => {
@@ -226,6 +252,18 @@ function AddAddress(H,L,S,B,C,P){
     });
 }
 
+//Get the ID Values
+async function IDS(firstname, lastname, middlename, sfx, HN, LN, STR, BRGY, CTY, PROV) {
+    try {
+        const NameIDs = await AddName(firstname, lastname, middlename, sfx);
+        alert("Name ID: " + NameIDs);
+
+        const AddressIDs = await AddAddress(HN, LN, STR, BRGY, CTY, PROV);
+        alert("Address ID: " + AddressIDs);
+    } catch (error) {
+        console.error("Error during IDS function:", error);
+    }
+}
 
 
 Address();
