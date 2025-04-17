@@ -190,42 +190,98 @@ function AddName(First,Last,Middle,Suffix) {
     });
 }
 
-function AddAddress(H,L,S,B,C,P){
-    fetch('patient_login.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            HNo : H, 
-            LNo : L, 
-            Str : S, 
-            Brgy : B, 
-            Cit : C, 
-            Prov : P
-        })
-    })
-    .then(response => {
-        console.log("Response status:", response.status);
-        return response.json();
-    })
-    .then(data => {
-        console.log("Full response data:", data);
-        
-        if (data.name && data.name.status === 'success') {
-            alert('Success! Name record inserted successfully.');
-        } else {
-            const errorMsg = data.name ? data.name.message : 
-                             (data.message || 'An error occurred while adding name information.');
-            alert('Error: ' + errorMsg);
-        }
-    })
-    .catch(error => {
-        console.error('Fetch error:', error);
-        alert('Error: An error occurred while processing your request.');
-    });
-}
-
 
 
 Address();
+
+
+
+<?php
+header('Content-Type: application/json');
+include '../../Database/DBConnect.php';
+
+// Check if connection is successful
+if (!$conn) {
+    die(json_encode(['error' => "Connection failed: " . mysqli_connect_error()]));
+}
+
+$Account = [];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $data = json_decode(file_get_contents('php://input'), true);
+    $response = [];
+
+    // ✅ LOGIN HANDLER
+    if (isset($data['USEREMAIL'], $data['PASS'])) {
+        $UserOrEmail = $conn->real_escape_string($data['USEREMAIL']);
+        $Password = $conn->real_escape_string($data['PASS']);
+
+        $stmt = $conn->prepare("SELECT * FROM account 
+            WHERE StatusID = 1 AND UserTypeID = 1  
+            AND ACC_Password = ?
+            AND (ACC_Username = ? OR ACC_Email = ?)
+        ");
+
+        if ($stmt) {
+            $stmt->bind_param("sss", $Password, $UserOrEmail, $UserOrEmail);
+            if ($stmt->execute()) {
+                $result = $stmt->get_result();
+
+                if ($result->num_rows === 1) {
+                    $row = $result->fetch_assoc();
+
+                    $Account = [
+                        "Username" => $row["ACC_Username"],
+                        "Password" => $row["ACC_Password"],
+                        "Status" => $row["StatusID"],
+                        "UserTypeID" => $row["UserTypeID"],
+                        "Email" => $row["ACC_Email"],
+                        "AccID" => $row["AccountID"]
+                    ];
+
+                    $response['login'] = ["status" => "success", "Acc" => $Account];
+                } else {
+                    $response['login'] = ["status" => "error", "message" => "Invalid credentials or inactive account."];
+                }
+            } else {
+                $response['login'] = ["status" => "error", "message" => "Query execution failed: " . $stmt->error];
+            }
+        } else {
+            $response['login'] = ["status" => "error", "message" => "Query preparation failed: " . $conn->error];
+        }
+    }
+    
+    // ✅ NAME INSERT HANDLER
+    if (isset($data['FN'], $data['LN'], $data['MN'], $data['SFX'])) {
+        $First = $conn->real_escape_string($data['FN']);
+        $Last = $conn->real_escape_string($data['LN']);
+        $Middle = $conn->real_escape_string($data['MN']);
+        $SFX = $conn->real_escape_string($data['SFX']);
+
+        $stmt = $conn->prepare("INSERT INTO `name`(`N_FirstName`, `N_LastName`, `N_MiddleName`, `N_Suffix`) VALUES (?,?,?,?)");
+
+        if ($stmt) {
+            $stmt->bind_param("ssss", $First, $Last, $Middle, $SFX);   
+
+            if ($stmt->execute()) {
+                $response['name'] = ['status' => 'success', 'message' => 'Name record inserted successfully'];
+            } else {
+                $response['name'] = ['status' => 'error', 'message' => 'Failed to insert name record: ' . $stmt->error];
+            }
+
+            $stmt->close();   
+        } else {
+            $response['name'] = ['status' => 'error', 'message' => 'Failed to prepare the SQL query: ' . $conn->error];
+        }
+    }
+
+    // If neither login nor name data was provided
+    if (empty($response)) {
+        $response = ['status' => 'error', 'message' => 'No recognizable action. Missing login or name fields.'];
+    }
+
+    echo json_encode($response);
+}
+
+$conn->close();
+?>
