@@ -57,28 +57,32 @@ document.getElementById("register-form").addEventListener("submit", async functi
     const UID = 1;
     const User = document.getElementById("Username-register").value;
     const Pass = document.getElementById("password-register").value;
+    const ConfirmPass = document.getElementById("confirm-register").value;
+ 
     const profileInput = document.getElementById('profile-picture');
     let Profile = null;
 
-if (profileInput.files.length > 0) {
-    // Use FileReader to convert the file to Base64
-    const reader = new FileReader();
-    reader.readAsDataURL(profileInput.files[0]);
-    
-    // You need to wait for the FileReader to finish reading
-    Profile = await new Promise((resolve) => {
-        reader.onload = () => {
-            // Get only the Base64 data part (remove the data:image/xxx;base64, prefix)
-            const base64Data = reader.result.split(',')[1];
+    if(Pass==ConfirmPass){
+        if (profileInput.files.length > 0) {
+            // Use FileReader to convert the file to Base64
+            const reader = new FileReader();
+            reader.readAsDataURL(profileInput.files[0]);
             
-            resolve(base64Data);
-        };
-    });
-}
-
-
-    IDS(firstname, lastname, middlename, sfx, HN, LN, STR, BRGY, CTY, PROV,SID,UID,User,Pass,Email,Profile);
-
+            // You need to wait for the FileReader to finish reading
+            Profile = await new Promise((resolve) => {
+                reader.onload = () => {
+                    // Get only the Base64 data part (remove the data:image/xxx;base64, prefix)
+                    const base64Data = reader.result.split(',')[1];
+                    
+                    resolve(base64Data);
+                };
+            });
+            }
+            IDS(firstname, lastname, middlename, sfx, HN, LN, STR, BRGY, CTY, PROV,SID,UID,User,Pass,Email,Profile);
+        
+    } else {
+        alert("Password Don't Match!");
+    }
 });
 
 
@@ -360,6 +364,7 @@ function AddPatient(NameIDs,AddressIDs,AccountID,gender,DOB,age,Facebook,Contact
         })
     })
     .then(response => {
+        alert("Your account has been created. Please check your email to confirm your account.");
         console.log("Response status:", response.status);
         return response.json();
     })
