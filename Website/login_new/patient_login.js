@@ -30,14 +30,15 @@ document.getElementById("register-form").addEventListener("submit", function(eve
     event.preventDefault();
     const firstname = document.getElementById("firstname").value;
     const lastname = document.getElementById("lastname").value;
-    const middlename = document.getElementById("middlename").value;
-    const sfx = document.getElementById("suffix").value;
-
     const gender = document.getElementById("gender").value;
     const email = document.getElementById("register-email").value;
     const phone = document.getElementById("phone").value;
 
-    AddName(firstname,lastname,middlename,sfx);
+    if (!firstname || !lastname || !gender || !email || !phone) {
+        alert("Please fill in all required fields.");
+    } else {
+        alert("Registration Successful!");
+    }
 });
 
 function Login(US,PA){
@@ -143,87 +144,6 @@ function Address() {
         });
     })
     .catch(error => console.error('Error fetching address data:', error));
-}
-
-
-function AddName(First,Last,Middle,Suffix) {
-    // Ensure all values exist and are not empty
-    if (!First || !Last) {
-        alert("Error: First name and last name are required");
-        return;
-    }
-    
-    // Use empty string for optional fields if they're undefined
-    const middleName = Middle || "";
-    const suffix = Suffix || "";
-    
-    fetch('patient_login.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            FN: First,
-            LN: Last,
-            MN: middleName,
-            SFX: suffix
-        })
-    })
-    .then(response => {
-        console.log("Response status:", response.status);
-        return response.json();
-    })
-    .then(data => {
-        console.log("Full response data:", data);
-        
-        if (data.name && data.name.status === 'success') {
-            alert('Success! Name record inserted successfully.');
-        } else {
-            const errorMsg = data.name ? data.name.message : 
-                             (data.message || 'An error occurred while adding name information.');
-            alert('Error: ' + errorMsg);
-        }
-    })
-    .catch(error => {
-        console.error('Fetch error:', error);
-        alert('Error: An error occurred while processing your request.');
-    });
-}
-
-function AddAddress(H,L,S,B,C,P){
-    fetch('patient_login.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            HNo : H, 
-            LNo : L, 
-            Str : S, 
-            Brgy : B, 
-            Cit : C, 
-            Prov : P
-        })
-    })
-    .then(response => {
-        console.log("Response status:", response.status);
-        return response.json();
-    })
-    .then(data => {
-        console.log("Full response data:", data);
-        
-        if (data.name && data.name.status === 'success') {
-            alert('Success! Name record inserted successfully.');
-        } else {
-            const errorMsg = data.name ? data.name.message : 
-                             (data.message || 'An error occurred while adding name information.');
-            alert('Error: ' + errorMsg);
-        }
-    })
-    .catch(error => {
-        console.error('Fetch error:', error);
-        alert('Error: An error occurred while processing your request.');
-    });
 }
 
 
