@@ -26,8 +26,21 @@ document.getElementById("login-form").addEventListener("submit", function(event)
     }
 });
 
+document.getElementById('profile-picture').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const previewImage = document.getElementById('preview-image');
+            previewImage.src = e.target.result;
+            previewImage.style.display = 'block';
+        }
+        reader.readAsDataURL(file);
+    }
+});
+
 // Register Form Validation
-document.getElementById("register-form").addEventListener("submit", function(event) {
+document.getElementById("register-form").addEventListener("submit", async function(event) {
     event.preventDefault();
     const firstname = document.getElementById("firstname").value;
     const lastname = document.getElementById("lastname").value;
@@ -44,14 +57,31 @@ document.getElementById("register-form").addEventListener("submit", function(eve
     const UID = 1;
     const User = document.getElementById("Username-register").value;
     const Pass = document.getElementById("password-register").value;
-    const Profile = null;
+    const profileInput = document.getElementById('profile-picture');
+    let Profile = null;
 
-    const gender = document.getElementById("gender").value;
-    const phone = document.getElementById("phone").value;
+if (profileInput.files.length > 0) {
+    // Use FileReader to convert the file to Base64
+    const reader = new FileReader();
+    reader.readAsDataURL(profileInput.files[0]);
+    
+    // You need to wait for the FileReader to finish reading
+    Profile = await new Promise((resolve) => {
+        reader.onload = () => {
+            // Get only the Base64 data part (remove the data:image/xxx;base64, prefix)
+            const base64Data = reader.result.split(',')[1];
+            
+            resolve(base64Data);
+        };
+    });
+}
+
 
     IDS(firstname, lastname, middlename, sfx, HN, LN, STR, BRGY, CTY, PROV,SID,UID,User,Pass,Email,Profile);
 
 });
+
+
 
 function Login(US,PA){
     fetch('patient_login.php', {
@@ -200,8 +230,6 @@ function AddName(First, Last, Middle, Suffix) {
         console.log("Full response data:", data);
         
         if (data.name && data.name.status === 'success') {
-            alert('Success! Name record inserted successfully.');
-            // Return the nameID from the successful response
             return data.name.nameID;
         } else {
             const errorMsg = data.name ? data.name.message : 
@@ -241,8 +269,6 @@ function AddAddress(H,L,S,B,C,P){
         console.log("Full response data:", data);
         
         if (data.Address && data.Address.status === 'success') {
-            alert('Success! Address record inserted successfully.');
-            // Return the nameID from the successful response
             return data.Address.AddressID;
         } else {
             const errorMsg = data.Address ? data.Address.message : 
@@ -256,12 +282,12 @@ function AddAddress(H,L,S,B,C,P){
         alert('Error: An error occurred while processing your request.');
     });
 }
-//$data['SID'], $data['UID'], $data['User'], $data['Pass'],$data['Email'],$data['Profile']
+
 //Add the Account to the Database
-function AddAccount(SID,UID,User,Pass,Email,Profile){
+function AddAccount(SID, UID, User, Pass, Email, Profile) {
     return fetch('patient_login.php', {
         method: 'POST',
-        headers:{
+        headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
@@ -280,12 +306,11 @@ function AddAccount(SID,UID,User,Pass,Email,Profile){
     .then(data => {
         console.log("Full response data:", data);    
         if (data.account && data.account.status === 'success') {
-            alert('Success! Address record inserted successfully.');
-            return data.account.accountID;
+            return data.account.accountID; // Match the field name from PHP
         } else {
             const errorMsg = data.account ? data.account.message : 
                              (data.message || 'An error occurred while adding Account information.');
-            alert('Errorr: ' + errorMsg);
+            alert('Error: ' + errorMsg); // Fixed typo: 'Errorr' → 'Error'
             throw new Error(errorMsg);
         }
     })
@@ -293,25 +318,58 @@ function AddAccount(SID,UID,User,Pass,Email,Profile){
         console.error('Fetch error:', error);
         alert('Error: An error occurred while processing your request.');
     });
-
 }
-
 //Get the ID Values
 async function IDS(firstname, lastname, middlename, sfx, HN, LN, STR, BRGY, CTY, PROV, SID,UID,User,Pass,Email,Profile) {
+
+    const gender = document.getElementById("gender").value;
+    const Contact = document.getElementById("phone").value;
+    const age = document.getElementById("age").value;
+    const DOB = document.getElementById("dob").value;
+    const Facebook = " ";
+
     try {
         const NameIDs = await AddName(firstname, lastname, middlename, sfx);
-        alert("Name ID: " + NameIDs);
 
         const AddressIDs = await AddAddress(HN, LN, STR, BRGY, CTY, PROV);
-        alert("Address ID: " + AddressIDs);
 
         const AccountID = await AddAccount(SID,UID,User,Pass,Email,Profile);
-        alert("Account ID: " + AccountID);
+
+        AddPatient(NameIDs,AddressIDs,AccountID,gender,DOB,age,Facebook,Contact);
 
     } catch (error) {
         console.error("Error during IDS function:", error);
     }
 }
 
+function AddPatient(NameIDs,AddressIDs,AccountID,gender,DOB,age,Facebook,Contact){
+    fetch('patient_login.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            NID : NameIDs, 
+            AddID : AddressIDs, 
+            ACCID : AccountID, 
+            Gen : gender, 
+            DOB : DOB, 
+            Age : age,
+            FB : Facebook,
+            CN : Contact
+        })
+    })
+    .then(response => {
+        console.log("Response status:", response.status);
+        return response.json();
+    })
+    .then(data => {
+        console.log("Full response data:", data);
+    })
+    .catch(error => {
+        console.error('Fetch error:', error);
+        alert('Error: An error occurred while processing your request.');
+    });
+}
 
 Address();
