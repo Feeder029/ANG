@@ -8,6 +8,8 @@
 </head>
 <body>
     <div class="form-container">
+
+        
         <!-- Login Form -->
         <div class="form-box" id="login-box">
             <h2>Login</h2>
@@ -30,7 +32,15 @@
         <!-- Register Form -->
         <div class="form-box" id="register-box" style="display: none;">
             <h2>Register</h2>
-            <form id="register-form">
+            <form id="register-form" enctype="multipart/form-data">
+                <div class="input-group profile-picture-group">
+                    <label for="profile-picture">Profile Picture:</label>
+                    <input type="file" id="profile-picture" name="profile-picture" accept="image/*">
+                    <div id="profile-preview" class="profile-preview">
+                        <img id="preview-image" src="#" alt="Preview" style="display: none; max-width: 100%; max-height: 150px;">
+                    </div>
+                </div>
+
                 <div class="input-group">
                     <label for="firstname">First Name:</label>
                     <input type="text" id="firstname" name="firstname" required>
@@ -114,18 +124,18 @@
                     <input type="tel" id="phone" name="phone" required>
                 </div>
                 <div class="input-group">
-                    <label for="Username">Username:</label>
-                    <input type="text" id="firstname" name="firstname" required>
+                    <label for="Username-register">Username:</label>
+                    <input type="text" id="Username-register" name="Username-register" required>
                 </div>
 
                 <div class="input-group">
-                    <label for="firstname">password:</label>
-                    <input type="password" id="password" name="password" required>
+                    <label for="password-register">password:</label>
+                    <input type="password" id="password-register" name="password-register" required>
                 </div>
                 
                 <div class="input-group">
-                    <label for="confirm">Confirm password:</label>
-                    <input type="password" id="confirm" name="confirm" required>
+                    <label for="confirm-register">Confirm password:</label>
+                    <input type="password" id="confirm-register" name="confirm-register" required>
                 </div>
                 <div class="form-footer">
                     <button type="submit" id="register-btn">Register</button>

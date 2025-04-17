@@ -67,14 +67,10 @@ if (isset($data['USEREMAIL'], $data['PASS'])) {
             ]);
             exit;
         }
-    } else {
-        echo json_encode([
-            "status" => "error",
-            "message" => "Missing required fields: USEREMAIL and PASS"
-        ]);
-        exit;
-    }
+    } 
+
     
+
 // ✅ NAME INSERT HANDLER
 if (isset($data['FN'], $data['LN'], $data['MN'], $data['SFX'])) {
     $First = $conn->real_escape_string($data['FN']);
@@ -105,7 +101,7 @@ if (isset($data['FN'], $data['LN'], $data['MN'], $data['SFX'])) {
     }
 }
     
-    // ✅ ADDRESS INSERT HANDLER
+// ✅ ADDRESS INSERT HANDLER
 if (isset($data['HNo'], $data['LNo'], $data['Str'], $data['Brgy'], $data['Cit'], $data['Prov'])) {
             $House = $conn->real_escape_string($data['HNo']);
             $Lot = $conn->real_escape_string($data['LNo']);
@@ -145,6 +141,42 @@ if (isset($data['HNo'], $data['LNo'], $data['Str'], $data['Brgy'], $data['Cit'],
 
     echo json_encode($response);
 }
+
+// ✅ ACCOUNT INSERT HANDLER
+if (isset($data['SID'], $data['UID'], $data['User'], $data['Pass'],$data['Email'],$data['Profile'])){
+    $sid = $data['SID'];
+    $uid = $data['UID'];
+    $username = $data['User'];
+    $password = $data['Pass'];
+    $email = $data['Email'];
+    $profile = isset($data['Profile']) ? $data['Profile'] : null;
+
+
+    $stmt = $conn->prepare("INSERT INTO account (`StatusID`, `UserTypeID`, `ACC_Username`, `ACC_Password`, `ACC_Email`, `ACC_Profile`)
+    VALUES (?, ?, ?, ?, ?, ?)");
+    
+    if ($stmt) {
+        $stmt->bind_param("iissss",$sid, $uid, $username, $password, $email, $profile);
+
+        if ($stmt->execute()) {
+            $accountID = $conn->insert_id;
+            $response['account'] = [
+                'status' => 'success', 
+                'message' => 'Account record inserted successfully',
+                'AddressID' => $accountID
+            ];    
+        } else {
+            $response['account'] = ['status' => 'error', 'message' => 'Failed to insert name record: ' . $stmt->error];
+        }
+        $stmt->close();   
+    } else {
+        $response['account'] = ['status' => 'error', 'message' => 'Failed to prepare the SQL query: ' . $conn->error];
+    }
+    echo json_encode($response);
+}
+
+
+    
 
 $conn->close();
 ?>

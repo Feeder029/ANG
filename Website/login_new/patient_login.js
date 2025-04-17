@@ -39,12 +39,17 @@ document.getElementById("register-form").addEventListener("submit", function(eve
     const BRGY = document.getElementById("barangay").value;
     const CTY = document.getElementById("city").value;
     const PROV = document.getElementById("province").value;
+    const Email = document.getElementById("register-email").value;
+    const SID = 5;
+    const UID = 1;
+    const User = document.getElementById("Username-register").value;
+    const Pass = document.getElementById("password-register").value;
+    const Profile = null;
 
     const gender = document.getElementById("gender").value;
-    const email = document.getElementById("register-email").value;
     const phone = document.getElementById("phone").value;
 
-    IDS(firstname, lastname, middlename, sfx, HN, LN, STR, BRGY, CTY, PROV);
+    IDS(firstname, lastname, middlename, sfx, HN, LN, STR, BRGY, CTY, PROV,SID,UID,User,Pass,Email,Profile);
 
 });
 
@@ -251,15 +256,58 @@ function AddAddress(H,L,S,B,C,P){
         alert('Error: An error occurred while processing your request.');
     });
 }
+//$data['SID'], $data['UID'], $data['User'], $data['Pass'],$data['Email'],$data['Profile']
+//Add the Account to the Database
+function AddAccount(SID,UID,User,Pass,Email,Profile){
+    return fetch('patient_login.php', {
+        method: 'POST',
+        headers:{
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            SID: SID,
+            UID: UID,
+            User: User,
+            Pass: Pass,
+            Email: Email,
+            Profile: Profile
+        })
+    })
+    .then(response => {
+        console.log("Response status:", response.status);
+        return response.json();
+    })
+    .then(data => {
+        console.log("Full response data:", data);    
+        if (data.account && data.account.status === 'success') {
+            alert('Success! Address record inserted successfully.');
+            return data.account.accountID;
+        } else {
+            const errorMsg = data.account ? data.account.message : 
+                             (data.message || 'An error occurred while adding Account information.');
+            alert('Errorr: ' + errorMsg);
+            throw new Error(errorMsg);
+        }
+    })
+    .catch(error => {
+        console.error('Fetch error:', error);
+        alert('Error: An error occurred while processing your request.');
+    });
+
+}
 
 //Get the ID Values
-async function IDS(firstname, lastname, middlename, sfx, HN, LN, STR, BRGY, CTY, PROV) {
+async function IDS(firstname, lastname, middlename, sfx, HN, LN, STR, BRGY, CTY, PROV, SID,UID,User,Pass,Email,Profile) {
     try {
         const NameIDs = await AddName(firstname, lastname, middlename, sfx);
         alert("Name ID: " + NameIDs);
 
         const AddressIDs = await AddAddress(HN, LN, STR, BRGY, CTY, PROV);
         alert("Address ID: " + AddressIDs);
+
+        const AccountID = await AddAccount(SID,UID,User,Pass,Email,Profile);
+        alert("Account ID: " + AccountID);
+
     } catch (error) {
         console.error("Error during IDS function:", error);
     }
