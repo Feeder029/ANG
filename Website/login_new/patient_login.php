@@ -41,16 +41,38 @@ if (isset($data['USEREMAIL'], $data['PASS'])) {
                         "AccID" => $row["AccountID"]
                     ];
 
-                    $response['login'] = ["status" => "success", "Acc" => $Account];
+                    echo json_encode([
+                        "status" => "success",
+                        "Acc" => $Account
+                    ]);
+                    exit; // Stop further execution
                 } else {
-                    $response['login'] = ["status" => "error", "message" => "Invalid credentials or inactive account."];
+                    echo json_encode([
+                        "status" => "error",
+                        "message" => "Invalid credentials or inactive account."
+                    ]);
+                    exit;
                 }
             } else {
-                $response['login'] = ["status" => "error", "message" => "Query execution failed: " . $stmt->error];
+                echo json_encode([
+                    "status" => "error",
+                    "message" => "Query execution failed: " . $stmt->error
+                ]);
+                exit;
             }
         } else {
-            $response['login'] = ["status" => "error", "message" => "Query preparation failed: " . $conn->error];
+            echo json_encode([
+                "status" => "error",
+                "message" => "Query preparation failed: " . $conn->error
+            ]);
+            exit;
         }
+    } else {
+        echo json_encode([
+            "status" => "error",
+            "message" => "Missing required fields: USEREMAIL and PASS"
+        ]);
+        exit;
     }
     
 // ✅ NAME INSERT HANDLER
