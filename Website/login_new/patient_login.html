@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login & Registration Form</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="patient_login.css">
 </head>
 <body>
@@ -79,7 +80,7 @@
                 </div>
                 <div class="input-group">
                     <label for="house">House No:</label>
-                    <input type="text" id="house" name="house" required>
+                    <input type="text" id="house" name="house">
                 </div>
                 <div class="input-group">
                     <label for="lot">Lot No:</label>
@@ -131,25 +132,26 @@
                 <div class="input-group">
                     <label for="password-register">password:</label>
                     <input type="password" id="password-register" name="password-register" required>
+                    <h5 id="passmessage"></h5>
                 </div>
                 
                 <div class="input-group">
                     <label for="confirm-register">Confirm password:</label>
                     <input type="password" id="confirm-register" name="confirm-register" required>
+                    <h5 id="confirmmessage"></h5>
                 </div>
                 <div class="form-footer">
                     <button type="submit" id="register-btn">Register</button>
                     <p>Already have an account? <span id="show-login">Login here</span></p>
                 </div>
 
-                
             </form>
         </div>
     </div>
 
 
 
-    <script type="module" src="patient_login.js?v=1.4.4"></script>
+    <script type="module" src="patient_login.js?v=1.4.7"></script>
 
 </body>
 </html>

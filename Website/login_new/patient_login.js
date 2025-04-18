@@ -1,31 +1,52 @@
-import { SetCookie } from '../../Cookies/cookies.js';
-import { GetCookie } from '../../Cookies/cookies.js';
+// Import cookie functions
+import { SetCookie, GetCookie } from '../../Cookies/cookies.js';
 
-console.log(navigator.cookieEnabled);
+// Debug: Check if cookies are enabled
+console.log('Cookies enabled:', navigator.cookieEnabled);
+
+let PasswordMatch = false;
+let PasswordFormat = false;
 
 
-document.getElementById("show-register").addEventListener("click", function() {
+/**
+ * DOM EVENT LISTENERS
+ * Handle UI toggling between login and registration forms
+ */
+document.getElementById("show-register").addEventListener("click", () => {
     document.getElementById("login-box").style.display = "none";
     document.getElementById("register-box").style.display = "block";
 });
 
-document.getElementById("show-login").addEventListener("click", function() {
+document.getElementById("show-login").addEventListener("click", () => {
     document.getElementById("register-box").style.display = "none";
     document.getElementById("login-box").style.display = "block";
 });
 
-// Login Form Validation
+/**
+ * LOGIN FORM HANDLING
+ * Validates and processes login form submission
+ */
 document.getElementById("login-form").addEventListener("submit", function(event) {
     event.preventDefault();
     const email = document.getElementById("login-email").value;
     const password = document.getElementById("login-password").value;
-    if (email === "" || password === "") {
-        alert("Please fill in all fields.");
-    } else {
-        Login(email,password);
+    
+    if (!email || !password) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Validation Error',
+            text: 'Please fill in all fields.'
+        });
+        return;
     }
+    
+    Login(email, password);
 });
 
+/**
+ * PROFILE PICTURE PREVIEW
+ * Handles image upload and preview functionality
+ */
 document.getElementById('profile-picture').addEventListener('change', function(e) {
     const file = e.target.files[0];
     if (file) {
@@ -39,85 +60,172 @@ document.getElementById('profile-picture').addEventListener('change', function(e
     }
 });
 
-// Register Form Validation
+/**
+ * REGISTRATION FORM HANDLING
+ * Validates and processes registration form submission
+ */
 document.getElementById("register-form").addEventListener("submit", async function(event) {
     event.preventDefault();
-    const firstname = document.getElementById("firstname").value;
-    const lastname = document.getElementById("lastname").value;
-    const middlename = document.getElementById("middlename").value;
-    const sfx = document.getElementById("suffix").value;
-    const HN = document.getElementById("house").value;
-    const LN = document.getElementById("lot").value;
-    const STR = document.getElementById("street").value;
-    const BRGY = document.getElementById("barangay").value;
-    const CTY = document.getElementById("city").value;
-    const PROV = document.getElementById("province").value;
-    const Email = document.getElementById("register-email").value;
-    const SID = 5;
-    const UID = 1;
-    const User = document.getElementById("Username-register").value;
-    const Pass = document.getElementById("password-register").value;
-    const ConfirmPass = document.getElementById("confirm-register").value;
- 
-    const profileInput = document.getElementById('profile-picture');
+    
+    // Collect form data
+    const formData = {
+        firstname: document.getElementById("firstname").value,
+        lastname: document.getElementById("lastname").value,
+        middlename: document.getElementById("middlename").value,
+        sfx: document.getElementById("suffix").value,
+        HN: document.getElementById("house").value,
+        LN: document.getElementById("lot").value,
+        STR: document.getElementById("street").value,
+        BRGY: document.getElementById("barangay").value,
+        CTY: document.getElementById("city").value,
+        PROV: document.getElementById("province").value,
+        Email: document.getElementById("register-email").value,
+        SID: 5,
+        UID: 1,
+        User: document.getElementById("Username-register").value,
+        Pass: document.getElementById("password-register").value,
+        ConfirmPass: document.getElementById("confirm-register").value
+    };
+    
+    // Validate passwords match
+    if (PasswordMatch == false || PasswordFormat == false) {
+        return;
+    }
+    
+    // Handle profile picture upload
     let Profile = null;
-
-    if(Pass==ConfirmPass){
+    const profileInput = document.getElementById('profile-picture');
+    
+    try {
         if (profileInput.files.length > 0) {
-            // Use FileReader to convert the file to Base64
-            const reader = new FileReader();
-            reader.readAsDataURL(profileInput.files[0]);
-            
-            // You need to wait for the FileReader to finish reading
-            Profile = await new Promise((resolve) => {
-                reader.onload = () => {
-                    // Get only the Base64 data part (remove the data:image/xxx;base64, prefix)
-                    const base64Data = reader.result.split(',')[1];
-                    
-                    resolve(base64Data);
-                };
+            // Convert file to Base64
+            Profile = await new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(profileInput.files[0]);
+                reader.onload = () => resolve(reader.result.split(',')[1]);
+                reader.onerror = error => reject(error);
             });
-            }
-            IDS(firstname, lastname, middlename, sfx, HN, LN, STR, BRGY, CTY, PROV,SID,UID,User,Pass,Email,Profile);
+        }
         
-    } else {
-        alert("Password Don't Match!");
+        // Process registration
+        await IDS(
+            formData.firstname, formData.lastname, formData.middlename, formData.sfx,
+            formData.HN, formData.LN, formData.STR, formData.BRGY, formData.CTY, formData.PROV,
+            formData.SID, formData.UID, formData.User, formData.Pass, formData.Email, Profile
+        );
+
+    } catch (error) {
+        console.error('Registration error:', error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Registration Failed',
+            text: error.message || 'An error occurred during registration.'
+        });
     }
 });
 
+/**
+ * STRONG PASSWORD CHECK
+ * Check if the Password matches with the rules
+*/
+document.getElementById('password-register').addEventListener('input', function() {
+
+    const password = this.value;
+    const Message = document.getElementById('passmessage');
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
 
 
-function Login(US,PA){
+    if(password.length < 8){
+        Message.textContent = "Passwords must be at least 8 characters long";
+        PasswordFormat = false;       
+    } else if (!passwordRegex.test(password)) {
+        Message.textContent = "Password must include at least one uppercase letter, one lowercase letter, and one number.";
+        PasswordFormat = false;
+    } else {
+        Message.textContent = "";
+        PasswordFormat = true;
+    }
+});
+
+/**
+ * CONFIRM PASSWORD CHECK
+ * Check if the Password matches with the confirm password
+*/
+document.getElementById('confirm-register').addEventListener('input', function() {
+    const Cpassword = this.value;
+    const Opassword = document.getElementById("password-register").value;
+    const Message = document.getElementById('confirmmessage');
+
+    if(Cpassword !== Opassword){
+        Message.textContent = "Password and Confirm Password dont match";
+        PasswordMatch = false;
+    } else {
+        Message.textContent = "";
+        PasswordMatch = true;
+    }
+});
+
+/**
+ * LOGIN FUNCTION
+ * Sends login credentials to server and handles response
+ * @param {string} US - Username or email
+ * @param {string} PA - Password
+ */
+function Login(US, PA) {
     fetch('patient_login.php', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            USEREMAIL: US,
-            PASS: PA
-        })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ USEREMAIL: US, PASS: PA })
     })
-    .then(res => res.json())
+    .then(res => {
+        if (!res.ok) throw new Error(`Server error: ${res.status}`);
+        return res.json();
+    })
     .then(data => {
         if (data.status === 'success') {
             console.log('Welcome:', data.Acc.Username);
-            window.location.href = '../../ANG CLIENT 1.2/clientIndex/index.html';  // This will navigate to a new URL
-            SetCookie("ACCID",6,data.Acc.AccID);
-            console.log(GetCookie("ACCID"));
+            SetCookie("ACCID", 6, data.Acc.AccID);
+            window.location.href = '../../ANG CLIENT 1.2/clientIndex/index.html';
         } else {
-            console.error('Login failed:', data.message);
-            alert("Incorrect Password or Email");
+            throw new Error(data.message || 'Login failed');
         }
+    })
+    .catch(error => {
+        console.error('Login error:', error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Login Failed',
+            text: 'Incorrect Password or Email'
+        });
     });
 }
 
-// For Address Dropdown Values
+/**
+ * ADDRESS DROPDOWN POPULATION
+ * Handles dynamic population of location dropdowns
+ */
 function Address() {
-    let MunDataGlobal = []; // To store municipality data for later use
-    let BarangayDataGlobal = []; // To store barangay data for later use
-
-    //Fetch all of the JSON values
+    // Global storage for location data
+    let MunDataGlobal = [];
+    let BarangayDataGlobal = [];
+    
+    const ProvinceSelect = document.getElementById("province");
+    const CitySelect = document.getElementById("city");
+    const BarangaySelect = document.getElementById("barangay");
+    
+    // Initialize dropdowns
+    const initDropdowns = () => {
+        ProvinceSelect.innerHTML = '<option value="">Select a Province</option>';
+        CitySelect.innerHTML = '<option value="">Select a City</option>';
+        BarangaySelect.innerHTML = '<option value="">Select a Barangay</option>';
+        
+        CitySelect.disabled = true;
+        BarangaySelect.disabled = true;
+    };
+    
+    initDropdowns();
+    
+    // Fetch all JSON address data
     Promise.all([
         fetch('../../Extensions/JSON_ADDRESS/table_region.json').then(res => res.json()),
         fetch('../../Extensions/JSON_ADDRESS/table_province.json').then(res => res.json()),
@@ -125,175 +233,166 @@ function Address() {
         fetch('../../Extensions/JSON_ADDRESS/table_barangay.json').then(res => res.json())
     ])
     .then(([regionData, ProvinceData, MunData, BarangayData]) => {
-        const ProvinceSelect = document.getElementById("province"); 
-        const CitySelect = document.getElementById("city"); 
-        const BarangaySelect = document.getElementById("barangay"); 
-
-        // Save municipality and barangay data globally for later use
+        // Store data globally
         MunDataGlobal = MunData;
         BarangayDataGlobal = BarangayData;
-
-        ProvinceSelect.innerHTML = '<option value="">Select a Province</option>';
-        CitySelect.innerHTML = '<option value="">Select a City</option>';
-        BarangaySelect.innerHTML = '<option value="">Select a Barangay</option>';
-
-        CitySelect.disabled = true;
-        BarangaySelect.disabled = true;
-
-        // Populate provinces
+        
+        // Populate provinces (region_id 5)
         ProvinceData.forEach(province => {
             if (province.province_name && province.region_id == 5) {
                 const option = document.createElement("option");
-                option.value = province.province_name; // Use province_name as value
+                option.value = province.province_name;
                 option.textContent = province.province_name;
-                option.dataset.provinceId = province.province_id; // Store ID as data attribute
+                option.dataset.provinceId = province.province_id;
                 ProvinceSelect.appendChild(option);
             }
         });
-
-        // Event: When Province changes, populate cities
-        ProvinceSelect.addEventListener("change", function () {
+        
+        // Province change handler
+        ProvinceSelect.addEventListener("change", function() {
             const selectedProvinceName = this.value;
             const selectedProvinceOption = Array.from(this.options).find(option => option.value === selectedProvinceName);
             const selectedProvinceId = selectedProvinceOption ? selectedProvinceOption.dataset.provinceId : null;
             
+            // Reset dependent dropdowns
             CitySelect.innerHTML = '<option value="">Select a City</option>';
             BarangaySelect.innerHTML = '<option value="">Select a Barangay</option>';
-            CitySelect.disabled = true;
+            CitySelect.disabled = !selectedProvinceId;
             BarangaySelect.disabled = true;
-
+            
             if (selectedProvinceId) {
+                // Populate cities based on selected province
                 const filteredCities = MunDataGlobal.filter(city => city.province_id == selectedProvinceId);
                 filteredCities.forEach(city => {
                     const option = document.createElement("option");
-                    option.value = city.municipality_name; // Use municipality_name as value
+                    option.value = city.municipality_name;
                     option.textContent = city.municipality_name;
-                    option.dataset.municipalityId = city.municipality_id; // Store ID as data attribute
+                    option.dataset.municipalityId = city.municipality_id;
                     CitySelect.appendChild(option);
                 });
-
-                CitySelect.disabled = false;
             }
         });
-
-        // Event: When City changes, populate barangays
-        CitySelect.addEventListener("change", function(){
+        
+        // City change handler
+        CitySelect.addEventListener("change", function() {
             const selectedCityName = this.value;
             const selectedCityOption = Array.from(this.options).find(option => option.value === selectedCityName);
             const selectedCityId = selectedCityOption ? selectedCityOption.dataset.municipalityId : null;
             
+            // Reset barangay dropdown
             BarangaySelect.innerHTML = '<option value="">Select a Barangay</option>';
-            BarangaySelect.disabled = true;
-
+            BarangaySelect.disabled = !selectedCityId;
+            
             if (selectedCityId) {
+                // Populate barangays based on selected city
                 const filteredBarangays = BarangayDataGlobal.filter(barangay => barangay.municipality_id == selectedCityId);
                 filteredBarangays.forEach(barangay => {
                     const option = document.createElement("option");
-                    option.value = barangay.barangay_name; // Use barangay_name as value
+                    option.value = barangay.barangay_name;
                     option.textContent = barangay.barangay_name;
-                    option.dataset.barangayId = barangay.barangay_id; // Store ID as data attribute
+                    option.dataset.barangayId = barangay.barangay_id;
                     BarangaySelect.appendChild(option);
                 });
-
-                BarangaySelect.disabled = false;
             }
         });
     })
-    .catch(error => console.error('Error fetching address data:', error));
+    .catch(error => {
+        console.error('Error fetching address data:', error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Data Loading Error',
+            text: 'Unable to load address information. Please refresh the page.'
+        });
+    });
 }
 
-//Add the Name to the Database
+/**
+ * ADD NAME TO DATABASE
+ * @param {string} First - First name
+ * @param {string} Last - Last name
+ * @param {string} Middle - Middle name (optional)
+ * @param {string} Suffix - Name suffix (optional)
+ * @returns {Promise} - Promise resolving to name ID
+ */
 function AddName(First, Last, Middle, Suffix) {
-    // Ensure all values exist and are not empty
+    // Validate required fields
     if (!First || !Last) {
-        alert("Error: First name and last name are required");
-        return;
+        throw new Error("First name and last name are required");
     }
-    
-    // Use empty string for optional fields if they're undefined
-    const middleName = Middle || "";
-    const suffix = Suffix || "";
     
     return fetch('patient_login.php', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             FN: First,
             LN: Last,
-            MN: middleName,
-            SFX: suffix
+            MN: Middle || "",
+            SFX: Suffix || ""
         })
     })
     .then(response => {
-        console.log("Response status:", response.status);
+        if (!response.ok) throw new Error(`Server error: ${response.status}`);
         return response.json();
     })
     .then(data => {
-        console.log("Full response data:", data);
-        
         if (data.name && data.name.status === 'success') {
             return data.name.nameID;
         } else {
-            const errorMsg = data.name ? data.name.message : 
-                             (data.message || 'An error occurred while adding name information.');
-            alert('Error: ' + errorMsg);
-            throw new Error(errorMsg);
+            throw new Error(data.name?.message || 'Error adding name information');
         }
-    })
-    .catch(error => {
-        console.error('Fetch error:', error);
-        alert('Error: An error occurred while processing your request.');
-        throw error;
     });
 }
 
-//Add the Address to the Database
-function AddAddress(H,L,S,B,C,P){
+/**
+ * ADD ADDRESS TO DATABASE
+ * @param {string} H - House number
+ * @param {string} L - Lot number
+ * @param {string} S - Street
+ * @param {string} B - Barangay
+ * @param {string} C - City
+ * @param {string} P - Province
+ * @returns {Promise} - Promise resolving to address ID
+ */
+function AddAddress(H, L, S, B, C, P) {
     return fetch('patient_login.php', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            HNo : H, 
-            LNo : L, 
-            Str : S, 
-            Brgy : B, 
-            Cit : C, 
-            Prov : P
+            HNo: H, 
+            LNo: L, 
+            Str: S, 
+            Brgy: B, 
+            Cit: C, 
+            Prov: P
         })
     })
     .then(response => {
-        console.log("Response status:", response.status);
+        if (!response.ok) throw new Error(`Server error: ${response.status}`);
         return response.json();
     })
     .then(data => {
-        console.log("Full response data:", data);
-        
         if (data.Address && data.Address.status === 'success') {
             return data.Address.AddressID;
         } else {
-            const errorMsg = data.Address ? data.Address.message : 
-                             (data.message || 'An error occurred while adding Address information.');
-            alert('Error: ' + errorMsg);
-            throw new Error(errorMsg);
+            throw new Error(data.Address?.message || 'Error adding address information');
         }
-    })
-    .catch(error => {
-        console.error('Fetch error:', error);
-        alert('Error: An error occurred while processing your request.');
     });
 }
 
-//Add the Account to the Database
+/**
+ * ADD ACCOUNT TO DATABASE
+ * @param {number} SID - Status ID
+ * @param {number} UID - User type ID
+ * @param {string} User - Username
+ * @param {string} Pass - Password
+ * @param {string} Email - Email address
+ * @param {string} Profile - Base64 encoded profile picture
+ * @returns {Promise} - Promise resolving to account ID
+ */
 function AddAccount(SID, UID, User, Pass, Email, Profile) {
     return fetch('patient_login.php', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             SID: SID,
             UID: UID,
@@ -304,77 +403,105 @@ function AddAccount(SID, UID, User, Pass, Email, Profile) {
         })
     })
     .then(response => {
-        console.log("Response status:", response.status);
+        if (!response.ok) throw new Error(`Server error: ${response.status}`);
         return response.json();
     })
     .then(data => {
-        console.log("Full response data:", data);    
         if (data.account && data.account.status === 'success') {
-            return data.account.accountID; // Match the field name from PHP
+            return data.account.accountID;
         } else {
-            const errorMsg = data.account ? data.account.message : 
-                             (data.message || 'An error occurred while adding Account information.');
-            alert('Error: ' + errorMsg); // Fixed typo: 'Errorr' → 'Error'
-            throw new Error(errorMsg);
+            throw new Error(data.account?.message || 'Error adding account information');
         }
-    })
-    .catch(error => {
-        console.error('Fetch error:', error);
-        alert('Error: An error occurred while processing your request.');
     });
 }
-//Get the ID Values
-async function IDS(firstname, lastname, middlename, sfx, HN, LN, STR, BRGY, CTY, PROV, SID,UID,User,Pass,Email,Profile) {
 
-    const gender = document.getElementById("gender").value;
-    const Contact = document.getElementById("phone").value;
-    const age = document.getElementById("age").value;
-    const DOB = document.getElementById("dob").value;
-    const Facebook = " ";
+/**
+ * MAIN REGISTRATION PROCESS
+ * Coordinates all registration steps
+ * @param {...any} args - Registration form data
+ */
+async function IDS(firstname, lastname, middlename, sfx, HN, LN, STR, BRGY, CTY, PROV, SID, UID, User, Pass, Email, Profile) {
+    // Get additional patient details
+    const additionalData = {
+        gender: document.getElementById("gender").value,
+        Contact: document.getElementById("phone").value,
+        age: document.getElementById("age").value,
+        DOB: document.getElementById("dob").value,
+        Facebook: " " // Default empty Facebook value
+    };
 
     try {
+        // Sequential processing of dependent operations
         const NameIDs = await AddName(firstname, lastname, middlename, sfx);
-
         const AddressIDs = await AddAddress(HN, LN, STR, BRGY, CTY, PROV);
-
-        const AccountID = await AddAccount(SID,UID,User,Pass,Email,Profile);
-
-        AddPatient(NameIDs,AddressIDs,AccountID,gender,DOB,age,Facebook,Contact);
+        const AccountID = await AddAccount(SID, UID, User, Pass, Email, Profile);
+        
+        // Add patient record with collected IDs
+        await AddPatient(
+            NameIDs, AddressIDs, AccountID,
+            additionalData.gender, additionalData.DOB, 
+            additionalData.age, additionalData.Facebook, additionalData.Contact
+        );
+        
+        // Show success message
+        Swal.fire({
+            icon: 'success',
+            title: 'Registration Successful',
+            text: 'Your account has been created. Please check your email to confirm your account.'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                location.reload(); // Reload only after OK is clicked
+            }
+        });        
 
     } catch (error) {
-        console.error("Error during IDS function:", error);
+        console.error("Registration process error:", error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Registration Failed',
+            text: error.message || 'An error occurred during registration.'
+        });
     }
 }
 
-function AddPatient(NameIDs,AddressIDs,AccountID,gender,DOB,age,Facebook,Contact){
-    fetch('patient_login.php', {
+/**
+ * ADD PATIENT TO DATABASE
+ * Creates patient record with collected information
+ * @param {number} NameIDs - Name ID
+ * @param {number} AddressIDs - Address ID
+ * @param {number} AccountID - Account ID
+ * @param {string} gender - Gender
+ * @param {string} DOB - Date of birth
+ * @param {number} age - Age
+ * @param {string} Facebook - Facebook profile URL
+ * @param {string} Contact - Contact number
+ */
+function AddPatient(NameIDs, AddressIDs, AccountID, gender, DOB, age, Facebook, Contact) {
+    return fetch('patient_login.php', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            NID : NameIDs, 
-            AddID : AddressIDs, 
-            ACCID : AccountID, 
-            Gen : gender, 
-            DOB : DOB, 
-            Age : age,
-            FB : Facebook,
-            CN : Contact
+            NID: NameIDs,
+            AddID: AddressIDs,
+            ACCID: AccountID,
+            Gen: gender,
+            DOB: DOB,
+            Age: age,
+            FB: Facebook,
+            CN: Contact
         })
     })
     .then(response => {
-        alert("Your account has been created. Please check your email to confirm your account.");
-        console.log("Response status:", response.status);
+        if (!response.ok) throw new Error(`Server error: ${response.status}`);
         return response.json();
     })
     .then(data => {
-        console.log("Full response data:", data);
-    })
-    .catch(error => {
-        console.error('Fetch error:', error);
-        alert('Error: An error occurred while processing your request.');
+        if (!data || data.error) {
+            throw new Error(data?.message || 'Error creating patient record');
+        }
+        return data;
     });
 }
 
+// Initialize address selection functionality
 Address();
