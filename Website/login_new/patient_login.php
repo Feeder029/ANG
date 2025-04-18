@@ -18,10 +18,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $UserOrEmail = $conn->real_escape_string($data['USEREMAIL']);
         $Password = $conn->real_escape_string($data['PASS']);
 
-        $stmt = $conn->prepare("SELECT * FROM account 
-            WHERE StatusID = 1 AND UserTypeID = 1  
-            AND ACC_Password = ?
-            AND (ACC_Username = ? OR ACC_Email = ?)
+        $stmt = $conn->prepare("SELECT * FROM account a
+        JOIN patient b ON a.AccountID = b.AccountID
+        WHERE StatusID = 1 AND UserTypeID = 1  
+        AND ACC_Password = ?
+        AND (ACC_Username = ? OR ACC_Email = ?)
         ");
 
         if ($stmt) {
@@ -38,7 +39,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         "Status" => $row["StatusID"],
                         "UserTypeID" => $row["UserTypeID"],
                         "Email" => $row["ACC_Email"],
-                        "AccID" => $row["AccountID"]
+                        "AccID" => $row["AccountID"],
+                        "PatID" => $row["PatientID"]
                     ];
 
                     echo json_encode([
@@ -216,6 +218,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     echo json_encode($response);
+} else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+
+    $Username = $conn->query("SELECT `ACC_Username` FROM `account`");
+
+    if(!$Username){
+        echo json_encode(['error' => "Error executing query: " . $conn->error]);
+    } else {
+        while ($row = $Username->fetch_assoc()) {
+            $User[] = [
+                "ACC" => $row['ACC_Username'],
+            ];
+        }
+        
+        // Output the services array for GET requests
+        echo json_encode($User);
+    }
+
 }
 
 $conn->close();

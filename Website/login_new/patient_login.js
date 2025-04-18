@@ -6,6 +6,7 @@ console.log('Cookies enabled:', navigator.cookieEnabled);
 
 let PasswordMatch = false;
 let PasswordFormat = false;
+let UsernameAvai = false;
 
 
 /**
@@ -184,7 +185,8 @@ function Login(US, PA) {
     .then(data => {
         if (data.status === 'success') {
             console.log('Welcome:', data.Acc.Username);
-            SetCookie("ACCID", 6, data.Acc.AccID);
+            SetCookie("ACCID", 24, data.Acc.AccID);
+            SetCookie("PatientID", 24, data.Acc.PatID);
             window.location.href = '../../ANG CLIENT 1.2/clientIndex/index.html';
         } else {
             throw new Error(data.message || 'Login failed');
@@ -199,6 +201,39 @@ function Login(US, PA) {
         });
     });
 }
+
+
+document.getElementById('Username-register').addEventListener('input', function () {
+    const Username = this.value;
+    const Message = document.getElementById('Usermessage');
+
+
+    fetch('patient_login.php')
+        .then(response => response.json())
+        .then(data => {
+            let found = false;
+            data.forEach(item => {
+                if (Username === item.ACC) {
+                    found = true;
+                    UsernameAvai = false;
+                    Message.textContent = "This Username is Not Available";
+                }
+            });
+
+            if (!found && Username !== '') {
+                UsernameAvai = true;    
+                Message.textContent = "";
+            }
+        });
+});
+
+
+
+
+
+
+
+
 
 /**
  * ADDRESS DROPDOWN POPULATION

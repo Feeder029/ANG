@@ -1,3 +1,5 @@
+import { GetCookie } from '../../Cookies/cookies.js';
+
 // Global variables
 let selectedDate = null;
 let selectedTime = null;
@@ -324,8 +326,10 @@ function bookAppointment() {
     }
     
     let formattedMilitaryTime = convertToMilitaryTime(selectedTime);
+    const PatientID = GetCookie('PatientID');
+    alert("PatientID");
    
-   AddAppointment(2,procedureID,DBDate,formattedMilitaryTime);
+   AddAppointment(PatientID,procedureID,DBDate,formattedMilitaryTime);
    
    // Mark the time slot as booked
    const dateKey = `${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${selectedDate.getDate()}`;

@@ -5,8 +5,10 @@ import { DeleteCookie } from '../../Cookies/cookies.js';
 function checkLoginStatus() {
     console.log("Checklog");
     const patientId = GetCookie('ACCID');
+    const PatientID = GetCookie('PatientID');
+
     if (patientId) {
-      console.log(`Patient ID ${patientId} is logged in`);
+      console.log(`Patient ID ${patientId} and ${PatientID} is logged in`);
     } else {
         window.location.href = '../../Website/login_new/patient_login.html';  // This will navigate to a new URL
     }
