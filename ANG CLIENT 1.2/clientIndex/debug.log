@@ -1,0 +1,33 @@
+Script executed at: 2025-04-18 15:44:14
+Database connected successfully
+Raw input: {"PatientID":"2"}
+Decoded data: Array
+(
+    [PatientID] => 2
+)
+
+Processing PatientID: 2
+Query executed, found rows: 1
+Success response sent
+Script executed at: 2025-04-18 15:44:36
+Database connected successfully
+Raw input: {"PatientID":"2"}
+Decoded data: Array
+(
+    [PatientID] => 2
+)
+
+Processing PatientID: 2
+Query executed, found rows: 1
+Success response sent
+Script executed at: 2025-04-18 16:09:21
+Database connected successfully
+Raw input: {"PatientID":"2"}
+Decoded data: Array
+(
+    [PatientID] => 2
+)
+
+Processing PatientID: 2
+Query executed, found rows: 1
+Success response sent

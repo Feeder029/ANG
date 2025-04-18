@@ -15,7 +15,7 @@ function checkLoginStatus() {
 
     // DeleteCookie('ACCID');
 }
-
+function Logout(){
 const logout = document.querySelectorAll(".Logout");
 
 logout.forEach(button => {
@@ -37,11 +37,10 @@ logout.forEach(button => {
         } });
     });
 });
-
-
-
-
+}
 document.addEventListener("DOMContentLoaded", function () {
+    const patientId = GetCookie('ACCID');
+
 
     console.log("Eventopen");
 
@@ -73,9 +72,59 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+    Profile();
     
 });
 
+function Profile(){
+const patientId = GetCookie('PatientID');
+    
+    fetch('index.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ PatientID: patientId })
+    })
+    .then(res => {
+        if (!res.ok) throw new Error(`Server error: ${res.status}`);
+        return res.json();
+    })
+    .then(data => {
+        let display = "";
 
-
-
+        if (data.status === 'success') {
+            // Create image source using the base64 data from the API
+            const imgSrc = data.Patient.Profile ? 
+                          `data:image/jpeg;base64,${data.Patient.Profile}` : 
+                          "../img/posa.jpg"; // Fallback to default image if no profile
+        
+            display += `
+            <img src="${imgSrc}" alt="Profile Image" id="profile-img">
+                <div class="profile-id">
+                    <h3 id="name">${data.Patient.Name}</h3>
+                    <p id="position">${data.Patient.Username}</p>
+                </div>
+                <details class="profile-dropdown">
+                <summary><i class='bx bx-chevron-down'></i></summary>
+                <div class="dropdown-content">
+                        <button>Profile</button>
+                        <button>Settings</button>
+                        <button class="Logout">Logout</button>
+                </div>
+            </details>`;
+        
+            document.getElementById('profiles').innerHTML = display; // Add to the HTML
+            
+            Logout();
+        
+            console.log('Welcome:'+data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Login error:', error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Something Went Wrong!',
+            text: ''
+        });
+    });
+}
