@@ -228,13 +228,6 @@ document.getElementById('Username-register').addEventListener('input', function 
 });
 
 
-
-
-
-
-
-
-
 /**
  * ADDRESS DROPDOWN POPULATION
  * Handles dynamic population of location dropdowns

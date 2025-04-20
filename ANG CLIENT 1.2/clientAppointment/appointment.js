@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
     ServiceDisplay();
     
     // Generate some random booked slots for demonstration
-    generateRandomBookedSlots();
+    // generateRandomBookedSlots();
     
     // checkLoginStatus();
 
@@ -75,8 +75,6 @@ function ServiceDisplay() {
     })
     .catch(error => console.error('Error fetching icon.json data:', error));
 }
-
-
   
 // Set up all event listeners
 function setupEventListeners() {
@@ -327,7 +325,6 @@ function bookAppointment() {
     
     let formattedMilitaryTime = convertToMilitaryTime(selectedTime);
     const PatientID = GetCookie('PatientID');
-    alert("PatientID");
    
    AddAppointment(PatientID,procedureID,DBDate,formattedMilitaryTime);
    
@@ -389,32 +386,32 @@ function resetSelections() {
     });
 }
 
-// Helper function to generate random booked slots for demonstration
-function generateRandomBookedSlots() {
-    const now = new Date();
-    // Convert to Philippines time (UTC+8)
-    const philippinesTime = new Date(now.getTime() + (8 * 60 * 60 * 1000));
+// // Helper function to generate random booked slots for demonstration
+// function generateRandomBookedSlots() {
+//     const now = new Date();
+//     // Convert to Philippines time (UTC+8)
+//     const philippinesTime = new Date(now.getTime() + (8 * 60 * 60 * 1000));
     
-    // Generate bookings for the next 10 days
-    for (let i = 0; i < 10; i++) {
-        const bookingDate = new Date(philippinesTime);
-        bookingDate.setDate(bookingDate.getDate() + i);
+//     // Generate bookings for the next 10 days
+//     for (let i = 0; i < 10; i++) {
+//         const bookingDate = new Date(philippinesTime);
+//         bookingDate.setDate(bookingDate.getDate() + i);
         
-        const dateKey = `${bookingDate.getFullYear()}-${bookingDate.getMonth() + 1}-${bookingDate.getDate()}`;
-        bookedSlots[dateKey] = [];
+//         const dateKey = `${bookingDate.getFullYear()}-${bookingDate.getMonth() + 1}-${bookingDate.getDate()}`;
+//         bookedSlots[dateKey] = [];
         
-        // Randomly book 1-3 slots per day
-        const numberOfBookings = Math.floor(Math.random() * 3) + 1;
-        const timeSlots = ['9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM'];
+//         // Randomly book 1-3 slots per day
+//         const numberOfBookings = Math.floor(Math.random() * 3) + 1;
+//         const timeSlots = ['9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM'];
         
-        for (let j = 0; j < numberOfBookings; j++) {
-            const randomIndex = Math.floor(Math.random() * timeSlots.length);
-            bookedSlots[dateKey].push(timeSlots[randomIndex]);
-            // Remove the booked slot to avoid duplicates
-            timeSlots.splice(randomIndex, 1);
-        }
-    }
-}
+//         for (let j = 0; j < numberOfBookings; j++) {
+//             const randomIndex = Math.floor(Math.random() * timeSlots.length);
+//             bookedSlots[dateKey].push(timeSlots[randomIndex]);
+//             // Remove the booked slot to avoid duplicates
+//             timeSlots.splice(randomIndex, 1);
+//         }
+//     }
+// }
 
 //Import Appointment to Database
 function AddAppointment(PID, SID, ACD, ACT) {
@@ -442,14 +439,18 @@ function AddAppointment(PID, SID, ACD, ACT) {
             console.log("Message:", data.appointment.message);
             
             if (data.appointment.status === 'success') {
-                Swal.fire({
-                    title: 'Success!',
-                    text: 'You have successfully made an Appointment!',
-                    icon: 'success',
-                    confirmButtonText: 'OK',
-                    confirmButtonColor: '#3085d6',
-                    backdrop: true
-                });
+                // Now we can also log the appointment ID
+                console.log("Appointment ID:", data.appointment.id);
+                AddServiceAppointment(data.appointment.id,SID);
+                
+                // Swal.fire({
+                //     title: 'Success!',
+                //     text: 'You have successfully made an Appointment!',
+                //     icon: 'success',
+                //     confirmButtonText: 'OK',
+                //     confirmButtonColor: '#3085d6',
+                //     backdrop: true
+                // });
             } else {
                 Swal.fire({
                     title: 'Error',
@@ -477,6 +478,69 @@ function AddAppointment(PID, SID, ACD, ACT) {
         });
     });
 }
+
+function AddServiceAppointment(AppointmentID,ServiceID){
+    fetch('appointment.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            AppointmentID: AppointmentID,
+            ServicesID: ServiceID
+        })
+    })
+    .then(response => {
+        console.log("Response status:", response.status);
+        return response.json();
+    })
+    .then(data => {
+        console.log("Full response data:", data);
+        if (data.AS) {
+            console.log("Appointment status:", data.AS.status);
+            console.log("Message:", data.AS.message);
+
+            if (data.AS.status === 'success') {
+                // Now we can also log the appointment ID
+                console.log("Appointment ID:", data.AS.id);
+                
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'You have successfully made an Appointment!',
+                    icon: 'success',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#3085d6',
+                    backdrop: true
+                });
+            } else {
+                Swal.fire({
+                    title: 'Error',
+                    text: data.AS.message,
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#d33'
+                });
+            }
+
+        } else {
+            console.log("Unexpected response format:", data);
+        }
+    })
+    .catch(error => {
+        console.error('Fetch error:', error);
+        Swal.fire({
+            title: 'Error',
+            text: "An error occurred while creating the appointment.",
+            icon: 'error',
+            position: 'top',
+            toast: true,
+            showConfirmButton: false,
+            timer: 3000
+        });
+    });
+}
+
+
 
 function generateAndSaveQRCode(name) {
 
