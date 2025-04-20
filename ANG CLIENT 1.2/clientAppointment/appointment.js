@@ -3,7 +3,7 @@ import { GetCookie } from '../../Cookies/cookies.js';
 // Global variables
 let selectedDate = null;
 let selectedTime = null;
-let selectedProcedure = null;
+let selectedServices = []; // Changed from selectedProcedure to an array of services
 let bookedSlots = {}; // Will store dates and their booked time slots
 
 // Initialize the application
@@ -42,34 +42,39 @@ function ServiceDisplay() {
                 display = `<h2>There are no current available services.<h2>`;
             } else {
 
-            data.forEach(item => {
-                let stat = i === 0 ? "active" : ""; // Check if it's the first item
 
-                // Find the corresponding icon for the procedure name
-                let matchingIcon = iconData.find(icon => icon.process.toLowerCase() === item.S_NAME.toLowerCase());
+                data.forEach(item => {
+                    // Find the corresponding icon for the procedure name
+                    let matchingIcon = iconData.find(icon => icon.process.toLowerCase() === item.S_NAME.toLowerCase());
 
-                // Set the icon source (if a match is found, use it, otherwise use a default icon)
-                let iconSrc = matchingIcon ? matchingIcon.icon : 'https://cdn-icons-png.flaticon.com/128/2932/2932475.png'; // Default icon
+                    // Set the icon source (if a match is found, use it, otherwise use a default icon)
+                    let iconSrc = matchingIcon ? matchingIcon.icon : 'https://cdn-icons-png.flaticon.com/128/2932/2932475.png'; // Default icon
 
-                display += `
-                    <div class='procedure-card ${stat}' data-procedure="${item.S_ID}">     
-                        <img src="${iconSrc}" alt="Tooth" class="procedure-icon">
-                        <div class="procedure-name">${item.S_NAME}</div>
-                        <div hidden class="procedure-id">${item.S_ID}</div>
-                    </div>
-                `; // Hidden so users can't see the ID
+                    display += `
+                        <div class='procedure-card' data-procedure="${item.S_ID}">     
+                            <img src="${iconSrc}" alt="Tooth" class="procedure-icon">
+                            <div class="procedure-name">${item.S_NAME}</div>
+                            <div hidden class="procedure-id">${item.S_ID}</div>
+                        </div>
+                    `; // Hidden so users can't see the ID
 
-                i++;
-            });
+                    i++;
+                });
             }
             document.getElementById('procedure').innerHTML = display; // Add to the HTML
             
             // Add event listeners AFTER adding the elements to DOM
             document.querySelectorAll('.procedure-card').forEach(card => {
                 card.addEventListener('click', function() {
-                    selectProcedure(this); // Get what got clicked
+                    toggleProcedure(this); // Changed to toggle selection
                 });
             });
+
+            // Add event listener for clear button
+            const clearButton = document.getElementById('clear-services');
+            if (clearButton) {
+                clearButton.addEventListener('click', clearServiceSelection);
+            }
         })
         .catch(error => console.error('Error fetching api.php data:', error));
     })
@@ -88,13 +93,6 @@ function setupEventListeners() {
             selectTimeSlot(e.target);
         }
     });
-    
-    // Procedure selection
-    // document.querySelectorAll('.procedure-card').forEach(card => {
-    //     card.addEventListener('click', function() {
-    //         selectProcedure(this);
-    //     });
-    // });
     
     // Book appointment button
     document.querySelector('.book-btn').addEventListener('click', validateAndBookAppointment);
@@ -240,18 +238,51 @@ function selectTimeSlot(timeSlotElement) {
     selectedTime = timeSlotElement.textContent;
 }
 
-// Procedure Functions
-function selectProcedure(procedureElement) {
+// New function to toggle procedure selection
+function toggleProcedure(procedureElement) {
+    const serviceId = procedureElement.getAttribute('data-procedure');
+    
+    // Toggle active class
+    procedureElement.classList.toggle('active');
+    
+    // Update selectedServices array
+    if (procedureElement.classList.contains('active')) {
+        // Add service to the array if not already present
+        if (!selectedServices.includes(serviceId)) {
+            selectedServices.push(serviceId);
+        }
+    } else {
+        // Remove service from the array
+        const index = selectedServices.indexOf(serviceId);
+        if (index > -1) {
+            selectedServices.splice(index, 1);
+        }
+    }
+    
+    // Update selected services count display if it exists
+    updateSelectedServicesCount();
+}
+
+// Function to clear all selected services
+function clearServiceSelection() {
     // Remove active class from all procedures
     document.querySelectorAll('.procedure-card').forEach(card => {
         card.classList.remove('active');
     });
     
-    // Add active class to selected procedure
-    procedureElement.classList.add('active');
+    // Clear the selectedServices array
+    selectedServices = [];
     
-    // Store selected procedure
-    selectedProcedure = procedureElement.getAttribute('data-procedure');
+    // Update selected services count display
+    updateSelectedServicesCount();
+}
+
+// Update the count of selected services
+function updateSelectedServicesCount() {
+    const countElement = document.querySelector('.selected-services-count');
+    if (countElement) {
+        countElement.textContent = selectedServices.length;
+    }
 }
 
 // Book Appointment Functions
@@ -266,8 +297,8 @@ function validateAndBookAppointment() {
         return;
     }
     
-    if (!selectedProcedure) {
-        showError('Please select a procedure for your appointment.');
+    if (selectedServices.length === 0) {
+        showError('Please select at least one service for your appointment.');
         return;
     }
     
@@ -284,14 +315,19 @@ function bookAppointment() {
     const [day, month, year] = GBDate.split('/');
     const DBDate= `${year}-${month}-${day}`;
     
-    // Get procedure name
-    const procedureElement = document.querySelector(`.procedure-card[data-procedure="${selectedProcedure}"]`);
-    const procedureName = procedureElement.querySelector('.procedure-name').textContent;
-    const procedureID = procedureElement.querySelector('.procedure-id').textContent;
-
-    // Create confirmation message
-    const message = `Do you want to proceed with the appointment on ${formattedDate} at ${selectedTime} for the procedure: ${procedureName}?`;
-
+    // Get procedure names
+    let selectedServiceNames = [];
+    selectedServices.forEach(serviceId => {
+        const procedureElement = document.querySelector(`.procedure-card[data-procedure="${serviceId}"]`);
+        if (procedureElement) {
+            const procedureName = procedureElement.querySelector('.procedure-name').textContent;
+            selectedServiceNames.push(procedureName);
+        }
+    });
+    
+    // Create confirmation message with all selected services
+    const servicesText = selectedServiceNames.join(', ');
+    const message = `Do you want to proceed with the appointment on ${formattedDate} at ${selectedTime} for the following services:\n${servicesText}?`;
 
     Swal.fire({
         title: 'Confirm Appointment?',
@@ -303,51 +339,40 @@ function bookAppointment() {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#aaa',
         reverseButtons: true // optional: swaps button positions
-      }).then((result) => {
+    }).then((result) => {
         if (result.isConfirmed) {
-
-                 // Convertit to Military Time
-     function convertToMilitaryTime(time) {
-        let [timePart, modifier] = time.split(" ");
-        let [hours, minutes] = timePart.split(":").map(Number);
-    
-        if (modifier === "PM" && hours < 12) {
-            hours += 12; // Convert PM hours to military time
+            // Convert to Military Time
+            function convertToMilitaryTime(time) {
+                let [timePart, modifier] = time.split(" ");
+                let [hours, minutes] = timePart.split(":").map(Number);
+            
+                if (modifier === "PM" && hours < 12) {
+                    hours += 12; // Convert PM hours to military time
+                }
+                if (modifier === "AM" && hours === 12) {
+                    hours = 0; // Convert 12 AM to 0 hours
+                }
+            
+                // Format hours and minutes to ensure two digits
+                let formattedMilitaryTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:00`;
+                return formattedMilitaryTime;
+            }
+            
+            let formattedMilitaryTime = convertToMilitaryTime(selectedTime);
+            const PatientID = GetCookie('PatientID');
+           
+            // Create the appointment first, then associate services
+            AddAppointment(PatientID, DBDate, formattedMilitaryTime);
+           
+            // Mark the time slot as booked
+            const dateKey = `${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${selectedDate.getDate()}`;
+            if (!bookedSlots[dateKey]) {
+                bookedSlots[dateKey] = [];
+            }
+            bookedSlots[dateKey].push(selectedTime);
         }
-        if (modifier === "AM" && hours === 12) {
-            hours = 0; // Convert 12 AM to 0 hours
-        }
-    
-        // Format hours and minutes to ensure two digits
-        let formattedMilitaryTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:00`;
-        return formattedMilitaryTime;
-    }
-    
-    let formattedMilitaryTime = convertToMilitaryTime(selectedTime);
-    const PatientID = GetCookie('PatientID');
-   
-   AddAppointment(PatientID,procedureID,DBDate,formattedMilitaryTime);
-   
-   // Mark the time slot as booked
-   const dateKey = `${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${selectedDate.getDate()}`;
-   if (!bookedSlots[dateKey]) {
-       bookedSlots[dateKey] = [];
-   }
-   bookedSlots[dateKey].push(selectedTime);
-   
-   // Reset selections
-   resetSelections();
-
-
-        } else {
-            return; 
-        }
-      });
-      
-
+    });
 }
-
-
 
 function showError(message) {
     Swal.fire({
@@ -374,11 +399,11 @@ function resetSelections() {
     });
     selectedTime = null;
     
-    // Reset procedure
+    // Reset procedures
     document.querySelectorAll('.procedure-card').forEach(card => {
         card.classList.remove('active');
     });
-    selectedProcedure = null;
+    selectedServices = [];
     
     // Update time slots
     document.querySelectorAll('.time-slot').forEach(slot => {
@@ -386,36 +411,8 @@ function resetSelections() {
     });
 }
 
-// // Helper function to generate random booked slots for demonstration
-// function generateRandomBookedSlots() {
-//     const now = new Date();
-//     // Convert to Philippines time (UTC+8)
-//     const philippinesTime = new Date(now.getTime() + (8 * 60 * 60 * 1000));
-    
-//     // Generate bookings for the next 10 days
-//     for (let i = 0; i < 10; i++) {
-//         const bookingDate = new Date(philippinesTime);
-//         bookingDate.setDate(bookingDate.getDate() + i);
-        
-//         const dateKey = `${bookingDate.getFullYear()}-${bookingDate.getMonth() + 1}-${bookingDate.getDate()}`;
-//         bookedSlots[dateKey] = [];
-        
-//         // Randomly book 1-3 slots per day
-//         const numberOfBookings = Math.floor(Math.random() * 3) + 1;
-//         const timeSlots = ['9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM'];
-        
-//         for (let j = 0; j < numberOfBookings; j++) {
-//             const randomIndex = Math.floor(Math.random() * timeSlots.length);
-//             bookedSlots[dateKey].push(timeSlots[randomIndex]);
-//             // Remove the booked slot to avoid duplicates
-//             timeSlots.splice(randomIndex, 1);
-//         }
-//     }
-// }
-
 //Import Appointment to Database
-function AddAppointment(PID, SID, ACD, ACT) {
-    
+function AddAppointment(PID, ACD, ACT) {
     fetch('appointment.php', {
         method: 'POST',
         headers: {
@@ -440,16 +437,14 @@ function AddAppointment(PID, SID, ACD, ACT) {
             if (data.appointment.status === 'success') {
                 // Now we can also log the appointment ID
                 console.log("Appointment ID:", data.appointment.id);
-                AddServiceAppointment(data.appointment.id,SID);
                 
-                // Swal.fire({
-                //     title: 'Success!',
-                //     text: 'You have successfully made an Appointment!',
-                //     icon: 'success',
-                //     confirmButtonText: 'OK',
-                //     confirmButtonColor: '#3085d6',
-                //     backdrop: true
-                // });
+                // Add each selected service to the appointment
+                let successCount = 0;
+                let totalServices = selectedServices.length;
+                
+                selectedServices.forEach((serviceId, index) => {
+                    AddServiceAppointment(data.appointment.id, serviceId, index === totalServices - 1);
+                });
             } else {
                 Swal.fire({
                     title: 'Error',
@@ -459,7 +454,6 @@ function AddAppointment(PID, SID, ACD, ACT) {
                     confirmButtonColor: '#d33'
                 });
             }
-
         } else {
             console.log("Unexpected response format:", data);
         }
@@ -478,7 +472,7 @@ function AddAppointment(PID, SID, ACD, ACT) {
     });
 }
 
-function AddServiceAppointment(AppointmentID,ServiceID){
+function AddServiceAppointment(AppointmentID, ServiceID, isLastService) {
     fetch('appointment.php', {
         method: 'POST',
         headers: {
@@ -496,21 +490,27 @@ function AddServiceAppointment(AppointmentID,ServiceID){
     .then(data => {
         console.log("Full response data:", data);
         if (data.AS) {
-            console.log("Appointment status:", data.AS.status);
+            console.log("Appointment service status:", data.AS.status);
             console.log("Message:", data.AS.message);
 
             if (data.AS.status === 'success') {
-                // Now we can also log the appointment ID
-                console.log("Appointment ID:", data.AS.id);
+                // Now we can also log the appointment service ID
+                console.log("Appointment Service ID:", data.AS.id);
                 
-                Swal.fire({
-                    title: 'Success!',
-                    text: 'You have successfully made an Appointment!',
-                    icon: 'success',
-                    confirmButtonText: 'OK',
-                    confirmButtonColor: '#3085d6',
-                    backdrop: true
-                });
+                // Only show success message after the last service is added
+                if (isLastService) {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'You have successfully made an appointment with multiple services!',
+                        icon: 'success',
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: '#3085d6',
+                        backdrop: true
+                    });
+                    
+                    // Reset selections after successful booking
+                    resetSelections();
+                }
             } else {
                 Swal.fire({
                     title: 'Error',
@@ -520,7 +520,6 @@ function AddServiceAppointment(AppointmentID,ServiceID){
                     confirmButtonColor: '#d33'
                 });
             }
-
         } else {
             console.log("Unexpected response format:", data);
         }
@@ -529,7 +528,7 @@ function AddServiceAppointment(AppointmentID,ServiceID){
         console.error('Fetch error:', error);
         Swal.fire({
             title: 'Error',
-            text: "An error occurred while creating the appointment.",
+            text: "An error occurred while adding services to the appointment.",
             icon: 'error',
             position: 'top',
             toast: true,
@@ -537,11 +536,4 @@ function AddServiceAppointment(AppointmentID,ServiceID){
             timer: 3000
         });
     });
-}
-
-
-
-function generateAndSaveQRCode(name) {
-
-
 }
