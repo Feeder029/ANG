@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 20, 2025 at 01:10 PM
+-- Generation Time: Apr 20, 2025 at 01:58 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -92,7 +92,6 @@ INSERT INTO `address` (`AddressID`, `ADD_HouseNo`, `ADD_LotNo`, `ADD_Street`, `A
 CREATE TABLE `appointment` (
   `AppointmentID` int(10) NOT NULL,
   `PatientID` int(10) DEFAULT NULL,
-  `ServicesID` int(10) DEFAULT NULL,
   `StatusID` int(10) DEFAULT NULL,
   `APP_ChosenDate` date DEFAULT NULL,
   `APP_ChosenTime` time DEFAULT NULL,
@@ -104,11 +103,32 @@ CREATE TABLE `appointment` (
 -- Dumping data for table `appointment`
 --
 
-INSERT INTO `appointment` (`AppointmentID`, `PatientID`, `ServicesID`, `StatusID`, `APP_ChosenDate`, `APP_ChosenTime`, `APP_Submission`, `APP_QR`) VALUES
-(1, 2, 21, 3, '2025-04-25', '12:00:00', '2025-04-17 23:26:40', NULL),
-(2, 2, 21, 3, '2025-04-18', '13:00:00', '2025-04-18 20:16:55', NULL),
-(3, 2, 21, 3, '2025-04-28', '10:00:00', '2025-04-20 19:01:30', NULL),
-(4, 2, 17, 3, '2025-04-25', '13:00:00', '2025-04-20 19:07:38', NULL);
+INSERT INTO `appointment` (`AppointmentID`, `PatientID`, `StatusID`, `APP_ChosenDate`, `APP_ChosenTime`, `APP_Submission`, `APP_QR`) VALUES
+(1, 2, 3, '2025-04-25', '12:00:00', '2025-04-17 23:26:40', NULL),
+(2, 2, 3, '2025-04-18', '13:00:00', '2025-04-18 20:16:55', NULL),
+(3, 2, 3, '2025-04-28', '10:00:00', '2025-04-20 19:01:30', NULL),
+(4, 2, 3, '2025-05-07', '13:00:00', '2025-04-20 19:07:38', NULL),
+(5, 2, 3, '2025-04-25', '13:00:00', '2025-04-20 19:17:27', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `appointmentlist`
+-- (See below for the actual view)
+--
+CREATE TABLE `appointmentlist` (
+`App_ChosenDate` date
+,`App_ChosenTime` time
+,`App_Submission` datetime
+,`App_QR` longblob
+,`AccountID` int(10)
+,`PatientID` int(10)
+,`AddressID` int(10)
+,`STAT_Name` varchar(30)
+,`Services` mediumtext
+,`Descriptions` mediumtext
+,`Total_Duration` time
+);
 
 -- --------------------------------------------------------
 
@@ -127,24 +147,9 @@ CREATE TABLE `appointmentservices` (
 --
 
 INSERT INTO `appointmentservices` (`AppointmentServicesID`, `AppointmentID`, `ServicesID`) VALUES
-(1, 4, 17);
-
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `appointment_list`
--- (See below for the actual view)
---
-CREATE TABLE `appointment_list` (
-`App_ChosenDate` date
-,`App_ChosenTime` time
-,`App_Submission` datetime
-,`App_QR` longblob
-,`AccountID` int(10)
-,`Ser_Name` varchar(30)
-,`Stat_Name` varchar(30)
-,`DisplayName` varchar(204)
-);
+(1, 4, 17),
+(2, 5, 14),
+(3, 5, 20);
 
 -- --------------------------------------------------------
 
@@ -385,11 +390,11 @@ INSERT INTO `usertype` (`UserTypeID`, `UT_Name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure for view `appointment_list`
+-- Structure for view `appointmentlist`
 --
-DROP TABLE IF EXISTS `appointment_list`;
+DROP TABLE IF EXISTS `appointmentlist`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `appointment_list`  AS SELECT `a`.`APP_ChosenDate` AS `App_ChosenDate`, `a`.`APP_ChosenTime` AS `App_ChosenTime`, `a`.`APP_Submission` AS `App_Submission`, `a`.`APP_QR` AS `App_QR`, `b`.`AccountID` AS `AccountID`, `d`.`SER_Name` AS `Ser_Name`, `e`.`STAT_Name` AS `Stat_Name`, concat(`c`.`N_FirstName`,' ',ifnull(concat(left(`c`.`N_MiddleName`,1),'.'),''),' ',`c`.`N_LastName`) AS `DisplayName` FROM ((((`appointment` `a` join `patient` `b` on(`a`.`PatientID` = `b`.`PatientID`)) join `name` `c` on(`b`.`NameID` = `c`.`NameID`)) join `services` `d` on(`a`.`ServicesID` = `d`.`ServiceID`)) join `status` `e` on(`a`.`StatusID` = `e`.`StatusID`)) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `appointmentlist`  AS SELECT `a`.`APP_ChosenDate` AS `App_ChosenDate`, `a`.`APP_ChosenTime` AS `App_ChosenTime`, `a`.`APP_Submission` AS `App_Submission`, `a`.`APP_QR` AS `App_QR`, `d`.`AccountID` AS `AccountID`, `d`.`PatientID` AS `PatientID`, `d`.`AddressID` AS `AddressID`, `e`.`STAT_Name` AS `STAT_Name`, group_concat(`c`.`SER_Name` separator '\n') AS `Services`, group_concat(`c`.`SER_Details` separator '\n') AS `Descriptions`, sec_to_time(sum(time_to_sec(`c`.`SER_Duration`))) AS `Total_Duration` FROM ((((`appointment` `a` join `appointmentservices` `b` on(`a`.`AppointmentID` = `b`.`AppointmentID`)) join `services` `c` on(`b`.`ServicesID` = `c`.`ServiceID`)) join `patient` `d` on(`a`.`PatientID` = `d`.`PatientID`)) join `status` `e` on(`a`.`StatusID` = `e`.`StatusID`)) GROUP BY `a`.`AppointmentID` ;
 
 -- --------------------------------------------------------
 
@@ -407,7 +412,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `patientlist`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `patientlist`  AS SELECT `a`.`PatientID` AS `PatientID`, concat(`b`.`N_FirstName`,' ',concat(left(`b`.`N_MiddleName`,1),'.'),' ',`b`.`N_LastName`,' ',`b`.`N_Suffix`) AS `DisplayName`, `b`.`N_LastName` AS `N_LastName`, `b`.`N_MiddleName` AS `N_MiddleName`, `b`.`N_Suffix` AS `N_Suffix`, `b`.`N_FirstName` AS `N_FirstName`, `c`.`ADD_Street` AS `ADD_Street`, `c`.`ADD_Barangay` AS `ADD_Barangay`, `c`.`ADD_City` AS `ADD_City`, `c`.`ADD_Province` AS `ADD_Province`, `a`.`P_Gender` AS `P_Gender`, `a`.`P_DOB` AS `P_DOB`, `a`.`P_Age` AS `P_Age`, `a`.`P_FacebookAccount` AS `P_FacebookAccount`, `a`.`P_ContactNo` AS `P_ContactNo`, `d`.`ACC_Username` AS `ACC_Username`, `d`.`ACC_Password` AS `ACC_Password`, `d`.`ACC_Email` AS `ACC_Email`, `d`.`ACC_DateCreated` AS `ACC_DateCreated`, `d`.`ACC_Profile` AS `ACC_Profile` FROM (((`patient` `a` join `name` `b` on(`a`.`NameID` = `b`.`NameID`)) join `address` `c` on(`a`.`AddressID` = `c`.`AddressID`)) join `account` `d` on(`a`.`AccountID` = `d`.`AccountID`)) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `patientlist`  AS SELECT `a`.`PatientID` AS `PatientID`, concat(`b`.`N_FirstName`,' ',concat(left(`b`.`N_MiddleName`,1),'.'),' ',`b`.`N_LastName`,' ',`b`.`N_Suffix`) AS `DisplayName`, `b`.`N_LastName` AS `N_LastName`, `b`.`N_MiddleName` AS `N_MiddleName`, `b`.`N_Suffix` AS `N_Suffix`, `b`.`N_FirstName` AS `N_FirstName`, `c`.`ADD_Street` AS `ADD_Street`, `c`.`ADD_Barangay` AS `ADD_Barangay`, `c`.`ADD_City` AS `ADD_City`, `c`.`ADD_Province` AS `ADD_Province`, `a`.`P_Gender` AS `P_Gender`, `a`.`P_DOB` AS `P_DOB`, `a`.`P_Age` AS `P_Age`, `a`.`P_FacebookAccount` AS `P_FacebookAccount`, `a`.`P_ContactNo` AS `P_ContactNo`, `d`.`ACC_Username` AS `ACC_Username`, `d`.`ACC_Password` AS `ACC_Password`, `d`.`ACC_Email` AS `ACC_Email`, `d`.`ACC_DateCreated` AS `ACC_DateCreated`, `d`.`ACC_Profile` AS `ACC_Profile` FROM (((`test`.`patient` `a` join `test`.`name` `b` on(`a`.`NameID` = `b`.`NameID`)) join `test`.`address` `c` on(`a`.`AddressID` = `c`.`AddressID`)) join `test`.`account` `d` on(`a`.`AccountID` = `d`.`AccountID`)) ;
 
 --
 -- Indexes for dumped tables
@@ -433,7 +438,6 @@ ALTER TABLE `address`
 ALTER TABLE `appointment`
   ADD PRIMARY KEY (`AppointmentID`),
   ADD KEY `Patient` (`PatientID`),
-  ADD KEY `Services2` (`ServicesID`),
   ADD KEY `Status2` (`StatusID`);
 
 --
@@ -527,13 +531,13 @@ ALTER TABLE `address`
 -- AUTO_INCREMENT for table `appointment`
 --
 ALTER TABLE `appointment`
-  MODIFY `AppointmentID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `AppointmentID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `appointmentservices`
 --
 ALTER TABLE `appointmentservices`
-  MODIFY `AppointmentServicesID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `AppointmentServicesID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `blling`
@@ -605,7 +609,6 @@ ALTER TABLE `account`
 --
 ALTER TABLE `appointment`
   ADD CONSTRAINT `Patient` FOREIGN KEY (`PatientID`) REFERENCES `patient` (`PatientID`),
-  ADD CONSTRAINT `Services2` FOREIGN KEY (`ServicesID`) REFERENCES `services` (`ServiceID`),
   ADD CONSTRAINT `Status2` FOREIGN KEY (`StatusID`) REFERENCES `status` (`StatusID`);
 
 --

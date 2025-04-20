@@ -423,7 +423,6 @@ function AddAppointment(PID, SID, ACD, ACT) {
         },
         body: JSON.stringify({
             PatientID: PID,
-            ServicesID: SID,
             APP_ChosenDate: ACD,
             APP_ChosenTime: ACT
         })

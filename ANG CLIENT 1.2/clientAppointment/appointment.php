@@ -17,17 +17,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Decode the JSON data from the request
     $data = json_decode(file_get_contents('php://input'), true);
 
-    if (isset($data['PatientID'], $data['ServicesID'], $data['APP_ChosenDate'], $data['APP_ChosenTime'])) {
+    if (isset($data['PatientID'], $data['APP_ChosenDate'], $data['APP_ChosenTime'])) {
         $PID = $conn->real_escape_string($data['PatientID']);
-        $SID = $conn->real_escape_string($data['ServicesID']);
+        // $SID = $conn->real_escape_string($data['ServicesID']);
         $ACD = $conn->real_escape_string($data['APP_ChosenDate']);
         $ACT = $conn->real_escape_string($data['APP_ChosenTime']);
         $Status = 3;
     
-        $stmt = $conn->prepare("INSERT INTO `appointment` (`PatientID`, `ServicesID`, `StatusID`, `APP_ChosenDate`, `APP_ChosenTime`) VALUES (?, ?, ?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO `appointment` (`PatientID`, `StatusID`, `APP_ChosenDate`, `APP_ChosenTime`) VALUES (?, ?, ?, ?)");
         
         if ($stmt) {
-            $stmt->bind_param("iiiss", $PID, $SID, $Status, $ACD, $ACT);
+            $stmt->bind_param("iiss", $PID, $Status, $ACD, $ACT);
     
             if ($stmt->execute()) {
                 // Get the auto-incremented ID of the newly inserted record

@@ -9,7 +9,7 @@ if (!$conn) {
 
 $schedule = [];
 
-$Sched_Query = $conn->query("SELECT `App_ChosenDate`, `App_ChosenTime`, `App_Submission`, `App_QR`, `AccountID`, `Ser_Name`, `Stat_Name`, `DisplayName` FROM `appointment_list` ORDER BY App_ChosenDate, App_ChosenTime");
+$Sched_Query = $conn->query("SELECT `App_ChosenDate`, `App_ChosenTime`, `App_Submission`, `App_QR`, `AccountID`, `PatientID`, `AddressID`, `STAT_Name`, `Services`, `Descriptions`, `Total_Duration` FROM `appointmentlist`  ORDER BY App_ChosenDate, App_ChosenTime");
 
 // Check if query was successful
 if (!$Sched_Query) {
@@ -21,9 +21,8 @@ if (!$Sched_Query) {
             "ACT" => $row['App_ChosenTime'],
             "AS" => $row['App_Submission'],
             "ACC" => $row['AccountID'],
-            "SN" => $row['Ser_Name'],
-            "ST" => $row['Stat_Name'],
-            "DN" => $row['DisplayName']
+            "SN" => $row['Services'],
+            "ST" => $row['STAT_Name']
         ];
     }
     
