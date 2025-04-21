@@ -16,13 +16,17 @@ if (!$Sched_Query) {
     echo json_encode(['error' => "Error executing query: " . $conn->error]);
 } else {
     while ($row = $Sched_Query->fetch_assoc()) { // Use $Sched_Query, not $Services_Avi
+
+        $QRImage = $row["App_QR"] ? base64_encode($row["App_QR"]) : null;
+
         $schedule[] = [
             "ACD" => $row['App_ChosenDate'],
             "ACT" => $row['App_ChosenTime'],
             "AS" => $row['App_Submission'],
             "ACC" => $row['AccountID'],
             "SN" => $row['Services'],
-            "ST" => $row['STAT_Name']
+            "ST" => $row['STAT_Name'],
+            "QR" => $QRImage
         ];
     }
     

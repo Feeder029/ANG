@@ -17,16 +17,18 @@ function Options(){
 }
 
 function GetDatas(SID){
-
     fetch('schedule.php')
     .then(response=>response.json())
     .then(data=>{
         let display = ``;
     
         data.forEach(item => {
-    
             if(item.ACC==1){
                 if(item.ST==SID || SID == "ALL"){
+
+                    const imgSrc = item.QR ? 
+                    `data:image/jpeg;base64,${item.QR}` : 
+                    "/api/placeholder/100/100"; 
 
                     display += `                        
                 <tr>
@@ -34,28 +36,48 @@ function GetDatas(SID){
                 <td>${item.ACT}</td>
                 <td>${item.SN}</td>
                 <td>${item.ST}</td>
-                <td><img src="/api/placeholder/100/100" alt="QR Code" class="qr-code"></td>
+                <td><img src="${imgSrc}" alt="QR Code" class="qr-code"></td>
                 <td>
                 <div class="action-buttons">
                 <button class="btn btn-cancel btn-tooltip" data-tooltip="Cancel Appointment">
                 <i class="fas fa-times"></i>
                 </button>
-                <button class="btn btn-download btn-tooltip" data-tooltip="Download QR Code">
+                <button class="btn btn-download btn-tooltip" data-tooltip="Download QR Code" data-qr="${item.QR ? item.QR : ''}" data-name="QR_${item.ST}_${item.ACD.replace(/[\/\\:*?"<>|]/g, '_')}">
                 <i class="fas fa-download"></i>
                 </button>
                 </div>
                  </td>
                  </tr>`;
-                }}
-
                 }
-
-    );
+            }
+        });
     
         document.getElementById('scheduletable').innerHTML = display; // Add to the HTML
+        
+        // Add event listeners to the download buttons
+        const downloadButtons = document.querySelectorAll('.btn-download');
+        downloadButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const qrData = this.getAttribute('data-qr');
+                const fileName = this.getAttribute('data-name');
+                
+                if (qrData) {
+                    // Create a link to download the image
+                    const downloadLink = document.createElement('a');
+                    downloadLink.href = `data:image/jpeg;base64,${qrData}`;
+                    downloadLink.download = `${fileName}.jpg`;
+                    document.body.appendChild(downloadLink);
+                    downloadLink.click();
+                    document.body.removeChild(downloadLink);
+                } else {
+                    console.log('No QR code available for download');
+                    // Optionally add an alert to inform the user
+                    alert('No QR code available for download');
+                }
+            });
+        });
     
     }).catch(error => console.error('Error fetching api.php data:', error));
-    
 }
 
 function Booked(){

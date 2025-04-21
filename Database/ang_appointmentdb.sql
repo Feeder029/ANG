@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 20, 2025 at 01:58 PM
+-- Generation Time: Apr 21, 2025 at 05:07 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -96,19 +96,16 @@ CREATE TABLE `appointment` (
   `APP_ChosenDate` date DEFAULT NULL,
   `APP_ChosenTime` time DEFAULT NULL,
   `APP_Submission` datetime DEFAULT current_timestamp(),
-  `APP_QR` longblob DEFAULT NULL
+  `APP_QR` longblob DEFAULT NULL,
+  `APP_QRPath` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `appointment`
 --
 
-INSERT INTO `appointment` (`AppointmentID`, `PatientID`, `StatusID`, `APP_ChosenDate`, `APP_ChosenTime`, `APP_Submission`, `APP_QR`) VALUES
-(1, 2, 3, '2025-04-25', '12:00:00', '2025-04-17 23:26:40', NULL),
-(2, 2, 3, '2025-04-18', '13:00:00', '2025-04-18 20:16:55', NULL),
-(3, 2, 3, '2025-04-28', '10:00:00', '2025-04-20 19:01:30', NULL),
-(4, 2, 3, '2025-05-07', '13:00:00', '2025-04-20 19:07:38', NULL),
-(5, 2, 3, '2025-04-25', '13:00:00', '2025-04-20 19:17:27', NULL);
+INSERT INTO `appointment` (`AppointmentID`, `PatientID`, `StatusID`, `APP_ChosenDate`, `APP_ChosenTime`, `APP_Submission`, `APP_QR`, `APP_QRPath`) VALUES
+(1, 2, 3, '2025-04-26', '13:00:00', '2025-04-21 23:05:57', 0x89504e470d0a1a0a0000000d494844520000019a0000019a01000000001e7db8ce0000031f49444154789ced5c5b6ea34010ec06feb19403e42870833d52b447da1b98a3e40091cca7a5a05ef50b70562b19d91b9b9daa0ff000a530a2d58f9a9eb0d0660cd5760e11480190022005400a8014002900d29e481c68743031f3c1ae35440337c4fd980ff40f79bd8d00e90ea44e14a7b003fb2547bff1a9a7daeecbaee6b40d207d218de9003a358b7e6cdc18cc5b986da40759933601a49d928657730a8bb79832563cc5eb5d0390ee4992e3d8a85398983a39b3e511ffe62f5d0590be9dd4c4b9d51c618c0177bf8884c617e14e8858afc97ee65481743b69b04a422b8cb753ad1fbf968815e35c7f30f3aee6b40d205df808b9cc2384c689895afd4567964b0ff1f473aa40ba5d8fe857fe4093ca57111a0ee63c9a5999808f288144ae33742a3bf8e1548b4b11d486466115a9df301c9f7c4e1548375b84b81a6529441b42941c5597d283998a0f6111a5f808851c5bf31197eec135cb34105844293ec291c1c192ca0c1369252a74bbda0d8bf89f498d9f86befe7451c26b0daf2eaccc3065824886c3e9fb5faf02e93116c1d47eb04a521a22a646e210ca443c3a7216a14f3ea70aa47b64967546080b0e1a3afc9077d7c3279f5305d21d32cbd6ec604e2b56e9a5161c567fd810165150ad41e61ee6309166114245b64bc022ca20756a0cb6ce695f5f96d608d5314dbd7ce4eb6d0348f7f211e4fe20a286058ccc1ed68d54f011c56896640143d7b7643181459ec8340216510089df3cbd0cb1da97b6b46386f9307198c5dc78b78f396d04489751a35be44ac55275689961f2b6f90df888c22c42f49be772579ac0b2288a5aa3283de25307b9f6b9d8c6bcd29545082ca208929810e5f9e4a88d31d63bd36ae7ed21944a7b0e794461d527cdc5455a895f8e0403d56741a46ed6ae6dbf860eb9f716fd25a6cc3b37f631a76d00e90b699c4b4bc71401c3e287b5582e19c55ee6b40920fd8dd4bdb31a83b5549d597e6abb840596d55e9ebdcde91a8014f863c7d6f0c3f6f234c4ddbbca5427eb9450b41fcd3ee6548174073d4272e57bae39735d237602673982ccb2b05a83bc3bdf944a1fc60d6896859018ff99cc015200a400480190022005400a80448edf16807dafc89c05650000000049454e44ae426082, 'QR_IMAGES/QR_2_20250426_130000.png');
 
 -- --------------------------------------------------------
 
@@ -147,9 +144,7 @@ CREATE TABLE `appointmentservices` (
 --
 
 INSERT INTO `appointmentservices` (`AppointmentServicesID`, `AppointmentID`, `ServicesID`) VALUES
-(1, 4, 17),
-(2, 5, 14),
-(3, 5, 20);
+(1, 1, 18);
 
 -- --------------------------------------------------------
 
@@ -531,13 +526,13 @@ ALTER TABLE `address`
 -- AUTO_INCREMENT for table `appointment`
 --
 ALTER TABLE `appointment`
-  MODIFY `AppointmentID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `AppointmentID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `appointmentservices`
 --
 ALTER TABLE `appointmentservices`
-  MODIFY `AppointmentServicesID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `AppointmentServicesID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `blling`

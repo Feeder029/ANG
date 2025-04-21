@@ -413,15 +413,16 @@ function resetSelections() {
 
 //Import Appointment to Database
 function AddAppointment(PID, ACD, ACT) {
-    fetch('appointment.php', {
+    //appointment.php
+    fetch('http://127.0.0.1:5000/update_database_qr', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            PatientID: PID,
-            APP_ChosenDate: ACD,
-            APP_ChosenTime: ACT
+            PID: PID,                  // Changed from PatientID to PID
+            APP_ChosenDate: ACD,       // This matches the Flask endpoint
+            APP_ChosenTime: ACT        // This matches the Flask endpoint
         })
     })
     .then(response => {
@@ -430,32 +431,28 @@ function AddAppointment(PID, ACD, ACT) {
     })
     .then(data => {
         console.log("Full response data:", data);
-        if (data.appointment) {
-            console.log("Appointment status:", data.appointment.status);
-            console.log("Message:", data.appointment.message);
+        if (data.message && data.qr_path) {
+            // Successfully generated QR code
+            console.log("QR Path:", data.qr_path);
             
-            if (data.appointment.status === 'success') {
-                // Now we can also log the appointment ID
-                console.log("Appointment ID:", data.appointment.id);
+            console.log("Appointment ID:", data.appointment.id);
                 
-                // Add each selected service to the appointment
-                let successCount = 0;
-                let totalServices = selectedServices.length;
-                
-                selectedServices.forEach((serviceId, index) => {
-                    AddServiceAppointment(data.appointment.id, serviceId, index === totalServices - 1);
-                });
-            } else {
-                Swal.fire({
-                    title: 'Error',
-                    text: data.appointment.message,
-                    icon: 'error',
-                    confirmButtonText: 'OK',
-                    confirmButtonColor: '#d33'
-                });
-            }
+            // Add each selected service to the appointment
+            let successCount = 0;
+            let totalServices = selectedServices.length;
+            
+            selectedServices.forEach((serviceId, index) => {
+                AddServiceAppointment(data.appointment.id, serviceId, index === totalServices - 1);
+            });
+
         } else {
-            console.log("Unexpected response format:", data);
+            Swal.fire({
+                title: 'Error',
+                text: data.error || "Unknown error occurred",
+                icon: 'error',
+                confirmButtonText: 'OK',
+                confirmButtonColor: '#d33'
+            });
         }
     })
     .catch(error => {
@@ -501,7 +498,7 @@ function AddServiceAppointment(AppointmentID, ServiceID, isLastService) {
                 if (isLastService) {
                     Swal.fire({
                         title: 'Success!',
-                        text: 'You have successfully made an appointment with multiple services!',
+                        text: 'You have successfully made an appointment!',
                         icon: 'success',
                         confirmButtonText: 'OK',
                         confirmButtonColor: '#3085d6',
