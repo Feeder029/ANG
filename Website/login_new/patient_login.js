@@ -171,10 +171,12 @@ document.getElementById('confirm-register').addEventListener('input', function()
  * @param {string} PA - Password
  */
 function Login(US, PA) {
+    const CookieValue = crypto.randomUUID(); 
+
     fetch('patient_login.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ USEREMAIL: US, PASS: PA })
+        body: JSON.stringify({ USEREMAIL: US, PASS: PA,COOKIE: CookieValue})
     })
     .then(res => {
         if (!res.ok) throw new Error(`Server error: ${res.status}`);
@@ -182,9 +184,9 @@ function Login(US, PA) {
     })
     .then(data => {
         if (data.status === 'success') {
-            console.log('Welcome:', data.Acc.Username);
-            SetCookie("ACCID", 24, data.Acc.AccID);
-            SetCookie("PatientID", 24, data.Acc.PatID);
+            console.log('Welcome: ', CookieValue);
+            SetCookie("CookieValue", 24, CookieValue);
+            SetCookie("patientID", 24, data.Acc.PatID);
             window.location.href = '../../ANG CLIENT 1.2/clientIndex/index.html';
         } else {
             throw new Error(data.message || 'Login failed');

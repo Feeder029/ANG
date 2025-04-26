@@ -8,7 +8,7 @@ if (!$conn) {
     die(json_encode(['error' => "Connection failed: " . mysqli_connect_error()]));
 }
 
-$Sched_Query = $conn->query("SELECT `App_ChosenDate`, `App_ChosenTime`, `App_Submission`, `App_QR`, APP_QRPath, `AccountID`, `PatientID`, `AddressID`, `STAT_Name`, `Services`, `Descriptions`, `Total_Duration` FROM `appointmentlist`  ORDER BY App_ChosenDate, App_ChosenTime");
+$Sched_Query = $conn->query("SELECT  `ACC_Cookies`, `App_ChosenDate`, `App_ChosenTime`, `App_Submission`, `App_QR`, APP_QRPath, `AccountID`, `PatientID`, `AddressID`, `STAT_Name`, `Services`, `Descriptions`, `Total_Duration`  FROM `appointmentlist`  ORDER BY App_ChosenDate, App_ChosenTime");
 
 GET($conn, $Sched_Query,"App_QR");
 

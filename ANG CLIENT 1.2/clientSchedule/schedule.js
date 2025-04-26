@@ -1,3 +1,5 @@
+import { GetCookie } from '../../Cookies/cookies.js';
+
 document.addEventListener('DOMContentLoaded', function() {
     // DisplaySchedule("ALL");
     DisplaySchedule("ALL");
@@ -5,14 +7,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function DisplaySchedule(SID){
 
+    const Cookie = GetCookie('CookieValue');
+
+    console.log("My Cookie" + Cookie)
+
     fetch(`schedule.php`)
     .then(response=>response.json())
     .then(data=>{
         let display = ``;
         data.forEach(item => {
-            console.log();
+            console.log("Player Cookie: "+ item.ACC_Cookies);
 
-            if(item.AccountID==1){
+            if(item.ACC_Cookies==Cookie){
                 if(item.STAT_Name==SID || SID == "ALL"){
                     const imgSrc = item.image ? 
                     `data:image/jpeg;base64,${item.image}` : 

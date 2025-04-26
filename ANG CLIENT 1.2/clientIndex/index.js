@@ -6,8 +6,9 @@ function checkLoginStatus() {
     console.log("Checklog");
     const patientId = GetCookie('ACCID');
     const PatientID = GetCookie('PatientID');
+    const Cookie = GetCookie('CookieValue');
 
-    if (patientId) {
+    if (Cookie) {
       console.log(`Patient ID ${patientId} and ${PatientID} is logged in`);
     } else {
         window.location.href = '../../Website/login_new/patient_login.html';  // This will navigate to a new URL
