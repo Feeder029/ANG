@@ -1,11 +1,20 @@
 <?php
 
-function GET($conn,$statement){
-
+function GET($conn,$statement,$image=null){
     if (!$statement){
         echo json_encode(['error' => "Error executing query: " . $conn->error]);
     } else {
+
         while ($row = $statement->fetch_assoc()){
+            if($image!=null){
+
+                $Image = $row[$image] ? base64_encode($row[$image]) : null;
+            
+                $row["image"] = $Image;
+                
+                unset($row[$image]);
+
+            }
             $results[] = $row;
         }
         echo json_encode($results); 

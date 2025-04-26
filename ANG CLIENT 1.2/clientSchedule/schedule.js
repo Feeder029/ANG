@@ -1,57 +1,46 @@
 document.addEventListener('DOMContentLoaded', function() {
-    GetDatas("ALL");
+    // DisplaySchedule("ALL");
+    DisplaySchedule("ALL");
 });
 
-function Options(){
-    
-    fetch('schedule.php')
-    .then(response=>response.json())
-    .then(data=>{
+function DisplaySchedule(SID){
 
-        let display = ``;
-
-        data.forEach(item=>{
-
-        })
-    })
-}
-
-function GetDatas(SID){
-    fetch('schedule.php')
+    fetch(`schedule.php`)
     .then(response=>response.json())
     .then(data=>{
         let display = ``;
-    
         data.forEach(item => {
-            if(item.ACC==1){
-                if(item.ST==SID || SID == "ALL"){
+            console.log();
 
-                    const imgSrc = item.QR ? 
-                    `data:image/jpeg;base64,${item.QR}` : 
-                    "/api/placeholder/100/100"; 
-
+            if(item.AccountID==1){
+                if(item.STAT_Name==SID || SID == "ALL"){
+                    const imgSrc = item.image ? 
+                    `data:image/jpeg;base64,${item.image}` : 
+                    "/api/placeholder/100/100";
+                
                     display += `                        
-                <tr>
-                <td>${item.ACD}</td>
-                <td>${item.ACT}</td>
-                <td>${item.SN}</td>
-                <td>${item.ST}</td>
-                <td><img src="${imgSrc}" alt="QR Code" class="qr-code"></td>
-                <td>
-                <div class="action-buttons">
-                <button class="btn btn-cancel btn-tooltip" data-tooltip="Cancel Appointment">
-                <i class="fas fa-times"></i>
-                </button>
-                <button class="btn btn-download btn-tooltip" data-tooltip="Download QR Code" data-qr="${item.QR ? item.QR : ''}" data-name="QR_${item.ST}_${item.ACD.replace(/[\/\\:*?"<>|]/g, '_')}">
-                <i class="fas fa-download"></i>
-                </button>
-                </div>
-                 </td>
-                 </tr>`;
-                }
+                    <tr>
+                    <td>${item.App_ChosenTime}</td>
+                    <td>${item.App_ChosenDate}</td>
+                    <td>${item.Services}</td>
+                    <td>${item.STAT_Name}</td>
+                    <td><img src="${imgSrc}" alt="QR Code" class="qr-code"></td>
+                    <td>
+                    <div class="action-buttons">
+                    <button class="btn btn-cancel btn-tooltip" data-tooltip="Cancel Appointment">
+                    <i class="fas fa-times"></i>
+                    </button>
+                    <button class="btn btn-download btn-tooltip" data-tooltip="Download QR Code" data-qr="${item.image ? item.image : ''}" data-name="QRCODE_${item.App_ChosenDate.replace(/[\/\\:*?"<>|]/g, '_')}">
+                    <i class="fas fa-download"></i>
+                    </button>
+                    </div>
+                     </td>
+                     </tr>`;
+
+              }
             }
-        });
-    
+        })
+
         document.getElementById('scheduletable').innerHTML = display; // Add to the HTML
         
         // Add event listeners to the download buttons
@@ -76,13 +65,10 @@ function GetDatas(SID){
                 }
             });
         });
-    
-    }).catch(error => console.error('Error fetching api.php data:', error));
+
+    }).catch(error=>console.error('Error fetching api.php data:', error))
 }
 
-function Booked(){
-    alert("SAdsfgdfs");
-}
 
 
 
