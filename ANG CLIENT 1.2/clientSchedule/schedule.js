@@ -9,8 +9,6 @@ function DisplaySchedule(SID){
 
     const Cookie = GetCookie('CookieValue');
 
-    console.log("My Cookie" + Cookie)
-
     fetch(`schedule.php`)
     .then(response=>response.json())
     .then(data=>{

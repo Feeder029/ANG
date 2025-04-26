@@ -48,46 +48,9 @@
             <!-- Separate container for the table (desktop view) -->
             <div class="table-container">
                 <!-- Table for desktop and tablet -->
-                <table class="billings-table">
-                    <thead>
-                        <tr>
-                            <th>Billing Date</th>
-                            <th>Service</th>
-                            <th>Amount</th>
-                            <th>Payment</th>
-                            <th>Payment Method</th>
-                            <th>Status</th>
-                            <th>Receipt</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>02/01/2024</td>
-                            <td>PASTA</td>
-                            <td>800</td>
-                            <td>900</td>
-                            <td>Maya</td>
-                            <td>PAID</td>
-                            <td>
-                                <button class="btn btn-download btn-tooltip" data-tooltip="Download Receipt">
-                                    <i class="fas fa-download"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>03/01/2024</td>
-                            <td>BRACE</td>
-                            <td>25000</td>
-                            <td>25000</td>
-                            <td>Cash</td>
-                            <td>PAID</td>
-                            <td>
-                                <button class="btn btn-download btn-tooltip" data-tooltip="Download Receipt">
-                                    <i class="fas fa-download"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
+                <table class="billings-table" id="billings">
+
+
                 </table>
                 
                 <!-- Card view for mobile -->
@@ -169,6 +132,9 @@
             </div>
         </div>
     </div>
+
+
+    <script type="module" src="billing.js"></script>
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
