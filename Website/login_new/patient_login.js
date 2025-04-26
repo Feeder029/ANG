@@ -74,8 +74,6 @@ document.getElementById("register-form").addEventListener("submit", async functi
         lastname: document.getElementById("lastname").value,
         middlename: document.getElementById("middlename").value,
         sfx: document.getElementById("suffix").value,
-        HN: document.getElementById("house").value,
-        LN: document.getElementById("lot").value,
         STR: document.getElementById("street").value,
         BRGY: document.getElementById("barangay").value,
         CTY: document.getElementById("city").value,
@@ -381,13 +379,11 @@ function AddName(First, Last, Middle, Suffix) {
  * @param {string} P - Province
  * @returns {Promise} - Promise resolving to address ID
  */
-function AddAddress(H, L, S, B, C, P) {
+function AddAddress(S, B, C, P) {
     return fetch('patient_login.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            HNo: H, 
-            LNo: L, 
             Str: S, 
             Brgy: B, 
             Cit: C, 
@@ -461,7 +457,7 @@ async function IDS(firstname, lastname, middlename, sfx, HN, LN, STR, BRGY, CTY,
     try {
         // Sequential processing of dependent operations
         const NameIDs = await AddName(firstname, lastname, middlename, sfx);
-        const AddressIDs = await AddAddress(HN, LN, STR, BRGY, CTY, PROV);
+        const AddressIDs = await AddAddress(STR, BRGY, CTY, PROV);
         const AccountID = await AddAccount(SID, UID, User, Pass, Email, Profile);
         
         // Add patient record with collected IDs

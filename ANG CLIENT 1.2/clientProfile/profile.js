@@ -93,14 +93,6 @@ function Profiles(){
 
                 <div class="form-row">
                     <div class="form-group">
-                        <div class="field-label">HOUSE NO.</div>
-                        <input type="text" class="field-input" readonly>
-                    </div>
-                    <div class="form-group">
-                        <div class="field-label">LOT NO.</div>
-                        <input type="text" class="field-input"  readonly>
-                    </div>
-                    <div class="form-group">
                         <div class="field-label">STREET</div>
                         <input type="text" class="field-input" value="${data.Patient.Street}" readonly>
                     </div>

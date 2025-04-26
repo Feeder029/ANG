@@ -102,18 +102,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // ✅ ADDRESS INSERT HANDLER
-    if (isset($data['HNo'], $data['LNo'], $data['Str'], $data['Brgy'], $data['Cit'], $data['Prov'])) {
-        $House = $conn->real_escape_string($data['HNo']);
-        $Lot = $conn->real_escape_string($data['LNo']);
+    if (isset($data['Str'], $data['Brgy'], $data['Cit'], $data['Prov'])) {
         $Street = $conn->real_escape_string($data['Str']);
         $Barangay = $conn->real_escape_string($data['Brgy']);
         $City = $conn->real_escape_string($data['Cit']);
         $Province = $conn->real_escape_string($data['Prov']);
 
-        $stmt = $conn->prepare("INSERT INTO `address`(`ADD_HouseNo`, `ADD_LotNo`, `ADD_Street`, `ADD_Barangay`, `ADD_City`, `ADD_Province`)  VALUES (?,?,?,?,?,?)");
+        $stmt = $conn->prepare("INSERT INTO `address`(`ADD_Street`, `ADD_Barangay`, `ADD_City`, `ADD_Province`)  VALUES (?,?,?,?)");
 
         if ($stmt) {
-            $stmt->bind_param("ssssss", $House, $Lot, $Street, $Barangay, $City, $Province);   
+            $stmt->bind_param("ssss", $Street, $Barangay, $City, $Province);   
 
             if ($stmt->execute()) {
                 $AddressID = $conn->insert_id;
