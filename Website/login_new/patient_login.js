@@ -79,7 +79,8 @@ document.getElementById("register-form").addEventListener("submit", async functi
         CTY: document.getElementById("city").value,
         PROV: document.getElementById("province").value,
         Email: document.getElementById("register-email").value,
-        SID: 5,
+        FB: document.getElementById("register-fb").value,
+        SID: 3,
         UID: 1,
         User: document.getElementById("Username-register").value,
         Pass: document.getElementById("password-register").value,
@@ -110,7 +111,7 @@ document.getElementById("register-form").addEventListener("submit", async functi
         await IDS(
             formData.firstname, formData.lastname, formData.middlename, formData.sfx,
             formData.HN, formData.LN, formData.STR, formData.BRGY, formData.CTY, formData.PROV,
-            formData.SID, formData.UID, formData.User, formData.Pass, formData.Email, Profile
+            formData.SID, formData.UID, formData.User, formData.Pass, formData.Email, formData.FB, Profile
         );
 
     } catch (error) {
@@ -415,7 +416,7 @@ function AddAddress(S, B, C, P) {
  * @param {string} Profile - Base64 encoded profile picture
  * @returns {Promise} - Promise resolving to account ID
  */
-function AddAccount(SID, UID, User, Pass, Email, Profile) {
+function AddAccount(SID, UID, User, Pass, Email, Profile,FB) {
     return fetch('patient_login.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -446,14 +447,13 @@ function AddAccount(SID, UID, User, Pass, Email, Profile) {
  * Coordinates all registration steps
  * @param {...any} args - Registration form data
  */
-async function IDS(firstname, lastname, middlename, sfx, HN, LN, STR, BRGY, CTY, PROV, SID, UID, User, Pass, Email, Profile) {
+async function IDS(firstname, lastname, middlename, sfx, HN, LN, STR, BRGY, CTY, PROV, SID, UID, User, Pass, Email, FB, Profile) {
     // Get additional patient details
     const additionalData = {
         gender: document.getElementById("gender").value,
         Contact: document.getElementById("phone").value,
         age: document.getElementById("age").value,
         DOB: document.getElementById("dob").value,
-        Facebook: " " // Default empty Facebook value
     };
 
     try {
@@ -466,7 +466,7 @@ async function IDS(firstname, lastname, middlename, sfx, HN, LN, STR, BRGY, CTY,
         await AddPatient(
             NameIDs, AddressIDs, AccountID,
             additionalData.gender, additionalData.DOB, 
-            additionalData.age, additionalData.Facebook, additionalData.Contact
+            additionalData.age, FB, additionalData.Contact
         );
         
         // Show success message

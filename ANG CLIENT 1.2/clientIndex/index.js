@@ -5,10 +5,10 @@ import { DeleteCookie } from '../../Cookies/cookies.js';
 function checkLoginStatus() {
     console.log("Checklog");
     const patientId = GetCookie('ACCID');
-    const PatientID = GetCookie('PatientID');
+    const PatientID = GetCookie('patientID');
     const Cookie = GetCookie('CookieValue');
 
-    if (Cookie) {
+    if (PatientID) {
       console.log(`Patient ID ${patientId} and ${PatientID} is logged in`);
     } else {
         window.location.href = '../../Website/login_new/patient_login.html';  // This will navigate to a new URL
@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function Profile(){
-const patientId = GetCookie('PatientID');
+const patientId = GetCookie('patientID');
     
     fetch('index.php', {
         method: 'POST',

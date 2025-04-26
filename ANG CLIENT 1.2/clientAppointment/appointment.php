@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $patientId = $conn->real_escape_string($data['PatientID']);
         $chosenDate = $conn->real_escape_string($data['APP_ChosenDate']);
         $chosenTime = $conn->real_escape_string($data['APP_ChosenTime']);
-        $status = 3;
+        $status = 4;
 
         $insertData = [
             'PatientID' => $patientId,

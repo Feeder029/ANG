@@ -80,6 +80,6 @@ function POST($conn, $table, $data, $idColumnName = 'id') {
         
     return $response;
 }
-    
+
 
 ?>

@@ -51,11 +51,11 @@ def inputinfo(PatID, StatusID, ChosenDate, ChosenTime, QRPath, QRData):
 # Generate QR Code
 def generate_qr(PatID, ChosenDate, ChosenTime):
     # Create QR code data
-    qr_data = f"PatientID: {PatID}, ChosenDate: {ChosenDate}, Chosen Time: {ChosenTime}"
+    qr_data = f"ChosenDate: {ChosenDate}, Chosen Time: {ChosenTime}"
     qr = qrcode.make(qr_data)
     
     # Save to file system
-    qrname = f"QR_IMAGES/QR_{PatID}_{ChosenDate.replace('-', '')}_{ChosenTime.replace(':', '').replace(' ', '')}.png"
+    qrname = f"QR_IMAGES/QR_CODE_{ChosenDate.replace('-', '')}_{ChosenTime.replace(':', '').replace(' ', '')}.png"
     os.makedirs("QR_IMAGES", exist_ok=True)
     qr.save(qrname)
     print(f"QR code saved as {qrname}")
@@ -79,7 +79,7 @@ def handle_request():
         return jsonify({"error": "Missing Details"}), 400
     
     qr_filename, qr_binary = generate_qr(PatID, ChosenDate, ChosenTime)
-    appointment_id = inputinfo(PatID, 3, ChosenDate, ChosenTime, qr_filename, qr_binary)
+    appointment_id = inputinfo(PatID, 4, ChosenDate, ChosenTime, qr_filename, qr_binary)
     
     if appointment_id:
         return jsonify({

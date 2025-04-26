@@ -3,11 +3,13 @@ import { GetCookie } from '../../Cookies/cookies.js';
 function DisplayBilling(){
     console.log("Getin")
         
-    const Cookie = GetCookie('CookieValue');
+    const PatientID = GetCookie('patientID');
 
     fetch('billing.php')
     .then(response=>response.json())
     .then(data=>{
+
+
 
         let display = `
                     <thead>
@@ -23,21 +25,25 @@ function DisplayBilling(){
                     </thead>`;
 
         data.forEach(item => {
-            display+= `                    
-                       <tbody>
-                        <tr>
-                            <td>${item.BILL_Date}</td>
-                            <td>${item.Services}</td>
-                            <td>${item.Amount}</td>
-                            <td>${item.Payment}</td>
-                            <td>${item.PM_Name}</td>
-                            <td>${item.STAT_Name}</td>
-                            <td>
-                                <button class="btn btn-download btn-tooltip" data-tooltip="Download Receipt">
-                                    <i class="fas fa-download"></i>
-                                </button>
-                            </td>
-                        </tr>`
+
+            if(item.PatientID==PatientID){
+                display+= `                    
+                <tbody>
+                 <tr>
+                     <td>${item.BILL_Date}</td>
+                     <td>${item.Services}</td>
+                     <td>${item.Amount}</td>
+                     <td>${item.Payment}</td>
+                     <td>${item.PM_Name}</td>
+                     <td>${item.STAT_Name}</td>
+                     <td>
+                         <button class="btn btn-download btn-tooltip" data-tooltip="Download Receipt">
+                             <i class="fas fa-download"></i>
+                         </button>
+                     </td>
+                 </tr>`
+            }
+
         })
 
         document.getElementById('billings').innerHTML = display;

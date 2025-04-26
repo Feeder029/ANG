@@ -7,16 +7,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function DisplaySchedule(SID){
 
-    const Cookie = GetCookie('CookieValue');
+    const PatientID = GetCookie('patientID');
+    console.log("User ID: "+ PatientID)
 
     fetch(`schedule.php`)
     .then(response=>response.json())
     .then(data=>{
         let display = ``;
         data.forEach(item => {
-            console.log("Player Cookie: "+ item.ACC_Cookies);
+            console.log("APP ID: "+ item.PatientID);
 
-            if(item.ACC_Cookies==Cookie){
+            if(item.PatientID==PatientID){
                 if(item.STAT_Name==SID || SID == "ALL"){
                     const imgSrc = item.image ? 
                     `data:image/jpeg;base64,${item.image}` : 
@@ -24,8 +25,8 @@ function DisplaySchedule(SID){
                 
                     display += `                        
                     <tr>
-                    <td>${item.App_ChosenTime}</td>
                     <td>${item.App_ChosenDate}</td>
+                    <td>${item.App_ChosenTime}</td>
                     <td>${item.Services}</td>
                     <td>${item.STAT_Name}</td>
                     <td><img src="${imgSrc}" alt="QR Code" class="qr-code"></td>

@@ -138,7 +138,7 @@ function populateCalendar(year, month) {
         const currentDate = new Date(year, month, i);
         
         // Disable past dates
-        if (currentDate < today) {
+        if (false) {
             dayCell.classList.add('disabled');
         } else {
             dayCell.addEventListener('click', function() {
@@ -358,7 +358,7 @@ function bookAppointment() {
             }
             
             let formattedMilitaryTime = convertToMilitaryTime(selectedTime);
-            const PatientID = GetCookie('PatientID');
+            const PatientID = GetCookie('patientID');
            
             // Create the appointment first, then associate services
             AddAppointment(PatientID, DBDate, formattedMilitaryTime);
