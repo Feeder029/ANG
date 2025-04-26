@@ -38,25 +38,24 @@ function ServiceDisplay() {
             let i = 0; 
 
             if (data.length === 0) {
-                // If there is no data, display the "No available services" message
                 display = `<h2>There are no current available services.<h2>`;
             } else {
 
 
                 data.forEach(item => {
                     // Find the corresponding icon for the procedure name
-                    let matchingIcon = iconData.find(icon => icon.process.toLowerCase() === item.S_NAME.toLowerCase());
+                    let matchingIcon = iconData.find(icon => icon.process.toLowerCase() === item.SER_Name.toLowerCase());
 
                     // Set the icon source (if a match is found, use it, otherwise use a default icon)
                     let iconSrc = matchingIcon ? matchingIcon.icon : 'https://cdn-icons-png.flaticon.com/128/2932/2932475.png'; // Default icon
 
                     display += `
-                        <div class='procedure-card' data-procedure="${item.S_ID}">     
+                        <div class='procedure-card' data-procedure="${item.ServiceID}">     
                             <img src="${iconSrc}" alt="Tooth" class="procedure-icon">
-                            <div class="procedure-name">${item.S_NAME}</div>
-                            <div hidden class="procedure-id">${item.S_ID}</div>
+                            <div class="procedure-name">${item.SER_Name}</div>
+                            <div hidden class="procedure-id">${item.ServiceID}</div>
                         </div>
-                    `; // Hidden so users can't see the ID
+                    `; 
 
                     i++;
                 });
@@ -525,7 +524,7 @@ function AddServiceAppointment(AppointmentID, ServiceID, isLastService) {
         console.error('Fetch error:', error);
         Swal.fire({
             title: 'Error',
-            text: "An error occurred while adding services to the appointment.",
+            text: "An error occurred while adding service appointment to the appointment.",
             icon: 'error',
             position: 'top',
             toast: true,

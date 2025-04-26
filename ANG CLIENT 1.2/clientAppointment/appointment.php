@@ -1,6 +1,7 @@
 <?php
 header('Content-Type: application/json'); // Set response format
 include '../../Database/DBConnect.php';
+require '../clientIndex/globalfunction.php';
 
 // Check if connection is successful
 if (!$conn) {
@@ -13,90 +14,52 @@ $services = [];
 
 // Handle POST request for adding appointments
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-    // Decode the JSON data from the request
     $data = json_decode(file_get_contents('php://input'), true);
 
     if (isset($data['PatientID'], $data['APP_ChosenDate'], $data['APP_ChosenTime'])) {
-        $PID = $conn->real_escape_string($data['PatientID']);
-        // $SID = $conn->real_escape_string($data['ServicesID']);
-        $ACD = $conn->real_escape_string($data['APP_ChosenDate']);
-        $ACT = $conn->real_escape_string($data['APP_ChosenTime']);
-        $Status = 3;
-    
-        $stmt = $conn->prepare("INSERT INTO `appointment` (`PatientID`, `StatusID`, `APP_ChosenDate`, `APP_ChosenTime`) VALUES (?, ?, ?, ?)");
-        
-        if ($stmt) {
-            $stmt->bind_param("iiss", $PID, $Status, $ACD, $ACT);
-    
-            if ($stmt->execute()) {
-                // Get the auto-incremented ID of the newly inserted record
-                $appointmentID = $conn->insert_id;
-                
-                $response['appointment'] = [
-                    'status' => 'success', 
-                    'message' => 'Appointment record inserted successfully',
-                    'id' => $appointmentID // Add the ID to the response
-                ];
-            } else {
-                $response['appointment'] = ['status' => 'error', 'message' => 'Failed to insert appointment record: ' . $stmt->error];
-            }
-    
-            $stmt->close();
-        } else {
-            $response['appointment'] = ['status' => 'error', 'message' => 'Failed to prepare the SQL query: ' . $conn->error];
-        }
-    
-        echo json_encode($response);
+        $patientId = $conn->real_escape_string($data['PatientID']);
+        $chosenDate = $conn->real_escape_string($data['APP_ChosenDate']);
+        $chosenTime = $conn->real_escape_string($data['APP_ChosenTime']);
+        $status = 3;
 
-    } else if(isset($data['AppointmentID'], $data['ServicesID'])){
+        $insertData = [
+            'PatientID' => $patientId,
+            'StatusID' => $status,
+            'APP_ChosenDate' => $chosenDate,
+            'APP_ChosenTime' => $chosenTime
+        ];
+        
+        $response = POST($conn, 'appointment', $insertData, 'id');
+        echo json_encode($response);
+        exit;
+    } 
+    else if(isset($data['AppointmentID'], $data['ServicesID'])) {
         $AID = $conn->real_escape_string($data['AppointmentID']);
         $SID = $conn->real_escape_string($data['ServicesID']);
 
-        $stmt = $conn->prepare("INSERT INTO `appointmentservices`(`AppointmentID`, `ServicesID`) VALUES (?,?)");
-
-        if ($stmt) {
-            $stmt->bind_param("ii", $AID, $SID);
-
-            if ($stmt->execute()) {
-                $response['AS'] = ['status' => 'success', 'message' => 'Appointment Services record inserted successfully'];
-            } else {
-                $response['AS'] = ['status' => 'error', 'message' => 'Failed to insert appointment record: ' . $stmt->error];
-            }
-
-            $stmt->close();
-        } else {
-            $response['AS'] = ['status' => 'error', 'message' => 'Failed to prepare the SQL query: ' . $conn->error];
-        }
-
-        echo json_encode($response);
-
-    } else {
-        $response['AS'] = ['status' => 'error', 'message' => 'Missing required data'];
+        $insertData = [
+            'AppointmentID' => $AID,
+            'ServicesID' => $SID,
+        ];
         
-        echo json_encode($response);
+        $response = POST($conn, 'appointmentservices', $insertData, 'id');
 
+        $response = ['AS' => $response]; 
+        echo json_encode($response);
+        exit; 
+    } else {
+        $response = ['AS' => ['status' => 'error', 'message' => 'Missing required data']];
+        echo json_encode($response);
+        exit;
     }
 }
 // Handle GET request for fetching services
 else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $Services_Avi = $conn->query("SELECT `ServiceID`, `SER_Name`, `SER_Details`, `SER_Duration` FROM `services`");
 
-    // Check if query was successful
-    if (!$Services_Avi) {
-        echo json_encode(['error' => "Error executing query: " . $conn->error]);
-    } else {
-        while ($row = $Services_Avi->fetch_assoc()) {
-            $services[] = [
-                "S_ID" => $row['ServiceID'],
-                "S_NAME" => $row['SER_Name']
-            ];
-        }
-        
-        // Output the services array for GET requests
-        echo json_encode($services);
-    }
+    return GET($conn,$Services_Avi); //Call A Global Function for  Displays
 }
+
 
 $conn->close();
 ?>
