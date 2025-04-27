@@ -1,23 +1,50 @@
 import { GetCookie } from '../../Cookies/cookies.js';
 
+window.DisplaySchedule = DisplaySchedule;
+
 document.addEventListener('DOMContentLoaded', function() {
-    // DisplaySchedule("ALL");
     DisplaySchedule("ALL");
 });
 
 function DisplaySchedule(SID){
-
+    
     const PatientID = GetCookie('patientID');
-    console.log("User ID: "+ PatientID)
 
-    fetch(`schedule.php`)
+    const action = "schedules"
+    
+
+    fetch(`schedule.php?action=${action}`)
     .then(response=>response.json())
     .then(data=>{
         let display = ``;
+        let mobiledisplay = ``;
+        let a = 0;
+        let B = 0;
+        let CP = 0;
+        let CD = 0;
+        let RD= 0;
+
         data.forEach(item => {
             console.log("APP ID: "+ item.PatientID);
 
             if(item.PatientID==PatientID){
+                a++;
+
+                switch (item.STAT_Name) {
+                    case "Booked":
+                      B++
+                      break;
+                    case "Complete":
+                      CP++
+                      break;
+                    case "Cancelled":
+                      CD++
+                      break;
+                    case "Reschedule":
+                      RD++
+                      break;
+                }             
+
                 if(item.STAT_Name==SID || SID == "ALL"){
                     const imgSrc = item.image ? 
                     `data:image/jpeg;base64,${item.image}` : 
@@ -42,12 +69,52 @@ function DisplaySchedule(SID){
                      </td>
                      </tr>`;
 
+                     mobiledisplay += `
+                        <div class="appointment-card">
+                        <div class="card-header">
+                            <div class="card-title">APPOINTMENT #${a}</div>
+                            <div class="card-status status-pending">${item.STAT_Name}</div>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-info-item">
+                                <div class="info-label">Date</div>
+                                <div class="info-value">${item.App_ChosenDate}</div>
+                            </div>
+                            <div class="card-info-item">
+                                <div class="info-label">Time</div>
+                                <div class="info-value">${item.App_ChosenTime}</div>
+                            </div>
+                            <div class="card-info-item">
+                                <div class="info-label">Procedure</div>
+                                <div class="info-value">${item.STAT_Name}</div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <img src="${imgSrc}" alt="QR Code" class="card-qr">
+                            <div class="card-actions">
+                                <button class="btn btn-cancel btn-tooltip" data-tooltip="Cancel Appointment">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                                     <button class="btn btn-download btn-tooltip" data-tooltip="Download QR Code" data-qr="${item.image ? item.image : ''}" data-name="QRCODE_${item.App_ChosenDate.replace(/[\/\\:*?"<>|]/g, '_')}">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    `;
               }
             }
         })
 
-        document.getElementById('scheduletable').innerHTML = display; // Add to the HTML
+        console.log(a)
+
+        Counts(a, B, CP, CD, RD);
+
         
+
+        document.getElementById('scheduletable').innerHTML = display; // Add to the HTML
+        document.getElementById('mobile-view').innerHTML = mobiledisplay; // Add to the HTML
+    
         // Add event listeners to the download buttons
         const downloadButtons = document.querySelectorAll('.btn-download');
         downloadButtons.forEach(button => {
@@ -74,6 +141,21 @@ function DisplaySchedule(SID){
     }).catch(error=>console.error('Error fetching api.php data:', error))
 }
 
+function Counts(a, B, CP, CD, RD){
+// Select all span elements with class "tab-count"
+  const allCountSpan = document.querySelector('[data-tab="all"] .tab-count');
+  const bookedCountSpan = document.querySelector('[data-tab="confirmed"] .tab-count');
+  const completedCountSpan = document.querySelector('[data-tab="completed"] .tab-count');
+  const cancelledCountSpan = document.querySelector('[data-tab="cancelled"] .tab-count');
+  const rescheduledCountSpan = document.querySelector('[data-tab="rescheduled"] .tab-count');
+  
+  // Update the text content with the new counts
+  allCountSpan.textContent = a;
+  bookedCountSpan.textContent = B;
+  completedCountSpan.textContent = CP;
+  cancelledCountSpan.textContent = CD;
+  rescheduledCountSpan.textContent = RD;
+}
 
 
 

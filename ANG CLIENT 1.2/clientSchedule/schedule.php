@@ -8,8 +8,34 @@ if (!$conn) {
     die(json_encode(['error' => "Connection failed: " . mysqli_connect_error()]));
 }
 
-$Sched_Query = $conn->query("SELECT  `ACC_Cookies`, `App_ChosenDate`, `App_ChosenTime`, `App_Submission`, `App_QR`, APP_QRPath, `AccountID`, `PatientID`, `AddressID`, `STAT_Name`, `Services`, `Descriptions`, `Total_Duration`  FROM `appointmentlist`  ORDER BY App_ChosenDate, App_ChosenTime");
+$action = isset($_GET['action']) ? $_GET['action'] : '';
 
-GET($conn, $Sched_Query,"App_QR");
+if ($action == 'schedules') {
+
+    $Sched_Query = $conn->query("SELECT  `ACC_Cookies`, `App_ChosenDate`, `App_ChosenTime`, `App_Submission`, `App_QR`, APP_QRPath, `AccountID`, `PatientID`, `AddressID`, `STAT_Name`, `Services`, `Descriptions`, `Total_Duration`  FROM `appointmentlist` ORDER BY App_ChosenDate, App_ChosenTime");
+
+    GET($conn, $Sched_Query,"App_QR");
+    
+}  else if ($action == 'count') {
+
+    $Count = $conn->query("SELECT 
+    STAT_Name,
+    COUNT(*) AS Stat_Count
+    FROM 
+     appointmentlist
+    GROUP BY 
+     STAT_Name
+
+    UNION ALL
+
+    SELECT 
+     'All' AS STAT_Name,
+      COUNT(*) AS Stat_Count
+    FROM 
+     appointmentlist;
+");
+
+    GET($conn, $Count);
+}
 
 ?>

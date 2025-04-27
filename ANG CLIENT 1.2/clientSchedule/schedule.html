@@ -25,11 +25,11 @@
                 
                 <!-- Tab navigation next to search bar -->
                 <div class="tab-navigation" id="navigation">
-                    <div class="tab-item active" data-tab="all" onclick="DisplaySchedule('ALL')">ALL <span class="tab-count">4</span></div>
-                    <div class="tab-item" data-tab="confirmed" onclick="DisplaySchedule('Booked')">BOOKED<span class="tab-count">0</span></div>
-                    <div class="tab-item" data-tab="completed" onclick="DisplaySchedule('Complete')">COMPLETED <span class="tab-count">0</span></div>
-                    <div class="tab-item" data-tab="cancelled" onclick="DisplaySchedule('Cancelled')">CANCELLED <span class="tab-count">0</span></div>
-                    <div class="tab-item" data-tab="rescheduled" onclick="DisplaySchedule('Rescheduled')">RESCHEDULED <span class="tab-count">0</span></div>
+                    <div class="tab-item active" data-tab="all" onclick="DisplaySchedule('ALL')">ALL <span class="tab-count"></span></div>
+                    <div class="tab-item" data-tab="confirmed" onclick="DisplaySchedule('Booked')">BOOKED<span class="tab-count"></span></div>
+                    <div class="tab-item" data-tab="completed" onclick="DisplaySchedule('Complete')">COMPLETED <span class="tab-count"></span></div>
+                    <div class="tab-item" data-tab="cancelled" onclick="DisplaySchedule('Cancelled')">CANCELLED <span class="tab-count"></span></div>
+                    <div class="tab-item" data-tab="rescheduled" onclick="DisplaySchedule('Reschedule')">RESCHEDULED <span class="tab-count"></span></div>
                 </div>
                 
                 <!-- Stylish date range after tab navigation -->
@@ -66,7 +66,7 @@
                 </table>
                 
                 <!-- Card view for mobile -->
-                <div class="appointments-cards">
+                <div class="appointments-cards" id="mobile-view">
                     <!-- Card 1 -->
                     <div class="appointment-card">
                         <div class="card-header">
@@ -266,6 +266,6 @@
         });
     </script>
 
-    <script type="module" src="schedule.js?v=1.0.10"></script>
+    <script type="module" src="schedule.js?v=1.0.12"></script>
 </body>
 </html>

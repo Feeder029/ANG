@@ -25,10 +25,10 @@
                 
                 <!-- Tab navigation next to search bar -->
                 <div class="tab-navigation">
-                    <div class="tab-item active" data-tab="all">ALL <span class="tab-count">2</span></div>
-                    <div class="tab-item" data-tab="pending">PENDING <span class="tab-count">0</span></div>
-                    <div class="tab-item" data-tab="paid">PAID <span class="tab-count">2</span></div>
-                    <div class="tab-item" data-tab="unpaid">UNPAID <span class="tab-count">0</span></div>
+                    <div class="tab-item active" data-tab="all" onclick="DisplayBilling('ALL')">ALL <span class="tab-count">2</span></div>
+                    <div class="tab-item" data-tab="pending" onclick="DisplayBilling('Pending')">PENDING <span class="tab-count">0</span></div>
+                    <div class="tab-item" data-tab="paid" onclick="DisplayBilling('Paid')">PAID <span class="tab-count">2</span></div>
+                    <div class="tab-item" data-tab="unpaid" onclick="DisplayBilling('Unpaid')">UNPAID <span class="tab-count">0</span></div>
                 </div>
                 
                 <!-- Stylish date range after tab navigation -->
@@ -54,7 +54,7 @@
                 </table>
                 
                 <!-- Card view for mobile -->
-                <div class="billings-cards">
+                <div class="billings-cards" id="mobile-view">
                     <!-- Card 1 -->
                     <div class="billing-card">
                         <div class="card-header">
@@ -134,7 +134,7 @@
     </div>
 
 
-    <script type="module" src="billing.js?v=1.0.1"></script>
+    <script type="module" src="billing.js?v=1.0.3"></script>
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {

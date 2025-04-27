@@ -138,7 +138,7 @@ function populateCalendar(year, month) {
         const currentDate = new Date(year, month, i);
         
         // Disable past dates
-        if (false) {
+        if (currentDate < today) {
             dayCell.classList.add('disabled');
         } else {
             dayCell.addEventListener('click', function() {
@@ -439,9 +439,10 @@ function AddAppointment(PID, ACD, ACT) {
             // Add each selected service to the appointment
             let successCount = 0;
             let totalServices = selectedServices.length;
+            let qrpath = data.qr_path;
             
             selectedServices.forEach((serviceId, index) => {
-                AddServiceAppointment(data.appointment.id, serviceId, index === totalServices - 1);
+                AddServiceAppointment(data.appointment.id, serviceId, index === totalServices - 1, qrpath);
             });
 
         } else {
@@ -468,7 +469,7 @@ function AddAppointment(PID, ACD, ACT) {
     });
 }
 
-function AddServiceAppointment(AppointmentID, ServiceID, isLastService) {
+function AddServiceAppointment(AppointmentID, ServiceID, isLastService, QR) {
     fetch('appointment.php', {
         method: 'POST',
         headers: {
@@ -495,15 +496,29 @@ function AddServiceAppointment(AppointmentID, ServiceID, isLastService) {
                 
                 // Only show success message after the last service is added
                 if (isLastService) {
+                    let qrpath = '../../'+QR;
+                    console.log(qrpath);
                     Swal.fire({
                         title: 'Success!',
-                        text: 'You have successfully made an appointment!',
-                        icon: 'success',
+                        html: `
+                          <p>You have successfully made an appointment! Save this QR and show it to the receptionist!</p>
+                          <div>
+                            <img src="${qrpath}" width="200" height="200" alt="QR image">
+                          </div>
+                          <div style="margin-top: 15px;">
+                            <a href="${qrpath}" download="appointment-qr.png" class="swal2-confirm swal2-styled" 
+                               style="display: inline-block; background-color: #28a745; color: white; 
+                                      border-radius: 0.25em; padding: 0.625em 1.1em; margin: 0.3125em;
+                                      font-size: 0.875em; font-weight: 500; text-decoration: none;">
+                              Download QR
+                            </a>
+                          </div>
+                        `,
+                        showConfirmButton: true,
                         confirmButtonText: 'OK',
                         confirmButtonColor: '#3085d6',
                         backdrop: true
-                    });
-                    
+                      });
                     // Reset selections after successful booking
                     resetSelections();
                 }
