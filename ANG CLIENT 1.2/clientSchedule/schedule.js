@@ -58,7 +58,7 @@ function DisplaySchedule(SID){
                     <td><img src="${imgSrc}" alt="QR Code" class="qr-code"></td>
                     <td>
                     <div class="action-buttons">
-                    <button class="btn btn-cancel btn-tooltip" data-tooltip="Cancel Appointment">
+                    <button class="btn btn-cancel btn-tooltip" data-tooltip="Cancel Appointment" data-value="${item.AppointmentID}">
                     <i class="fas fa-times"></i>
                     </button>
                     <button class="btn btn-download btn-tooltip" data-tooltip="Download QR Code" data-qr="${item.image ? item.image : ''}" data-name="QRCODE_${item.App_ChosenDate.replace(/[\/\\:*?"<>|]/g, '_')}">
@@ -91,7 +91,7 @@ function DisplaySchedule(SID){
                         <div class="card-footer">
                             <img src="${imgSrc}" alt="QR Code" class="card-qr">
                             <div class="card-actions">
-                                <button class="btn btn-cancel btn-tooltip" data-tooltip="Cancel Appointment">
+                                    <button class="btn btn-cancel btn-tooltip" data-tooltip="Cancel Appointment" data-value="${item.AppointmentID}">
                                     <i class="fas fa-times"></i>
                                 </button>
                                      <button class="btn btn-download btn-tooltip" data-tooltip="Download QR Code" data-qr="${item.image ? item.image : ''}" data-name="QRCODE_${item.App_ChosenDate.replace(/[\/\\:*?"<>|]/g, '_')}">
@@ -105,15 +105,42 @@ function DisplaySchedule(SID){
             }
         })
 
-        console.log(a)
 
         Counts(a, B, CP, CD, RD);
 
-        
-
         document.getElementById('scheduletable').innerHTML = display; // Add to the HTML
         document.getElementById('mobile-view').innerHTML = mobiledisplay; // Add to the HTML
-    
+
+        
+        document.querySelectorAll('.btn-cancel').forEach(function(button) {
+            button.addEventListener('click', function() {
+              const appointmentID = this.getAttribute('data-value');
+              
+              Swal.fire({
+                title: 'Appointment Options',
+                text: 'What would you like to do with this appointment?',
+                icon: 'question',
+                showCancelButton: true,
+                showDenyButton: true,
+                confirmButtonColor: '#d33',
+                denyButtonColor: '#3085d6',
+                cancelButtonColor: '#858585',
+                confirmButtonText: 'Cancel Appointment',
+                denyButtonText: 'Reschedule',
+                cancelButtonText: 'Go Back'
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  // User clicked "Cancel Appointment"
+                  CancelAppointment(6, appointmentID);
+                } else if (result.isDenied) {
+                  // User clicked "Reschedule"
+                  CancelAppointment(7, appointmentID);
+                }
+                // If result.dismiss, user clicked "Go Back" or outside the dialog - no action needed
+              });
+            });
+          });
+          
         // Add event listeners to the download buttons
         const downloadButtons = document.querySelectorAll('.btn-download');
         downloadButtons.forEach(button => {
@@ -140,6 +167,52 @@ function DisplaySchedule(SID){
     }).catch(error=>console.error('Error fetching api.php data:', error))
 }
 
+function CancelAppointment(StatID, AppID){
+    fetch(`schedule.php`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+            AppointmentID: AppID,
+            StatusID: StatID
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log('Appointment updated successfully');
+            // Show success message
+            Swal.fire({
+                title: 'Success!',
+                text: StatID == 6 ? 'Appointment cancelled successfully.' : 'Appointment rescheduled successfully.',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                DisplaySchedule("ALL");
+                // location.reload();
+            });
+        } else {
+            console.error('Error updating appointment:', data.error || 'Unknown error');
+            // Show error message
+            Swal.fire({
+                title: 'Error',
+                text: data.error || 'Failed to update appointment. Please try again.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        }
+    })
+    .catch(error => {
+        console.error('Error updating appointment:', error);
+        // Show error message
+        Swal.fire({
+            title: 'Error',
+            text: 'Failed to connect to server. Please try again.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+    });
+}
+
 function Counts(a, B, CP, CD, RD){
 // Select all span elements with class "tab-count"
   const allCountSpan = document.querySelector('[data-tab="all"] .tab-count');
@@ -155,15 +228,6 @@ function Counts(a, B, CP, CD, RD){
   cancelledCountSpan.textContent = CD;
   rescheduledCountSpan.textContent = RD;
 }
-
-
-
-
-
-
-
-
-
 
 
 
