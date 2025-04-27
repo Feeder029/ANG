@@ -25,7 +25,6 @@ function DisplaySchedule(SID){
         let RD= 0;
 
         data.forEach(item => {
-            console.log("APP ID: "+ item.PatientID);
 
             if(item.PatientID==PatientID){
                 a++;
