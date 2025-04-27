@@ -89,42 +89,27 @@ header{
   justify-content: center;
   align-items: center;
   border-radius: 50px;
-  background: var(--white);
+  background: var(--lightblue);
   font-family:sans-serif;
   box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   cursor: pointer;
   border: none;
-  z-index: -1;
+  text-align: center;
+  text-decoration: none;
+  width: 100%;
+  padding: 9px 25px;
+  color: var(--white);
+  font-size: 1.125em;
+  font-weight: 600;
+  z-index: 20;
+  transition: all 0.3s ease-in-out;
+  
 }
-.nav-right-content a:after{
-  content: '';
-  width: 0%;
-  height: 100%;
-  background: var(--lightblue);
-  position: absolute;
-  transition: all 0.4s ease-in-out;
-  right: 0;
-}
-.nav-right-content a:hover::after {
-    right: auto;
-    left: 0;
-    width: 100%;
-  }
-  .nav-right-content span{
-    text-align: center;
-    text-decoration: none;
-    width: 100%;
-    padding: 9px 25px;
-    color: var(--fontcolor);
-    font-size: 1.125em;
-    font-weight: 600;
-    z-index: 20;
-    transition: all 0.3s ease-in-out;
-  }
-.nav-right-content a:hover span{
+
+.nav-right-content a:hover{
     color: var(--white);
-    animation: scaleUp 0.3s ease-in-out;
+    background-color: var(--Blue);
 }
 #menu-icon{
     font-size: 30px;

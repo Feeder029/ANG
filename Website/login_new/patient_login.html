@@ -5,27 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login & Registration Form</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="patient_login.css">
 </head>
 <body>
+
+    <nav class="navbar">
+        <div class="logo">A.N.G Dental Care Center</div>
+    </nav>
+
     <div class="form-container">
 
-        
         <!-- Login Form -->
         <div class="form-box" id="login-box">
-            <h2>Login</h2>
+            <h2>Sign in</h2>
             <form id="login-form">
                 <div class="input-group">
                     <label for="login-email">Email or Username:</label>
                     <input type="text" id="login-email" name="email" required>
                 </div>
-                <div class="input-group">
+                <div class="input-group" class="show-password-icon">
                     <label for="login-password">Password:</label>
-                    <input type="password" id="login-password" name="password" required>
+                        <div class="password-wrapper">
+                            <input type="password" id="login-password" name="password" required>
+                            <i class="fas fa-eye" id="toggle-password"></i>
+                        </div>
+                        <div class="forgot-password"></div>
+                    <a href="" class="forgot-password-a" >Forgot password?</a>
                 </div>
                 <div class="form-footer">
-                    <button type="submit" id="login-btn">Login</button>
-                    <p>Don't have an account? <span id="show-register">Register here</span></p>
+                    <button type="submit" id="login-btn">Sign in</button>
+                </div>
+              
+                <div class="login-or-signup">
+                    <p>Don't have an account? <span id="show-register">Sign up</span></p>
                 </div>
             </form>
         </div>
@@ -34,122 +47,155 @@
         <div class="form-box" id="register-box" style="display: none;">
             <h2>Register</h2>
             <form id="register-form" enctype="multipart/form-data">
-                <div class="input-group profile-picture-group">
-                    <label for="profile-picture">Profile Picture:</label>
-                    <input type="file" id="profile-picture" name="profile-picture" accept="image/*" required>
-                    <div id="profile-preview" class="profile-preview">
-                        <img id="preview-image" src="#" alt="Preview" style="display: none; max-width: 100%; max-height: 150px;">
+        
+                <!-- Step 1 -->
+                <div id="step-1">
+                    <div class="input-group profile-picture-group">
+                        <label for="profile-picture">Profile Picture:</label>
+                        <input type="file" id="profile-picture" name="profile-picture" accept="image/*" required>
+                        <div id="profile-preview" class="profile-preview">
+                            <img id="preview-image" src="#" alt="Preview" style="display: none; max-width: 100%; max-height: 150px;">
+                        </div>
                     </div>
-                </div>
+        
+                    <div class="input-group">
+                        <label for="firstname">First Name:</label>
+                        <input type="text" id="firstname" name="firstname" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="lastname">Last Name:</label>
+                        <input type="text" id="lastname" name="lastname" required>
+                    </div>
+                    <div class="input-group-inline">
+                        <div class="input-inline">
+                            <label for="middlename">Middle Name:</label>
+                            <input type="text" id="middlename" name="middlename">
+                        </div>
+                        <div class="input-inline">
+                            <label for="suffix">Suffix:</label>
+                            <input type="text" id="suffix" name="suffix">
+                        </div>
+                    </div>
+                    <div class="input-group-inline">
+                        <div class="input-inline">
+                            <label id="selectLabelMargin" for="gender">Gender:</label>
+                            <select id="gender" name="gender" required>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="input-inline">
+                            <label id="selectLabelMargin" for="age">Age:</label>
+                            <input type="number" id="age" name="age" required>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label id="selectLabelMargin" for="dob">Date of Birth:</label>
+                        <input type="date" id="dob" name="dob" required>
+                    </div>
+        
+                    <div class="form-footer">
+                        <button type="button" id="next-btn-1">Next</button>
+                    </div>
 
-                <div class="input-group">
-                    <label for="firstname">First Name:</label>
-                    <input type="text" id="firstname" name="firstname" required>
-                </div>
-                <div class="input-group">
-                    <label for="lastname">Last Name:</label>
-                    <input type="text" id="lastname" name="lastname" required>
-                </div>
-                <div class="input-group-inline">
-                    <div class="input-inline">
-                        <label for="middlename">Middle Name:</label>
-                        <input type="text" id="middlename" name="middlename">
-                    </div>
-                    <div class="input-inline">
-                        <label for="suffix">Suffix:</label>
-                        <input type="text" id="suffix" name="suffix">
+                    <div class="login-or-signup">
+                        <p>Already have an account? <span id="show-login">Sign in</span></p>
                     </div>
                 </div>
-                <div class="input-group-inline">
-                    <div class="input-inline">
-                        <label id="selectLabelMargin" for="gender">Gender:</label>
-                        <select id="gender" name="gender" required>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                            <option value="other">Other</option>
-                        </select>
+        
+                <!-- Step 2 -->
+                <div id="step-2" style="display: none;">
+                    <div class="input-group">
+                        <label for="street">Street:</label>
+                        <input type="text" id="street" name="street" required>
                     </div>
-                    <div class="input-inline">
-                        <label id="selectLabelMargin" for="age">Age:</label>
-                        <input type="number" id="age" name="age" required>
+                    <div class="input-group-inline">
+                        <div class="input-inline">
+                            <label for="barangay">Barangay:</label>
+                            <select id="barangay" name="barangay" disabled required>
+                                <option value="barangay1">Barangay 1</option>
+                                <option value="barangay2">Barangay 2</option>
+                                <option value="barangay3">Barangay 3</option>
+                            </select>
+                        </div>
+                        <div class="input-inline">
+                            <label for="city">City:</label>
+                            <select id="city" name="city" disabled required>
+                                <option value="city1">City 1</option>
+                                <option value="city2">City 2</option>
+                                <option value="city3">City 3</option>
+                            </select>
+                        </div>
+                        <div class="input-inline">
+                            <label for="province">Province:</label>
+                            <select id="province" name="province" required>
+                                <option value="province1">Province 1</option>
+                                <option value="province2">Province 2</option>
+                                <option value="province3">Province 3</option>
+                            </select>
+                        </div>
+                    </div>
+        
+                    <div class="input-group">
+                        <label id="selectLabelMargin" for="register-email">Email:</label>
+                        <input type="email" id="register-email" name="email" required>
+                    </div>
+                    <div class="input-group">
+                        <label id="selectLabelMargin" for="register-fb">Facebook:</label>
+                        <input type="text" id="register-fb" name="fb">
+                    </div>
+                    <div class="input-group">
+                        <label for="phone">Phone:</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+        
+                    <div class="form-footer">
+                        <button type="button" id="back-btn-1">Back</button>
+                        <button type="button" id="next-btn-2">Next</button>
                     </div>
                 </div>
-                <div class="input-group">
-                    <label id="selectLabelMargin" for="dob">Date of Birth:</label>
-                    <input type="date" id="dob" name="dob" required>
-                </div>
-
-                <div class="input-group">
-                    <label for="street">Street:</label>
-                    <input type="text" id="street" name="street" required>
-                </div>
-                <div class="input-group-inline">
-                    <div class="input-inline">
-                        <label for="barangay">Barangay:</label>
-                        <select id="barangay" name="barangay" disabled required>
-                            <option value="barangay1">Barangay 1</option>
-                            <option value="barangay2">Barangay 2</option>
-                            <option value="barangay3">Barangay 3</option>
-                        </select>
+        
+                <!-- Step 3 -->
+                <div id="step-3" style="display: none;">
+                    <div class="input-group">
+                        <label for="Username-register">Username:</label>
+                        <input type="text" id="Username-register" name="Username-register" required>
+                        <h5 id="Usermessage"></h5>
                     </div>
-                    <div class="input-inline">
-                        <label for="city">City:</label>
-                        <select id="city" name="city" disabled required>
-                            <option value="city1">City 1</option>
-                            <option value="city2">City 2</option>
-                            <option value="city3">City 3</option>
-                        </select>
+        
+                    <div class="input-group">
+                        <label for="password-register">Password:</label>
+                        <input type="password" id="password-register" name="password-register" required>
+                        <h5 id="passmessage"></h5>
                     </div>
-                    <div class="input-inline">
-                        <label for="province">Province:</label>
-                        <select id="province" name="province" required>
-                            <option value="province1">Province 1</option>
-                            <option value="province2">Province 2</option>
-                            <option value="province3">Province 3</option>
-                        </select>
+                    
+                    <div class="input-group">
+                        <label for="confirm-register">Confirm Password:</label>
+                        <input type="password" id="confirm-register" name="confirm-register" required>
+                        <h5 id="confirmmessage"></h5>
+                    </div>
+        
+                    <div class="form-footer">
+                        <button type="button" id="back-btn-2">Back</button>
+                        <button type="submit" id="register-btn">Register</button>
+                    </div>
+                    
+                    <div class="login-or-signup">
+                        <p>Already have an account? <span id="show-login">Sign in</span></p>
                     </div>
                 </div>
-                <div class="input-group">
-                    <label id="selectLabelMargin" for="register-email">Email:</label>
-                    <input type="email" id="register-email" name="email" required>
-                </div>
-                <div class="input-group">
-                    <label id="selectLabelMargin" for="register-fb">Facebook:</label>
-                    <input type="text" id="register-fb" name="fb">
-                </div>
-                <div class="input-group">
-                    <label for="phone">Phone:</label>
-                    <input type="tel" id="phone" name="phone" required>
-                </div>
-                <div class="input-group">
-                    <label for="Username-register">Username:</label>
-                    <input type="text" id="Username-register" name="Username-register" required>
-                    <h5 id="Usermessage"></h5>
-                </div>
-
-                <div class="input-group">
-                    <label for="password-register">password:</label>
-                    <input type="password" id="password-register" name="password-register" required>
-                    <h5 id="passmessage"></h5>
-                </div>
-                
-                <div class="input-group">
-                    <label for="confirm-register">Confirm password:</label>
-                    <input type="password" id="confirm-register" name="confirm-register" required>
-                    <h5 id="confirmmessage"></h5>
-                </div>
-                <div class="form-footer">
-                    <button type="submit" id="register-btn">Register</button>
-                    <p>Already have an account? <span id="show-login">Login here</span></p>
-                </div>
-
+        
             </form>
         </div>
+        
     </div>
 
 
 
     <script type="module" src="patient_login.js?v=1.8"></script>
+    <script src="password_icon.js"></script>
+    <script src="patient_register_Form.js"></script>
 
 </body>
 </html>
