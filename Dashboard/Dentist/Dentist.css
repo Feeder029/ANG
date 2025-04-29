@@ -1,0 +1,397 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    list-style: none;
+    text-decoration: none;
+}
+
+body{
+    background-color:#f0f3f6;
+    overflow: hidden;
+}
+
+.nav-bar{
+    background-color:#ffffff;
+    border: 1px solid rgba(125, 125, 125, 0.473);
+    height: fit-content;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    padding: 15px;
+    border-radius: 15px;
+    align-items: center;
+}
+
+.nav-left{
+    display: flex;
+    padding: 10px;
+    position: relative;
+    flex-direction: column;
+}
+
+.nav-right{
+
+    margin-left: auto;
+    display: flex;
+    gap: 20px;
+    position: relative;
+
+}
+
+.nav-right button{
+    padding: 5px;
+    width: 20vh;
+    height: 5vh;
+    border-radius: 10px;
+    font-size: 2vh;
+    border: none;
+    cursor: pointer;
+}
+
+.nav-right #add-btn{
+    background-color: #5CB338;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.nav-right #export-btn{
+    background-color: rgb(183, 113, 38);
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.container{
+    background-color: #ffffff;
+    height: 80vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    top: 10px;
+    border-radius: 15px;
+    border: 1px solid rgba(125, 125, 125, 0.473);
+}
+
+.top-container{
+    background-color:#ffffff;
+    width: 100%;
+    height: 10vh;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    border-radius: 15px 15px 0 0;
+}
+
+.search-container{
+    background-color:#f0f3f6;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: row;
+    margin: 10px;
+    padding: 5px;
+    width: 30%;
+    height: fit-content;
+    gap: 8px;
+}
+
+#search-icon{
+    margin: auto;
+    font-size: 4vh;
+}
+
+.search-container p{
+    font-size: 30px;
+    position: relative;
+    top: -3px;
+}
+
+#search{
+    margin: auto;
+    padding: 0;
+    background-color:#f0f3f6;
+    border: none;
+    width: 100%;
+    height: 100%;
+    font-size: 20px;
+    outline: none;
+}
+
+.sort-container{
+    margin-left: auto;
+    display:flex;
+    flex-direction: row;
+    padding: 20px;
+    gap: 10px;
+}
+
+#sort-btn{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+#sort-btn i{
+    font-size: 20px;
+}
+
+#sort{
+    border-color: #f0f3f6;
+    cursor: pointer;
+    padding: 6px;
+}
+#sort option{
+    cursor: pointer;
+}
+
+.date-container{
+    display: flex;
+    flex-direction: row;
+    margin-left: auto;
+    padding: 20px;
+    gap: 10px;
+}
+
+.date-container input{
+    width: 20vh;
+    height: 35px;
+}
+
+.date-container p{
+    margin: auto;
+}
+
+.table-container{
+    display: flex;
+    position: relative;
+    width: 100%;
+    padding: 15px;
+    overflow:auto;
+}
+
+table {
+    width: 100%;
+    height: 100%;
+    border-collapse: separate;
+    border-spacing: 0 7px;
+    text-align: left;
+    padding-bottom: 50px;
+    top: -30px;
+    position: relative;
+}
+
+
+th, td {
+    padding: 8px; 
+}
+
+th {
+    background-color:#ffffff;
+    height: 60px;
+    font-weight: bolder;
+}
+
+#head{
+    box-shadow: 0 4px 0px rgba(0, 0, 0, 0.1);
+
+}
+
+thead{
+
+    position: sticky;
+    top: -20px;
+    z-index: 1;
+}
+
+tr{
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.5s ease;
+    cursor: pointer;
+}
+
+
+tr:hover{
+    transform: translateY(-2px);
+}
+
+
+tr:nth-child(even) {
+    background-color:#f0f3f6; 
+}
+
+#id-head{
+    width: 75px;
+}
+.patient{
+    display: flex;
+    flex-direction: row;
+}
+
+#patient-head{
+    width: 50vh;
+}
+
+.patient img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    background-color: #ffffff;
+}
+
+.patient-name{
+    flex-direction: column;
+    padding: 5px;
+    text-align: left;
+}
+
+.patient-name h2{
+    font-size: 2vh;
+}
+
+.patient-name p{
+    font-size: 1.5vh;
+}
+
+.action{
+    text-align: center;
+}
+
+.action button{
+    border: none;
+    cursor: pointer;
+    padding-right: 10px;
+    background-color: transparent;
+}
+
+#edit{
+    color: rgb(53, 234, 53);
+}
+
+#delete{
+    color: red;
+}
+
+#view{
+    color: black;
+    padding-right: 0;
+}
+
+#action-head{
+    text-align: center;
+}
+
+#address-head{
+    width: 20%;
+}
+
+#date-head{
+    width: 12%;
+}
+
+#status-head{
+    width: 10%;
+    text-align: center;
+}
+
+#gender, #contact, #datecreated, #gender-head, #contact-head, #date-head, #status{
+    text-align: center;
+}
+
+.status-container{
+    display:flex;
+    flex-direction: row;
+    justify-content: left;
+    gap: 10px;
+}
+
+.status-container button{
+    padding: 15px;
+    width: 200px;
+    height: fit-content;
+    border-radius: 10px;
+    border: 0.5px solid;
+    cursor: pointer;
+    font-size: 15px;
+    text-align: left;
+    border-left: 5px solid ;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.status-container button div{
+    display: flex;
+    flex-direction: column;
+}
+
+.status-container button span{
+    font-size:x-large;
+    font-weight: bolder;
+}
+
+.status-container button i{
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 50px;
+}
+
+.status-container button:hover{
+    border-left: 5px solid;
+}
+
+#pending-status { 
+    color: rgb(86, 148, 28); 
+    background-color: #e8f5dc;
+  }
+  
+  #pending-status:hover { 
+    background-color: rgb(131, 198, 64); 
+    color: white; 
+    border: none; 
+    border-left: 5px solid rgb(86, 148, 28);
+  }
+  
+  #active-status { 
+    color: rgb(59, 59, 143); 
+    background-color: #dfdff5;
+  } 
+  
+  #active-status:hover { 
+    background-color: rgb(96, 96, 194); 
+    color: white; 
+    border: none; 
+    border-left: 5px solid rgb(59, 59, 143);
+  }
+  
+  #inactive-status { 
+    color: rgb(158, 43, 43); 
+    background-color: #f9e3e3;
+  } 
+  
+  #inactive-status:hover { 
+    background-color: rgb(207, 69, 69); 
+    color: white; 
+    border: none; 
+    border-left: 5px solid rgb(158, 43, 43);
+  }
+
+  .PENDING-status p {
+    background-color: #1e8535; /* Darker green */
+    color: #c6f0d4; /* More noticeable light green */
+}
+
+.ACTIVE-status p {
+    background-color: #0056b3; /* Darker blue */
+    color: #cce5ff; /* More noticeable light blue */
+}
+
+.INACTIVE-status p {
+    background-color: #b30000; /* Darker red */
+    color: #ffcccc; /* More noticeable light red */
+}
+
+  #status p {
+    padding: 5px;
+    border-radius: 10px;
+  }

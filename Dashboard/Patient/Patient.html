@@ -5,14 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="Patient.css">
+    <link rel="stylesheet" href="Patient.css?v=1.0.1">
     <title>Patient</title>
 </head>
 <body>
 
     <nav class="nav-bar">
         <div class="nav-left">
-            <h1>Patients List</h1>
+            <div class="status-container">
+                <button id="pending-status" onclick="DisplayPatients('PENDING')"><i class="fa-solid fa-clock-rotate-left"></i> <div> PENDING ACCOUNTS &nbsp; <span>0 </span></div> </button>
+                <button id="active-status" onclick="DisplayPatients('ACTIVE')"><i class="fa-solid fa-check-circle"></i><div>  ACTIVE ACCOUNTS &nbsp;  <span> 0 </span></div></button>
+                <button id="inactive-status" onclick="DisplayPatients('INACTIVE')"><i class="fa-solid fa-ban"></i><div>  INACTIVE ACCOUNTS &nbsp;  <span> 0 </span></div></button>
+            </div>
+            <!-- <h1>Patients List</h1> -->
         </div>
         <div class="nav-right">
             <Button id="export-btn"><i class="fa-solid fa-download"></i> &nbsp;&nbsp; EXPORT</Button>
@@ -53,153 +58,13 @@
           
         </div>
         <div class="table-container">
-            <table>
-                <thead id="head-table">
-                    <tr id="head">
-                        <th id="id-head">ID</th>
-                        <th>PATIENT</th>
-                        <th id="gender-head">GENDER</th>
-                        <th id="contact-head">CONTACT NO</th>
-                        <th id="address-head">ADDRESS</th>
-                        <th id="date-head">DATE CREATED</th>
-                        <th id="action-head">ACTION</th>
-                    </tr>
-                </thead>
-                <tr id="data">
-                    <td class="id">0005</td>
-                    <td class="patient">
-                        <img src="../img/posa.jpg" alt="">
-                        <div class="patient-name">
-                            <h2>PATIENT NAME</h2>
-                            <p>patient@gmail.com</p>
-                        </div>
-                    </td>
-                    <td id="gender">Male</td>
-                    <td id="contact">0987654321</td>
-                    <td>Marilao Bulacan</td>
-                    <td id="datecreated">01-01-2025</td>
-                    <td class="action">
-                        <button id="edit"><i class="fa-solid fa-pen-to-square"></i></button>
-                        <button id="delete"><i class="fa-solid fa-trash"></i></button>
-                        <button id="view"><i class="fa-solid fa-eye"></i></button>
-                    </td>
-                </tr>
-                <tr id="data">
-                    <td class="id">0005</td>
-                    <td class="patient">
-                        <img src="../img/posa.jpg" alt="">
-                        <div class="patient-name">
-                            <h2>PATIENT NAME</h2>
-                            <p>patient@gmail.com</p>
-                        </div>
-                    </td>
-                    <td id="gender">Male</td>
-                    <td id="contact">0987654321</td>
-                    <td>Marilao Bulacan</td>
-                    <td id="datecreated">01-01-2025</td>
-                    <td class="action">
-                        <button id="edit"><i class="fa-solid fa-pen-to-square"></i></button>
-                        <button id="delete"><i class="fa-solid fa-trash"></i></button>
-                        <button id="view"><i class="fa-solid fa-eye"></i></button>
-                    </td>
-                </tr>
-                <tr id="data">
-                    <td class="id">0005</td>
-                    <td class="patient">
-                        <img src="../img/posa.jpg" alt="">
-                        <div class="patient-name">
-                            <h2>PATIENT NAME</h2>
-                            <p>patient@gmail.com</p>
-                        </div>
-                    </td>
-                    <td id="gender">Male</td>
-                    <td id="contact">0987654321</td>
-                    <td>Marilao Bulacan</td>
-                    <td id="datecreated">01-01-2025</td>
-                    <td class="action">
-                        <button id="edit"><i class="fa-solid fa-pen-to-square"></i></button>
-                        <button id="delete"><i class="fa-solid fa-trash"></i></button>
-                        <button id="view"><i class="fa-solid fa-eye"></i></button>
-                    </td>
-                </tr>
-                <tr id="data">
-                    <td class="id">0005</td>
-                    <td class="patient">
-                        <img src="../img/posa.jpg" alt="">
-                        <div class="patient-name">
-                            <h2>PATIENT NAME</h2>
-                            <p>patient@gmail.com</p>
-                        </div>
-                    </td>
-                    <td id="gender">Male</td>
-                    <td id="contact">0987654321</td>
-                    <td>Marilao Bulacan</td>
-                    <td id="datecreated">01-01-2025</td>
-                    <td class="action">
-                        <button id="edit"><i class="fa-solid fa-pen-to-square"></i></button>
-                        <button id="delete"><i class="fa-solid fa-trash"></i></button>
-                        <button id="view"><i class="fa-solid fa-eye"></i></button>
-                    </td>
-                </tr>
-                <tr id="data">
-                    <td class="id">0005</td>
-                    <td class="patient">
-                        <img src="../img/posa.jpg" alt="">
-                        <div class="patient-name">
-                            <h2>PATIENT NAME</h2>
-                            <p>patient@gmail.com</p>
-                        </div>
-                    </td>
-                    <td id="gender">Male</td>
-                    <td id="contact">0987654321</td>
-                    <td>Marilao Bulacan</td>
-                    <td id="datecreated">01-01-2025</td>
-                    <td class="action">
-                        <button id="edit"><i class="fa-solid fa-pen-to-square"></i></button>
-                        <button id="delete"><i class="fa-solid fa-trash"></i></button>
-                        <button id="view"><i class="fa-solid fa-eye"></i></button>
-                    </td>
-                </tr>
-                <tr id="data">
-                    <td class="id">0005</td>
-                    <td class="patient">
-                        <img src="../img/posa.jpg" alt="">
-                        <div class="patient-name">
-                            <h2>PATIENT NAME</h2>
-                            <p>patient@gmail.com</p>
-                        </div>
-                    </td>
-                    <td id="gender">Male</td>
-                    <td id="contact">0987654321</td>
-                    <td>Marilao Bulacan</td>
-                    <td id="datecreated">01-01-2025</td>
-                    <td class="action">
-                        <button id="edit"><i class="fa-solid fa-pen-to-square"></i></button>
-                        <button id="delete"><i class="fa-solid fa-trash"></i></button>
-                        <button id="view"><i class="fa-solid fa-eye"></i></button>
-                    </td>
-                </tr>
-                <tr id="data">
-                    <td class="id">0005</td>
-                    <td class="patient">
-                        <img src="../img/posa.jpg" alt="">
-                        <div class="patient-name">
-                            <h2>PATIENT NAME</h2>
-                            <p>patient@gmail.com</p>
-                        </div>
-                    </td>
-                    <td id="gender">Male</td>
-                    <td id="contact">0987654321</td>
-                    <td>Marilao Bulacan</td>
-                    <td id="datecreated">01-01-2025</td>
-                    <td class="action">
-                        <button id="edit"><i class="fa-solid fa-pen-to-square"></i></button>
-                        <button id="delete"><i class="fa-solid fa-trash"></i></button>
-                        <button id="view"><i class="fa-solid fa-eye"></i></button>
-                    </td>
-                </tr>
+            <table id="patient">
+
+
             </table>
         </div>
     </div>
+
+    <script src="Patient.js"></script>
 </body>
 </html>

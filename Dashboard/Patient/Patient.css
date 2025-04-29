@@ -15,7 +15,7 @@ body{
 .nav-bar{
     background-color:#ffffff;
     border: 1px solid rgba(125, 125, 125, 0.473);
-    height: 9vh;
+    height: fit-content;
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -289,6 +289,109 @@ tr:nth-child(even) {
     width: 12%;
 }
 
-#gender, #contact, #datecreated, #gender-head, #contact-head, #date-head{
+#status-head{
+    width: 10%;
     text-align: center;
 }
+
+#gender, #contact, #datecreated, #gender-head, #contact-head, #date-head, #status{
+    text-align: center;
+}
+
+.status-container{
+    display:flex;
+    flex-direction: row;
+    justify-content: left;
+    gap: 10px;
+}
+
+.status-container button{
+    padding: 15px;
+    width: 200px;
+    height: fit-content;
+    border-radius: 10px;
+    border: 0.5px solid;
+    cursor: pointer;
+    font-size: 15px;
+    text-align: left;
+    border-left: 5px solid ;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.status-container button div{
+    display: flex;
+    flex-direction: column;
+}
+
+.status-container button span{
+    font-size:x-large;
+    font-weight: bolder;
+}
+
+.status-container button i{
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 50px;
+}
+
+.status-container button:hover{
+    border-left: 5px solid;
+}
+
+#pending-status { 
+    color: rgb(86, 148, 28); 
+    background-color: #e8f5dc;
+  }
+  
+  #pending-status:hover { 
+    background-color: rgb(131, 198, 64); 
+    color: white; 
+    border: none; 
+    border-left: 5px solid rgb(86, 148, 28);
+  }
+  
+  #active-status { 
+    color: rgb(59, 59, 143); 
+    background-color: #dfdff5;
+  } 
+  
+  #active-status:hover { 
+    background-color: rgb(96, 96, 194); 
+    color: white; 
+    border: none; 
+    border-left: 5px solid rgb(59, 59, 143);
+  }
+  
+  #inactive-status { 
+    color: rgb(158, 43, 43); 
+    background-color: #f9e3e3;
+  } 
+  
+  #inactive-status:hover { 
+    background-color: rgb(207, 69, 69); 
+    color: white; 
+    border: none; 
+    border-left: 5px solid rgb(158, 43, 43);
+  }
+
+  .PENDING-status p {
+    background-color: #1e8535; /* Darker green */
+    color: #c6f0d4; /* More noticeable light green */
+}
+
+.ACTIVE-status p {
+    background-color: #0056b3; /* Darker blue */
+    color: #cce5ff; /* More noticeable light blue */
+}
+
+.INACTIVE-status p {
+    background-color: #b30000; /* Darker red */
+    color: #ffcccc; /* More noticeable light red */
+}
+
+  #status p {
+    padding: 5px;
+    border-radius: 10px;
+  }

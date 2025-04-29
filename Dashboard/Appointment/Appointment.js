@@ -61,15 +61,41 @@ function GetAppointment(Condition){
 
 }
 
-window.GetAppointment = GetAppointment;
-
+window.DisplaySchedule = GetAppointment;
 
 
 function GetCount(){
     fetch("Appointment.php?action=count")
     .then(response=>response.json())
     .then(data=>{
-        Count(data[1].count,data[3].count,data[2].count,data[4].count);
+
+    let Booked = 0; 
+    let Complete = 0;
+    let Cancelled = 0;
+    let Reschedule = 0;
+    let Total = 0;
+
+    data.forEach(item => {
+    switch(item.STAT_Name) {
+    case 'Booked':
+      Booked = item.count;
+      break;
+    case 'Complete':
+      Complete = item.count;
+      break;
+    case 'Cancelled':
+      Cancelled = item.count;
+      break;
+    case 'Reschedule':
+      Reschedule = item.count;
+      break;
+    case 'ALL':
+      Total = item.count;
+      break;
+    }
+    });
+     
+        Count(Booked,Complete,Cancelled,Reschedule);
     }).catch(error=>console.error('Error fetching Appointment.php data:', error))
 }
 

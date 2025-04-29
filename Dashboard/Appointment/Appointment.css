@@ -205,9 +205,7 @@ tr:nth-child(even) {
     background-color:#f0f3f6; 
 }
 
-#id-head{
-    width: 75px;
-}
+
 
 #patient-head{
     width: 40vh;
@@ -286,27 +284,26 @@ tr:nth-child(even) {
 #status p{
     padding: 5px;
     border-radius: 10px;
-    color: rgb(255, 255, 255);
 }
 
 .BOOKED-status p {
-    background-color: #28a745; 
-    color: #ffffff; 
+    background-color: #1e8535; /* Darker green */
+    color: #c6f0d4; /* More noticeable light green */
 }
 
 .RESCHEDULE-status p {
-    background-color: #ffc107;
-    color: #ffffff; 
+    background-color: #d9a400; /* Darker yellow */
+    color: #ffecb3; /* More noticeable light yellow */
 }
 
 .CANCELLED-status p {
-    background-color: #dc3545; 
-    color: #ffffff; 
+    background-color: #b82736; /* Darker red */
+    color: #ffc2c7; /* More noticeable light red */
 }
 
 .COMPLETE-status p {
-    background-color: #17a2b8; 
-    color: #ffffff; 
+    background-color: #12849a; /* Darker blue */
+    color: #b8e8f0; /* More noticeable light blue */
 }
 
 

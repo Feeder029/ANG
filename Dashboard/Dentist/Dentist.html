@@ -3,10 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="Dentist.css">
-    <title>Dentist</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="Dentist.css?v=1.0.2">
+    <title>dentist</title>
 </head>
 <body>
-    <h1>UNDER CONSTRUCTION</h1>
+
+    <nav class="nav-bar">
+        <div class="nav-left">
+            <div class="status-container">
+                <button id="pending-status" onclick="GetAppointment('BOOKED')"><i class="fa-solid fa-clock-rotate-left"></i> <div> PENDING ACCOUNTS &nbsp; <span>0 </span></div> </button>
+                <button id="active-status" onclick="GetAppointment('COMPLETE')"><i class="fa-solid fa-check-circle"></i><div>  ACTIVE ACCOUNTS &nbsp;  <span> 0 </span></div></button>
+                <button id="inactive-status" onclick="GetAppointment('CANCELLED')"><i class="fa-solid fa-ban"></i><div>  INACTIVE ACCOUNTS &nbsp;  <span> 0 </span></div></button>
+            </div>
+            <!-- <h1>Patients List</h1> -->
+        </div>
+        <div class="nav-right">
+            <Button id="export-btn"><i class="fa-solid fa-download"></i> &nbsp;&nbsp; EXPORT</Button>
+            <button id="add-btn"><i class="fa-solid fa-plus"></i> &nbsp;&nbsp; DENTIST</button>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="top-container">
+            <div class="search-container">
+                <i class='bx bx-search' id="search-icon"></i>
+                <p>|</p>
+                <input type="search" name="" id="search" placeholder="Search for Dentist">
+            </div>
+            <div class="sort-container">
+                <h3>Sort By</h3>
+                <button id="sort-btn"><i class="fa-solid fa-sort"></i></button>
+                <select name="sort" id="sort">
+                        <option value="">Default</option>
+                        <option value="">ID</option>
+                        <option value="">Name</option>
+                        <option value="">Gender</option>
+                        <option value="">Date Created</option>
+                    <!-- <option value="">Date 
+                        <select name="date-option" id="date-option">
+                            <div class="date-container" style="display: none;">
+                                <input type="date" name="" id="">
+                                <p>TO</p>
+                                <input type="date" name="" id="">
+                            </div>
+                        </select>
+                    </option> -->
+                    <!-- <optgroup label="_____________">
+                        <option value="">Ascending</option>
+                        <option value="">Descending</option>
+                    </optgroup> -->
+                </select>
+            </div>
+          
+        </div>
+        <div class="table-container">
+            <table id="dentist">
+
+
+            </table>
+        </div>
+    </div>
+
+    <script src="dentist.js"></script>
 </body>
 </html>
