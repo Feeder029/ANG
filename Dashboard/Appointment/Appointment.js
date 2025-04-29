@@ -19,8 +19,6 @@ function GetAppointment(Condition){
             </thead>       
         `
 
-        
-
         data.forEach(item => {
 
 
@@ -45,11 +43,14 @@ function GetAppointment(Condition){
                         <td id="submitdate">${item.SubmissionDate} <BR> ${item.SubmissionTime}</td>
                         <td class="action">
                             <button id="edit"><i class="fa-solid fa-pen-to-square"></i></button>
-                            <button id="delete"><i class="fa-solid fa-trash"></i></button>
+                            <button id="delete" class="btn-cancel" data-value="${item.AppointmentID}" title="Do you want to cancel this appointment?">
+                            <i class="fa-solid fa-trash"></i>
+                            </button>
                             <button id="view"><i class="fa-solid fa-eye"></i></button>
                         </td>
                     </tr>
                 `
+
             }
 
 
@@ -57,6 +58,34 @@ function GetAppointment(Condition){
 
         document.getElementById('AppointmentList').innerHTML = display; // Add to the HTML
 
+        document.querySelectorAll('.btn-cancel').forEach(function(button) {
+            button.addEventListener('click', function() {
+              const appointmentID = this.getAttribute('data-value');
+              
+              Swal.fire({
+                title: 'Appointment Options',
+                text: 'What would you like to do with this appointment?',
+                icon: 'question',
+                showCancelButton: true,
+                showDenyButton: true,
+                confirmButtonColor: '#d33',
+                denyButtonColor: '#3085d6',
+                cancelButtonColor: '#858585',
+                confirmButtonText: 'Cancel Appointment',
+                denyButtonText: 'Reschedule',
+                cancelButtonText: 'Go Back'
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  // User clicked "Cancel Appointment"
+                  CancelAppointment(6, appointmentID);
+                } else if (result.isDenied) {
+                  // User clicked "Reschedule"
+                  CancelAppointment(7, appointmentID);
+                }
+              });
+            });
+          });
+          
     }).catch(error=>console.error('Error fetching Appointment.php data:', error))
 
 }
@@ -113,5 +142,51 @@ function Count(booked, completed, cancelled, rescheduled) {
     rescheduledSpan.textContent = rescheduled;
 }
 
+function CancelAppointment(StatID, AppID){
+
+    fetch(`Appointment.php`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+            AppointmentID: AppID,
+            StatusID: StatID
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log('Appointment updated successfully');
+            // Show success message
+            Swal.fire({
+                title: 'Success!',
+                text: StatID == 6 ? 'Appointment cancelled successfully.' : 'Appointment rescheduled successfully.',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                DisplaySchedule("ALL");
+                // location.reload();
+            });
+        } else {
+            console.error('Error updating appointment:', data.error || 'Unknown error');
+            // Show error message
+            Swal.fire({
+                title: 'Error',
+                text: data.error || 'Failed to update appointment. Please try again.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        }
+    })
+    .catch(error => {
+        console.error('Error updating appointment:', error);
+        // Show error message
+        Swal.fire({
+            title: 'Error',
+            text: 'Failed to connect to server. Please try again.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+    });
+}
 GetAppointment("ALL");
 GetCount();

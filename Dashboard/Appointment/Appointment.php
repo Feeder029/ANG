@@ -60,8 +60,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             GET($conn, $Count);
     }
 
+} if($_SERVER['REQUEST_METHOD'] === 'POST'){
+
+  $json = file_get_contents('php://input');
+  $data = json_decode($json, true);
+  
+  if (isset($data['AppointmentID']) && isset($data['StatusID'])) {
+    $appID = intval($data['AppointmentID']);
+    $statusID = intval($data['StatusID']);
+    
+    $stmt = $conn->prepare("UPDATE `appointment` SET `StatusID` = ? WHERE `AppointmentID` = ?");
+    $stmt->bind_param("ii", $statusID, $appID);
+    
+    if ($stmt->execute()) {
+        echo json_encode(['success' => true, 'message' => 'Appointment status updated successfully']);
+    } else {
+        echo json_encode(['error' => 'Failed to update appointment status: ' . $conn->error]);
+    }
+    
+    $stmt->close();
+    exit;
+} else {
+    echo json_encode(['error' => 'Missing required parameters']);
+    exit;
 }
-
-
-
+}
 ?>
