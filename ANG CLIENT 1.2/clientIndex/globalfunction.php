@@ -1,6 +1,6 @@
 <?php
 
-function GET($conn,$statement,$image=null){
+function GET($conn,$statement,$image=null,$image2=null){
     if (!$statement){
         echo json_encode(['error' => "Error executing query: " . $conn->error]);
     } else {
@@ -15,6 +15,17 @@ function GET($conn,$statement,$image=null){
                 unset($row[$image]);
 
             }
+
+            if($image2!=null){
+
+                $Image2 = $row[$image2] ? base64_encode($row[$image2]) : null;
+            
+                $row["image2"] = $Image2;
+                
+                unset($row[$image2]);
+
+            }
+
             $results[] = $row;
         }
         echo json_encode($results); 

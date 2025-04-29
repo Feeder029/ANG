@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="Appointment.css">
+    <link rel="stylesheet" href="Appointment.css?v=1.0.5">
     <title>Appointment</title>
 </head>
 <body>
@@ -13,10 +13,10 @@
     <nav class="nav-bar">
         <div class="nav-left">
             <div class="status-container">
-                <button id="book-status"><i class="fa-regular fa-bookmark"></i> <div> Booked Appointments &nbsp; <span>3</span></div> </button>
-                <button id="complete-status"><i class="fa-regular fa-square-check"></i><div>  Completed Appointments&nbsp;  <span>5</span></div></button>
-                <button id="cancel-status"><i class="fa-regular fa-rectangle-xmark"></i><div>  Cancelled Appointments&nbsp;  <span>2</span></div></button>
-                <button id="resched-status"><i class='bx bx-calendar-edit' ></i><div> Rescheduled Appointments&nbsp;  <span>0</span></div></button>
+                <button id="book-status" onclick="GetAppointment('BOOKED')"><i class="fa-regular fa-bookmark"></i> <div> Booked Appointments &nbsp; <span></span></div> </button>
+                <button id="complete-status" onclick="GetAppointment('COMPLETE')"><i class="fa-regular fa-square-check"></i><div>  Completed Appointments&nbsp;  <span></span></div></button>
+                <button id="cancel-status" onclick="GetAppointment('CANCELLED')"><i class="fa-regular fa-rectangle-xmark"></i><div>  Cancelled Appointments&nbsp;  <span></span></div></button>
+                <button id="resched-status" onclick="GetAppointment('RESCHEDULE')"><i class='bx bx-calendar-edit' ></i><div> Rescheduled Appointments&nbsp;  <span></span></div></button>
             </div>
         </div>
         <div class="nav-right">
@@ -51,142 +51,12 @@
         </div>
         
         <div class="table-container">
-            <table>
-                <thead class="head-table">
-                    <tr id="head">
-                        <th id="id-head">ID</th>
-                        <th id="patient-head">PATIENT</th>
-                        <th id="date-head">DATE</th>
-                        <th id="time-head">TIME</th>
-                        <th id="procedure-head">PROCEDURE</th>
-                        <th id="status-head">STATUS</th>
-                        <th id="datesubmit-head">DATE SUBMITTED</th>
-                        <th id="action-head">ACTION</th>
-                    </tr>
-                </thead>
+            <table id="AppointmentList">
 
-                <tr id="data">
-                    <td class="id">0005</td>
-                    <td class="patient">
-                        <img src="../img/posa.jpg" alt="">
-                        <div class="patient-name">
-                            <h2>PATIENT NAME</h2>
-                            <p>patient@gmail.com</p>
-                        </div>
-                    </td>
-                    <td id="date">01-01-2025</td>
-                    <td id="time">8:00 PM</td>
-                    <td id="procedure"><p>PASTA</p></td>
-                    <td id="status"><p>BOOKED</p></td>
-                    <td id="submitdate">01-01-2025</td>
-                    <td class="action">
-                        <button id="edit"><i class="fa-solid fa-pen-to-square"></i></button>
-                        <button id="delete"><i class="fa-solid fa-trash"></i></button>
-                        <button id="view"><i class="fa-solid fa-eye"></i></button>
-                    </td>
-                </tr>
-                <tr id="data">
-                    <td class="id">0005</td>
-                    <td class="patient">
-                        <img src="../img/posa.jpg" alt="">
-                        <div class="patient-name">
-                            <h2>PATIENT NAME</h2>
-                            <p>patient@gmail.com</p>
-                        </div>
-                    </td>
-                    <td id="date">01-01-2025</td>
-                    <td id="time">8:00 PM</td>
-                    <td id="procedure"><p>PASTA</p></td>
-                    <td id="status"><p>BOOKED</p></td>
-                    <td id="submitdate">01-01-2025</td>
-                    <td class="action">
-                        <button id="edit"><i class="fa-solid fa-pen-to-square"></i></button>
-                        <button id="delete"><i class="fa-solid fa-trash"></i></button>
-                        <button id="view"><i class="fa-solid fa-eye"></i></button>
-                    </td>
-                </tr>
-                <tr id="data">
-                    <td class="id">0005</td>
-                    <td class="patient">
-                        <img src="../img/posa.jpg" alt="">
-                        <div class="patient-name">
-                            <h2>PATIENT NAME</h2>
-                            <p>patient@gmail.com</p>
-                        </div>
-                    </td>
-                    <td id="date">01-01-2025</td>
-                    <td id="time">8:00 PM</td>
-                    <td id="procedure"><p>PASTA</p></td>
-                    <td id="status"><p>BOOKED</p></td>
-                    <td id="submitdate">01-01-2025</td>
-                    <td class="action">
-                        <button id="edit"><i class="fa-solid fa-pen-to-square"></i></button>
-                        <button id="delete"><i class="fa-solid fa-trash"></i></button>
-                        <button id="view"><i class="fa-solid fa-eye"></i></button>
-                    </td>
-                </tr>
-                <tr id="data">
-                    <td class="id">0005</td>
-                    <td class="patient">
-                        <img src="../img/posa.jpg" alt="">
-                        <div class="patient-name">
-                            <h2>PATIENT NAME</h2>
-                            <p>patient@gmail.com</p>
-                        </div>
-                    </td>
-                    <td id="date">01-01-2025</td>
-                    <td id="time">8:00 PM</td>
-                    <td id="procedure"><p>PASTA</p></td>
-                    <td id="status"><p>BOOKED</p></td>
-                    <td id="submitdate">01-01-2025</td>
-                    <td class="action">
-                        <button id="edit"><i class="fa-solid fa-pen-to-square"></i></button>
-                        <button id="delete"><i class="fa-solid fa-trash"></i></button>
-                        <button id="view"><i class="fa-solid fa-eye"></i></button>
-                    </td>
-                </tr>
-                <tr id="data">
-                    <td class="id">0005</td>
-                    <td class="patient">
-                        <img src="../img/posa.jpg" alt="">
-                        <div class="patient-name">
-                            <h2>PATIENT NAME</h2>
-                            <p>patient@gmail.com</p>
-                        </div>
-                    </td>
-                    <td id="date">01-01-2025</td>
-                    <td id="time">8:00 PM</td>
-                    <td id="procedure"><p>PASTA</p></td>
-                    <td id="status"><p>BOOKED</p></td>
-                    <td id="submitdate">01-01-2025</td>
-                    <td class="action">
-                        <button id="edit"><i class="fa-solid fa-pen-to-square"></i></button>
-                        <button id="delete"><i class="fa-solid fa-trash"></i></button>
-                        <button id="view"><i class="fa-solid fa-eye"></i></button>
-                    </td>
-                </tr>
-                <tr id="data">
-                    <td class="id">0005</td>
-                    <td class="patient">
-                        <img src="../img/posa.jpg" alt="">
-                        <div class="patient-name">
-                            <h2>PATIENT NAME</h2>
-                            <p>patient@gmail.com</p>
-                        </div>
-                    </td>
-                    <td id="date">01-01-2025</td>
-                    <td id="time">8:00 PM</td>
-                    <td id="procedure"><p>PASTA</p></td>
-                    <td id="status"><p>BOOKED</p></td>
-                    <td id="submitdate">01-01-2025</td>
-                    <td class="action">
-                        <button id="edit"><i class="fa-solid fa-pen-to-square"></i></button>
-                        <button id="delete"><i class="fa-solid fa-trash"></i></button>
-                        <button id="view"><i class="fa-solid fa-eye"></i></button>
-                    </td>
-                </tr>
             </table>
         </div>
     </div>
+
+    <script src="Appointment.js"></script>
 </body>
 </html>

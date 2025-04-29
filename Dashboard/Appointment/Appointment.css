@@ -284,11 +284,31 @@ tr:nth-child(even) {
 }
 
 #status p{
-    background-color: rgb(197, 141, 0);
     padding: 5px;
     border-radius: 10px;
     color: rgb(255, 255, 255);
 }
+
+.BOOKED-status p {
+    background-color: #28a745; 
+    color: #ffffff; 
+}
+
+.RESCHEDULE-status p {
+    background-color: #ffc107;
+    color: #ffffff; 
+}
+
+.CANCELLED-status p {
+    background-color: #dc3545; 
+    color: #ffffff; 
+}
+
+.COMPLETE-status p {
+    background-color: #17a2b8; 
+    color: #ffffff; 
+}
+
 
 .status-container{
     display:flex;
@@ -334,27 +354,28 @@ tr:nth-child(even) {
 }
 
 #book-status{
-    color:  rgb(96, 96, 194);
-    background-color:  #ceceec;
-}
-
-#book-status:hover{
-    background-color: rgb(96, 96, 194);
-    color: black;
-    border: none;
-    border-left: 5px solid  rgb(96, 96, 194);
-}
-
-
-#complete-status{
     color: rgb(131, 198, 64);
     background-color: #dcefc8;
 }
-#complete-status:hover{
+
+#book-status:hover{
     background-color:  rgb(131, 198, 64);
     color: black;    border: none;
     border: none;
     border-left: 5px solid   rgb(131, 198, 64);
+}
+
+
+#complete-status{
+    color:  rgb(96, 96, 194);
+    background-color:  #ceceec;
+}
+#complete-status:hover{
+    background-color: rgb(96, 96, 194);
+    color: black;
+    border: none;
+    border-left: 5px solid  rgb(96, 96, 194);
+
 }
 
 #cancel-status{
