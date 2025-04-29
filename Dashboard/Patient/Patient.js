@@ -1,5 +1,6 @@
 function DisplayPatients(CONDITION){
 
+    
     fetch("Patient.php?action=getpatient")
     .then(response=>response.json())
     .then(data=>{

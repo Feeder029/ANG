@@ -13,9 +13,9 @@
     <nav class="nav-bar">
         <div class="nav-left">
             <div class="status-container">
-                <button id="pending-status" onclick="GetAppointment('BOOKED')"><i class="fa-solid fa-clock-rotate-left"></i> <div> PENDING ACCOUNTS &nbsp; <span>0 </span></div> </button>
-                <button id="active-status" onclick="GetAppointment('COMPLETE')"><i class="fa-solid fa-check-circle"></i><div>  ACTIVE ACCOUNTS &nbsp;  <span> 0 </span></div></button>
-                <button id="inactive-status" onclick="GetAppointment('CANCELLED')"><i class="fa-solid fa-ban"></i><div>  INACTIVE ACCOUNTS &nbsp;  <span> 0 </span></div></button>
+                <button id="pending-status" onclick="DisplayDentist('PENDING')"><i class="fa-solid fa-clock-rotate-left"></i> <div> PENDING ACCOUNTS &nbsp; <span>0 </span></div> </button>
+                <button id="active-status" onclick="DisplayDentist('ACTIVE')"><i class="fa-solid fa-check-circle"></i><div>  ACTIVE ACCOUNTS &nbsp;  <span> 0 </span></div></button>
+                <button id="inactive-status" onclick="DisplayDentist('INACTIVE')"><i class="fa-solid fa-ban"></i><div>  INACTIVE ACCOUNTS &nbsp;  <span> 0 </span></div></button>
             </div>
             <!-- <h1>Patients List</h1> -->
         </div>
@@ -65,6 +65,6 @@
         </div>
     </div>
 
-    <script src="dentist.js"></script>
+    <script src="Dentist.js"></script>
 </body>
 </html>
