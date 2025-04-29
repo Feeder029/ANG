@@ -5,16 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="Billing.css">
+    <link rel="stylesheet" href="Billing.css?V=1.0.1">
     <title>Billing</title>
 </head>
 <body>
     <nav class="nav-bar">
         <div class="nav-left">
             <div class="status-container">
-                <button id="paid-status"><i class="fa-regular fa-square-check"></i><div>  Paid &nbsp;  <span>5</span></div></button>
-                <button id="unpaid-status"><i class="fa-regular fa-rectangle-xmark"></i><div>  Unpaid &nbsp;  <span>2</span></div></button>
-                <button id="pending-status"><i class="fa-regular fa-hourglass-half"></i><div> Pending &nbsp;  <span>0</span></div></button>
+                <button id="paid-status" onclick="DisplayBilling('Paid')"><i class="fa-regular fa-square-check"></i><div>  Paid &nbsp;  <span>5</span></div></button>
+                <button id="unpaid-status" onclick="DisplayBilling('Undpaid')"><i class="fa-regular fa-rectangle-xmark"></i><div>  Unpaid &nbsp;  <span>2</span></div></button>
+                <button id="pending-status" onclick="DisplayBilling('Pending')"><i class="fa-regular fa-hourglass-half"></i><div> Pending &nbsp;  <span>0</span></div></button>
             </div>
         </div>
         <div class="nav-right">
@@ -29,7 +29,7 @@
             <div class="search-container">
                 <i class='bx bx-search' id="search-icon"></i>
                 <p>|</p>
-                <input type="search" name="" id="search" placeholder="Search for patient">
+                <input type="search" name="" id="search" placeholder="Search for Billing">
             </div>
             <div class="sort-container">
                 <h3>Sort By</h3>
@@ -49,200 +49,12 @@
         </div>
         
         <div class="table-container">
-            <table>
-                <thead class="head-table">
-                    <tr id="head">
-                        <th id="id-head">ID</th>
-                        <th id="patient-head">PATIENT</th>
-                        <th id="service-head">SERVICE</th>
-                        <th id="method-head">METHOD</th>
-                        <th id="amount-head">AMOUNT</th>
-                        <th id="paid-head">PAID</th>
-                        <th id="status-head">STATUS</th>
-                        <th id="date-head">DATE</th>
-                        <!-- <th id="time-head">TIME</th> -->
-                        <th id="action-head">ACTION</th>
-                    </tr>
-                </thead>
+            <table id="billing">
 
-                <tr id="data">
-                    <td class="id">0005</td>
-                    <td class="patient">
-                        <img src="../img/posa.jpg" alt="">
-                        <div class="patient-name">
-                            <h2>PATIENT NAME</h2>
-                            <p>patient@gmail.com</p>
-                        </div>
-                    </td>
-                    <td id="service"><p>PASTA</p></td>
-                    <td id="method">CASH</td>
-                    <td id="amount">₱ 300</td>
-                    <td id="paid">₱ 300</td>
-                    <td id="status"><p>PAID</p></td>
-                    <td id="date">01-01-2025</td>
-                    <!-- <td id="time">8:00 PM</td> -->
-                    <td class="action">
-                        <button id="edit"><i class="fa-solid fa-pen-to-square"></i></button>
-                        <button id="delete"><i class="fa-solid fa-trash"></i></button>
-                        <button id="view"><i class="fa-solid fa-eye"></i></button>
-                    </td>
-                </tr>
-                <tr id="data">
-                    <td class="id">0005</td>
-                    <td class="patient">
-                        <img src="../img/posa.jpg" alt="">
-                        <div class="patient-name">
-                            <h2>PATIENT NAME</h2>
-                            <p>patient@gmail.com</p>
-                        </div>
-                    </td>
-                    <td id="service"><p>PASTA</p></td>
-                    <td id="method">CASH</td>
-                    <td id="amount">₱ 300</td>
-                    <td id="paid">₱ 300</td>
-                    <td id="status"><p>PAID</p></td>
-                    <td id="date">01-01-2025</td>
-                    <!-- <td id="time">8:00 PM</td> -->
-                    <td class="action">
-                        <button id="edit"><i class="fa-solid fa-pen-to-square"></i></button>
-                        <button id="delete"><i class="fa-solid fa-trash"></i></button>
-                        <button id="view"><i class="fa-solid fa-eye"></i></button>
-                    </td>
-                </tr>
-                <tr id="data">
-                    <td class="id">0005</td>
-                    <td class="patient">
-                        <img src="../img/posa.jpg" alt="">
-                        <div class="patient-name">
-                            <h2>PATIENT NAME</h2>
-                            <p>patient@gmail.com</p>
-                        </div>
-                    </td>
-                    <td id="service"><p>PASTA</p></td>
-                    <td id="method">CASH</td>
-                    <td id="amount">₱ 300</td>
-                    <td id="paid">₱ 300</td>
-                    <td id="status"><p>PAID</p></td>
-                    <td id="date">01-01-2025</td>
-                    <!-- <td id="time">8:00 PM</td> -->
-                    <td class="action">
-                        <button id="edit"><i class="fa-solid fa-pen-to-square"></i></button>
-                        <button id="delete"><i class="fa-solid fa-trash"></i></button>
-                        <button id="view"><i class="fa-solid fa-eye"></i></button>
-                    </td>
-                </tr>
-                <tr id="data">
-                    <td class="id">0005</td>
-                    <td class="patient">
-                        <img src="../img/posa.jpg" alt="">
-                        <div class="patient-name">
-                            <h2>PATIENT NAME</h2>
-                            <p>patient@gmail.com</p>
-                        </div>
-                    </td>
-                    <td id="service"><p>PASTA</p></td>
-                    <td id="method">CASH</td>
-                    <td id="amount">₱ 300</td>
-                    <td id="paid">₱ 300</td>
-                    <td id="status"><p>PAID</p></td>
-                    <td id="date">01-01-2025</td>
-                    <!-- <td id="time">8:00 PM</td> -->
-                    <td class="action">
-                        <button id="edit"><i class="fa-solid fa-pen-to-square"></i></button>
-                        <button id="delete"><i class="fa-solid fa-trash"></i></button>
-                        <button id="view"><i class="fa-solid fa-eye"></i></button>
-                    </td>
-                </tr>
-                <tr id="data">
-                    <td class="id">0005</td>
-                    <td class="patient">
-                        <img src="../img/posa.jpg" alt="">
-                        <div class="patient-name">
-                            <h2>PATIENT NAME</h2>
-                            <p>patient@gmail.com</p>
-                        </div>
-                    </td>
-                    <td id="service"><p>PASTA</p></td>
-                    <td id="method">CASH</td>
-                    <td id="amount">₱ 300</td>
-                    <td id="paid">₱ 300</td>
-                    <td id="status"><p>PAID</p></td>
-                    <td id="date">01-01-2025</td>
-                    <!-- <td id="time">8:00 PM</td> -->
-                    <td class="action">
-                        <button id="edit"><i class="fa-solid fa-pen-to-square"></i></button>
-                        <button id="delete"><i class="fa-solid fa-trash"></i></button>
-                        <button id="view"><i class="fa-solid fa-eye"></i></button>
-                    </td>
-                </tr>
-                <tr id="data">
-                    <td class="id">0005</td>
-                    <td class="patient">
-                        <img src="../img/posa.jpg" alt="">
-                        <div class="patient-name">
-                            <h2>PATIENT NAME</h2>
-                            <p>patient@gmail.com</p>
-                        </div>
-                    </td>
-                    <td id="service"><p>PASTA</p></td>
-                    <td id="method">CASH</td>
-                    <td id="amount">₱ 300</td>
-                    <td id="paid">₱ 300</td>
-                    <td id="status"><p>PAID</p></td>
-                    <td id="date">01-01-2025</td>
-                    <!-- <td id="time">8:00 PM</td> -->
-                    <td class="action">
-                        <button id="edit"><i class="fa-solid fa-pen-to-square"></i></button>
-                        <button id="delete"><i class="fa-solid fa-trash"></i></button>
-                        <button id="view"><i class="fa-solid fa-eye"></i></button>
-                    </td>
-                </tr>
-                <tr id="data">
-                    <td class="id">0005</td>
-                    <td class="patient">
-                        <img src="../img/posa.jpg" alt="">
-                        <div class="patient-name">
-                            <h2>PATIENT NAME</h2>
-                            <p>patient@gmail.com</p>
-                        </div>
-                    </td>
-                    <td id="service"><p>PASTA</p></td>
-                    <td id="method">CASH</td>
-                    <td id="amount">₱ 300</td>
-                    <td id="paid">₱ 300</td>
-                    <td id="status"><p>PAID</p></td>
-                    <td id="date">01-01-2025</td>
-                    <!-- <td id="time">8:00 PM</td> -->
-                    <td class="action">
-                        <button id="edit"><i class="fa-solid fa-pen-to-square"></i></button>
-                        <button id="delete"><i class="fa-solid fa-trash"></i></button>
-                        <button id="view"><i class="fa-solid fa-eye"></i></button>
-                    </td>
-                </tr>
-                <tr id="data">
-                    <td class="id">0005</td>
-                    <td class="patient">
-                        <img src="../img/posa.jpg" alt="">
-                        <div class="patient-name">
-                            <h2>PATIENT NAME</h2>
-                            <p>patient@gmail.com</p>
-                        </div>
-                    </td>
-                    <td id="service"><p>PASTA</p></td>
-                    <td id="method">CASH</td>
-                    <td id="amount">₱ 300</td>
-                    <td id="paid">₱ 300</td>
-                    <td id="status"><p>PAID</p></td>
-                    <td id="date">01-01-2025</td>
-                    <!-- <td id="time">8:00 PM</td> -->
-                    <td class="action">
-                        <button id="edit"><i class="fa-solid fa-pen-to-square"></i></button>
-                        <button id="delete"><i class="fa-solid fa-trash"></i></button>
-                        <button id="view"><i class="fa-solid fa-eye"></i></button>
-                    </td>
-                </tr>
             </table>
         </div>
     </div>
+
+    <script src="Billing.js"></script>
 </body>
 </html>

@@ -276,10 +276,8 @@ tr:nth-child(even) {
 
 
 #status p{
-    background-color: rgb(197, 141, 0);
     padding: 5px;
     border-radius: 10px;
-    color: rgb(255, 255, 255);
 }
 
 .status-container{
@@ -352,7 +350,42 @@ tr:nth-child(even) {
     background-color:  #ececd0;
 }
 
-#-status:hover{
+#pending-status:hover{
+    background-color: rgb(183, 183, 82);
+    color: black;
+    border: none;
+    border-left: 5px solid rgb(183, 183, 82);
+}
+
+
+.Paid-status p{
+    color: rgb(131, 198, 64);
+    background-color: #dcefc8;
+}
+.Paid-status:hover p{
+    background-color:  rgb(131, 198, 64);
+    color: black;    border: none;
+    border: none;
+    border-left: 5px solid   rgb(131, 198, 64);
+}
+
+.Unpaid-status p{
+    color:  rgb(207, 69, 69);
+    background-color:  #f4d4d4;
+}
+.Unpaid-status:hover  p{
+    background-color: rgb(207, 69, 69);
+    color: black;
+    border: none;
+    border-left: 5px solid rgb(207, 69, 69);
+}
+
+.Pending-status p{
+    color: rgb(183, 183, 82);
+    background-color:  #ececd0;
+}
+
+.Pending-status:hover p{
     background-color: rgb(183, 183, 82);
     color: black;
     border: none;
