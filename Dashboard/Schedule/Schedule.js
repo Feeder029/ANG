@@ -1,11 +1,5 @@
 // Initial data
-const scheduleData = [
-    { date: '01/04/2025', startTime: '10:00', endTime: '11:00', type: 'appointment', title: 'Appointment', subtitle: 'for Apollo Alff' },
-    { date: '03/04/2025', startTime: '9:00', endTime: '13:00', type: 'closed', title: 'CLOSED', reason: 'due to Emergency' },
-    { date: '03/04/2025', startTime: '13:00', endTime: '14:00', type: 'appointment', title: 'Appointment', subtitle: 'for Apollo Alff' },
-    { date: '05/04/2025', startTime: '10:00', endTime: '11:00', type: 'appointment', title: 'Appointment', subtitle: 'for Apollo Alff' },
-    { date: '06/04/2025', startTime: '10:00', endTime: '18:00', type: 'closed', title: 'CLOSED', reason: 'due to busy' }
-];
+const scheduleData = [];
 
 // DOM elements
 const calendarGrid = document.getElementById('calendar-grid');
@@ -22,12 +16,20 @@ const reasonGroup = document.getElementById('reason-group');
 const startTimeSelect = document.getElementById('start-time');
 const endTimeSelect = document.getElementById('end-time');
 
-// Current week start date (Monday)
-let currentWeekStart = new Date(2025, 2, 31); // March 31, 2025
+// Get the current date and find the Monday of the current week
+function getMonday(date) {
+    const day = date.getDay();
+    // Adjust when day is 0 (Sunday)
+    const diff = date.getDate() - day + (day === 0 ? -6 : 1); 
+    return new Date(date.setDate(diff));
+}
+
+// Current week start date (Monday of current week)
+let currentWeekStart = getMonday(new Date());
 
 // Time slots
 const timeSlots = [
-    { display: '9:00 AM', value: '9:00' },
+    { display: '09:00 AM', value: '09:00' },
     { display: '10:00 AM', value: '10:00' },
     { display: '11:00 AM', value: '11:00' },
     { display: '12:00 PM', value: '12:00' },
@@ -38,6 +40,16 @@ const timeSlots = [
     { display: '5:00 PM', value: '17:00' },
     { display: '6:00 PM', value: '18:00' }
 ];
+
+// Format date as YYYY-MM-DD
+function formatDateYMD(date) {
+    return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+}
+
+// Format date as DD/MM/YYYY
+function formatDateDMY(date) {
+    return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`;
+}
 
 // Generate calendar
 function generateCalendar() {
@@ -68,7 +80,7 @@ function generateCalendar() {
         
         const dateNumber = document.createElement('div');
         dateNumber.className = 'date-number';
-        dateNumber.textContent = `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`;
+        dateNumber.textContent = formatDateDMY(date);
         
         headerCell.appendChild(dayName);
         headerCell.appendChild(dateNumber);
@@ -85,7 +97,7 @@ function generateCalendar() {
         
         // Add cells for each day
         dates.forEach((date, dayIndex) => {
-            const formattedDate = `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`;
+            const formattedDate = formatDateDMY(date);
             const cell = document.createElement('div');
             cell.className = 'calendar-cell';
             
@@ -135,8 +147,8 @@ function generateCalendar() {
     const weekEnd = new Date(currentWeekStart);
     weekEnd.setDate(weekEnd.getDate() + 6);
     
-    const startFormatted = `${currentWeekStart.getDate().toString().padStart(2, '0')}/${(currentWeekStart.getMonth() + 1).toString().padStart(2, '0')}/${currentWeekStart.getFullYear()}`;
-    const endFormatted = `${weekEnd.getDate().toString().padStart(2, '0')}/${(weekEnd.getMonth() + 1).toString().padStart(2, '0')}/${weekEnd.getFullYear()}`;
+    const startFormatted = formatDateDMY(currentWeekStart);
+    const endFormatted = formatDateDMY(weekEnd);
     
     dateRangeElement.textContent = `${startFormatted} - ${endFormatted}`;
 }
@@ -186,13 +198,31 @@ function openEditModal(event) {
 // Navigate to previous week
 prevWeekBtn.addEventListener('click', function() {
     currentWeekStart.setDate(currentWeekStart.getDate() - 7);
-    generateCalendar();
+    
+    // Clear existing schedule data before fetching new data
+    scheduleData.length = 0;
+    
+    // Get the end of the week for the date range
+    const weekEnd = new Date(currentWeekStart);
+    weekEnd.setDate(weekEnd.getDate() + 6);
+    
+    // Call AddSchedule with updated date range
+    AddSchedule(formatDateYMD(currentWeekStart), formatDateYMD(weekEnd));
 });
 
 // Navigate to next week
 nextWeekBtn.addEventListener('click', function() {
     currentWeekStart.setDate(currentWeekStart.getDate() + 7);
-    generateCalendar();
+    
+    // Clear existing schedule data before fetching new data
+    scheduleData.length = 0;
+    
+    // Get the end of the week for the date range
+    const weekEnd = new Date(currentWeekStart);
+    weekEnd.setDate(weekEnd.getDate() + 6);
+    
+    // Call AddSchedule with updated date range
+    AddSchedule(formatDateYMD(currentWeekStart), formatDateYMD(weekEnd));
 });
 
 // Show modal when Add Schedule button is clicked
@@ -202,8 +232,7 @@ addScheduleBtn.addEventListener('click', function() {
     
     // Set default date to current week's Monday
     const dateInput = document.getElementById('schedule-date');
-    const formattedDate = `${currentWeekStart.getFullYear()}-${(currentWeekStart.getMonth() + 1).toString().padStart(2, '0')}-${currentWeekStart.getDate().toString().padStart(2, '0')}`;
-    dateInput.value = formattedDate;
+    dateInput.value = formatDateYMD(currentWeekStart);
     
     // Set default end time to be one hour after start time
     startTimeSelect.value = '9:00';
@@ -307,8 +336,73 @@ scheduleForm.addEventListener('submit', function(event) {
     scheduleModal.style.display = 'none';
 });
 
-// Initialize calendar
-generateCalendar();
-
 // Initialize end time options
 startTimeSelect.dispatchEvent(new Event('change'));
+
+
+function AddSchedule(startDate, endDate) {
+
+    scheduleData.length = 0;
+
+    console.log(startDate + endDate)
+
+    // Fetch additional data with date parameters
+    fetch(`Schedule.php?action=appointments&startDate=${startDate}&endDate=${endDate}`)
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(item => {
+                scheduleData.push({
+                    date: item.ChosenDate,
+                    startTime: item.ChosenTime,
+                    endTime: item.EndTime,
+                    type: 'appointment',
+                    title: 'APPOINTMENT',
+                    subtitle: `For ${item.DisplayName}`
+                });
+            });
+            
+            CancelSchedule(startDate, endDate); 
+        })
+        .catch(error => {
+            console.error('Error fetching Schedule.php data:', error);
+            CancelSchedule(startDate, endDate);
+        });
+}
+
+function CancelSchedule(startDate, endDate) {
+
+    console.log(startDate + endDate)
+
+
+    fetch(`Schedule.php?action=closed&startDate=${startDate}&endDate=${endDate}`)
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(item => {
+                console.log(item)
+                scheduleData.push({
+                    date: item.ChosenDate,
+                    startTime: item.ChosenTime,
+                    endTime: item.EndTime,
+                    type: 'closed',
+                    title: 'CLOSED',
+                    reason: `${item.US_Reason}`
+                });
+            });
+            
+            // Call generateCalendar AFTER the data is loaded
+            generateCalendar();
+        })
+        .catch(error => {
+            console.error('Error fetching Schedule.php data:', error);
+            generateCalendar();
+        });
+}
+
+// Initialize the calendar with the current week
+const today = new Date();
+currentWeekStart = getMonday(today);
+const weekEnd = new Date(currentWeekStart);
+weekEnd.setDate(weekEnd.getDate() + 6);
+
+// Call AddSchedule with the current week's date range
+AddSchedule(formatDateYMD(currentWeekStart), formatDateYMD(weekEnd));
