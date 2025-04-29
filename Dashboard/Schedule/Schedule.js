@@ -16,6 +16,8 @@ const reasonGroup = document.getElementById('reason-group');
 const startTimeSelect = document.getElementById('start-time');
 const endTimeSelect = document.getElementById('end-time');
 
+
+
 // Get the current date and find the Monday of the current week
 function getMonday(date) {
     const day = date.getDay();
@@ -238,8 +240,8 @@ addScheduleBtn.addEventListener('click', function() {
     startTimeSelect.value = '9:00';
     endTimeSelect.value = '10:00';
     
-    // Hide reason field initially
-    reasonGroup.style.display = 'none';
+    // // Hide reason field initially
+    // reasonGroup.style.display = 'none';
     
     // Show modal
     scheduleModal.style.display = 'block';
@@ -292,49 +294,126 @@ scheduleTypeSelect.addEventListener('change', function() {
     }
 });
 
-// Handle form submission
 scheduleForm.addEventListener('submit', function(event) {
     event.preventDefault();
-    
+
     const dateInput = document.getElementById('schedule-date');
     const typeInput = document.getElementById('schedule-type');
     const titleInput = document.getElementById('schedule-title');
     const reasonInput = document.getElementById('schedule-reason');
-    
-    // Convert date format from YYYY-MM-DD to DD/MM/YYYY
+
     const dateParts = dateInput.value.split('-');
     const formattedDate = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
-    
+
     const newSchedule = {
         date: formattedDate,
         startTime: startTimeSelect.value,
         endTime: endTimeSelect.value,
         type: typeInput.value,
-        title: titleInput.value
+        title: titleInput.value,
+        reason: reasonInput.value
     };
-    
-    if (typeInput.value === 'appointment') {
-        // Extract subtitle from title (assuming format "Appointment for Apollo Alff")
-        const titleParts = titleInput.value.split(' for ');
-        if (titleParts.length > 1) {
-            newSchedule.title = titleParts[0];
-            newSchedule.subtitle = 'for ' + titleParts[1];
-        } else {
-            newSchedule.subtitle = '';
+
+    Swal.fire({
+        title: 'Confirm Closure',
+        text: `Are you sure you want to mark this schedule (${formattedDate} from ${newSchedule.startTime} to ${newSchedule.endTime}) as closed?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, confirm',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            SubmitClosure(newSchedule);
+            generateCalendar();
+            scheduleModal.style.display = 'none';
         }
-    } else if (typeInput.value === 'closed') {
-        newSchedule.reason = reasonInput.value || 'due to closure';
-    }
-    
-    // Add to schedule data
-    scheduleData.push(newSchedule);
-    
-    // Regenerate calendar
-    generateCalendar();
-    
-    // Close modal
-    scheduleModal.style.display = 'none';
+    });
 });
+
+function formatTimeToHHMMSS(timeStr) {
+    let [hour, minute] = timeStr.split(':').map(Number);
+    hour = hour.toString().padStart(2, '0');
+    minute = minute.toString().padStart(2, '0');
+    return `${hour}:${minute}:00`;
+  }
+
+  function convertToMySQLDateFormat(dateStr) {
+    const [month, day, year] = dateStr.split('/');
+    return `${year}-${day.padStart(2, '0')}-${month.padStart(2, '0')}`;
+  }
+
+function SubmitClosure(newSchedule){
+    
+    console.log(newSchedule.date)
+
+    let date = convertToMySQLDateFormat(newSchedule.date);
+    console.log(date)
+
+    let starttime = formatTimeToHHMMSS(newSchedule.startTime);
+    let endtime = formatTimeToHHMMSS(newSchedule.endTime);
+
+    console.log(starttime)
+
+    let response = newSchedule.reason;
+
+    fetch('Schedule.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            Date: date,                
+            StartTime: starttime,      
+            EndTime: endtime,
+            Reason: response
+        })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.text();
+    })
+    .then(text => {
+        console.log('Raw server response:', text);
+        // Try to parse as JSON if possible
+        try {
+            const data = JSON.parse(text);
+            return data;
+        } catch (e) {
+            console.error('Failed to parse response as JSON:', e);
+            throw new Error('Server returned invalid JSON: ' + text);
+        }
+    })
+    .then(data => {
+        if (data.status === "success") {
+            Swal.fire({
+                title: 'Success!',
+                text: `You have closed your shop at ${date} on ${starttime} to ${endtime} successfully.`,
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+            AddSchedule(formatDateYMD(currentWeekStart), formatDateYMD(weekEnd));
+        } else {
+            Swal.fire({
+                title: 'Failed!',
+                text: data.message || 'Unknown error occurred',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+            AddSchedule(formatDateYMD(currentWeekStart), formatDateYMD(weekEnd));
+        }
+    })
+    .catch(error => {
+        console.error('Error updating schedule:', error);
+        Swal.fire({
+            title: 'Error',
+            text: 'Failed to connect to server: ' + error.message,
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+    });
+}
 
 // Initialize end time options
 startTimeSelect.dispatchEvent(new Event('change'));
@@ -397,6 +476,7 @@ function CancelSchedule(startDate, endDate) {
             generateCalendar();
         });
 }
+
 
 // Initialize the calendar with the current week
 const today = new Date();

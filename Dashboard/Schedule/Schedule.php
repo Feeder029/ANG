@@ -56,6 +56,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         GET($conn, $GetSchedule);
     }
     
+} else if($_SERVER['REQUEST_METHOD']==='POST'){
+
+    if($_SERVER['REQUEST_METHOD'] === 'POST'){
+
+        $json = file_get_contents('php://input');
+        $data = json_decode($json, true);
+        
+        if($data && isset($data['Date'], $data['StartTime'], $data['EndTime'], $data['Reason'])){
+            $Date = $conn->real_escape_string($data['Date']);
+            $Start = $conn->real_escape_string($data['StartTime']);
+            $End = $conn->real_escape_string($data['EndTime']);
+            $Reason = $conn->real_escape_string($data['Reason']);
+    
+            $insertData = [
+                'US_Date' => $Date,
+                'US_StartTime' => $Start,
+                'US_EndTime' => $End,
+                'US_Reason' => $Reason
+            ];
+           
+            $response = POST($conn, 'unavailableslots', $insertData, 'id');
+            echo json_encode($response);
+            exit;
+        } else {
+            // Return error for missing data
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Missing required fields'
+            ]);
+            exit;
+        }
+    }
 }
 
 ?>

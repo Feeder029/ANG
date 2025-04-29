@@ -6,7 +6,7 @@
     <title>Modern Weekly Schedule Calendar</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
     <link rel="stylesheet" href="Schdeule.css">
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <div class="calendar-container">
@@ -51,8 +51,8 @@
                 <div class="form-group">
                     <label for="schedule-type">Type:</label>
                     <select id="schedule-type" required>
-                        <option value="appointment">Appointment</option>
                         <option value="closed">Closed</option>
+                        <option value="appointment" hidden>Appointment</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -87,9 +87,9 @@
                     <label for="schedule-title">Title:</label>
                     <input type="text" id="schedule-title" placeholder="e.g., Appointment for Apollo Alff" required>
                 </div>
-                <div class="form-group" id="reason-group" style="display: none;">
+                <div class="form-group" id="reason-group">
                     <label for="schedule-reason">Closure Reason:</label>
-                    <input type="text" id="schedule-reason" placeholder="e.g., due to Emergency">
+                    <input type="text" id="schedule-reason" placeholder="e.g., Holiday">
                 </div>
                 <div class="form-buttons">
                     <button type="button" class="btn btn-secondary" id="cancel-btn">Cancel</button>
@@ -99,6 +99,6 @@
         </div>
     </div>
 
-    <script src="Schedule.js?v=1.0.1"></script>
+    <script src="Schedule.js?v=1.0.5"></script>
 </body>
 </html>
