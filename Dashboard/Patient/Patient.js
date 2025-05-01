@@ -22,46 +22,91 @@ function DisplayPatients(CONDITION){
 
         data.forEach(item => {
 
-            const imgSrc = item.image ? 
-            `data:image/jpeg;base64,${item.image}` : 
-            "/api/placeholder/100/100";
-
-
-            if(item.STAT_Name==CONDITION||CONDITION=="ALL"){
-                display+=`
-                <tr id="data">
-                  <td class="id">${item.PatientID}</td>
-                  <td class="patient">
-                      <img src="${imgSrc}" alt="">
-                      <div class="patient-name">
-                          <h2>${item.DisplayName}</h2>
-                          <p>${item.ACC_Email}</p>
-                      </div>
-                  </td>
-                  <td id="gender">${item.P_Gender}</td>
-                  <td id="contact">${item.P_ContactNo}</td>
-                  <td>${item.FullAddress}</td>
-                  <td id="datecreated">${item.ACC_DateCreated}</td>
-                  <td id="status" class="${item.STAT_Name}-status"><p>${item.STAT_Name}</p></td>
-                  <td class="action">
-                      <button id="edit"><i class="fa-solid fa-pen-to-square"></i></button>
-                      <button id="delete"><i class="fa-solid fa-trash"></i></button>
-                      <button id="view"><i class="fa-solid fa-eye"></i></button>
-                  </td>
-              </tr>           
-              `;
+            const imgSrc = item.image 
+                ? `data:image/jpeg;base64,${item.image}` 
+                : "/api/placeholder/100/100";
+        
+            if (item.STAT_Name === CONDITION || CONDITION === "ALL") {
+                display += `
+                    <tr id="data">
+                        <td class="id">${item.PatientID}</td>
+                        <td class="patient">
+                            <img src="${imgSrc}" alt="">
+                            <div class="patient-name">
+                                <h2>${item.DisplayName}</h2>
+                                <p>${item.ACC_Email}</p>
+                            </div>
+                        </td>
+                        <td id="gender">${item.P_Gender}</td>
+                        <td id="contact">${item.P_ContactNo}</td>
+                        <td>${item.FullAddress}</td>
+                        <td id="datecreated">${item.ACC_DateCreated}</td>
+                        <td id="status" class="${item.STAT_Name}-status">
+                            <p>${item.STAT_Name}</p>
+                        </td>
+                        <td class="action">`;
+        
+                if (item.STAT_Name !== "ACTIVE") {
+                    display += `
+                            <button id="edit" class="accept" data-value="${item.AccountID}" onclick="Accept()"> <i class="fa-solid fa-check-circle"></i></button>`;
+                } 
+        
+                display += `
+                            <button id="delete" class="denied" data-value="${item.AccountID}"><i class="fa-solid fa-trash"></i></button>
+                            <button id="view"><i class="fa-solid fa-eye"></i></button>
+                        </td>
+                    </tr>`;
             }
-
         });
-
-
+        
         document.getElementById('patient').innerHTML = display; // Add to the HTML
+
+
+        document.querySelectorAll('.accept').forEach(function(button) {
+            button.addEventListener('click', function() {
+                const accountID = this.getAttribute('data-value');
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'Do you want to give this account access?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, give access',
+                    cancelButtonText: 'Cancel',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        StatPatient(1, accountID)
+                    }
+                });
+            })
+        })
+
+        document.querySelectorAll('.denied').forEach(function(button) {
+            button.addEventListener('click', function() {
+                const accountID = this.getAttribute('data-value');
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'Do you want to deny this account access?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, deny access',
+                    cancelButtonText: 'Cancel',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        StatPatient(2, accountID)
+                    }
+                });
+            
+            })
+        })
+
 
     }).catch(error=>console.error('Error fetching Appointment.php data:', error))
 
 }
 
 window.DisplayPatients = DisplayPatients;
+
 
 
 function GetCount(){
@@ -104,6 +149,54 @@ function Count(active,inactive,pending ) {
     activespan.textContent = active;
     inactivespan.textContent = inactive;
     pendingspan.textContent = pending;
+}
+
+
+function StatPatient(StatID, AccountID){
+
+    fetch(`Patient.php`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+            AccountID: AccountID,
+            StatusID: StatID
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            console.log('Appointment updated successfully');
+            // Show success message
+            Swal.fire({
+                title: 'Success!',
+                text: StatID == 2 ? 'Patient Account has been Denied Access successfully.' : 'Patient Account has been Gained Access successfully.',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then(() => {
+                DisplayPatients("ALL");
+                // location.reload();
+            });
+        } else {
+            console.error('Error updating appointment:', data.error || 'Unknown error');
+            // Show error message
+            Swal.fire({
+                title: 'Error',
+                text: data.error || 'Failed to update appointment. Please try again.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        }
+    })
+    .catch(error => {
+        console.error('Error updating appointment:', error);
+        // Show error message
+        Swal.fire({
+            title: 'Error',
+            text: 'Failed to connect to server. Please try again.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+    });
 }
 
 

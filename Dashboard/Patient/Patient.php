@@ -20,6 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $Patient = $conn->query(
         "SELECT 
          `PatientID`, 
+         `AccountID`,
          `DisplayName`, 
          CONCAT_WS(' ', `ADD_Street`, `ADD_Barangay`, `ADD_City`, `ADD_Province`) AS FullAddress,
          `P_Gender`,  
@@ -62,9 +63,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             GET($conn, $Count);
     }
 
+} else if($_SERVER['REQUEST_METHOD'] === 'POST'){
+
+    $json = file_get_contents('php://input');
+    $data = json_decode($json, true);
+
+    if (isset($data['AccountID']) && isset($data['StatusID'])) {
+        $AccID = intval($data['AccountID']);
+        $statusID = intval($data['StatusID']);
+        
+        $stmt = $conn->prepare("UPDATE `account` SET `StatusID` = ? WHERE `AccountID` = ?");
+        $stmt->bind_param("ii", $statusID, $AccID);
+        
+        if ($stmt->execute()) {
+            echo json_encode(['success' => true, 'message' => 'Appointment status updated successfully']);
+        } else {
+            echo json_encode(['error' => 'Failed to update appointment status: ' . $conn->error]);
+        }
+        
+        $stmt->close();
+        exit;
+    } else  {
+        echo json_encode(['error' => 'Failed to update appointment status: ' . $conn->error]);
+    }
+
 }
-
-
 
 
 
