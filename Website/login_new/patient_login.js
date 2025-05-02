@@ -172,7 +172,7 @@ document.getElementById('confirm-register').addEventListener('input', function()
  * @param {string} PA - Password
  */
 function Login(US, PA) {
-    const CookieValue = crypto.randomUUID(); //This dont work as IP Address
+    const CookieValue = "0912"; //This dont work as IP Address
 
     fetch('patient_login.php', {
         method: 'POST',

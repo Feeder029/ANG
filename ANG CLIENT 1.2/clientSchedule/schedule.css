@@ -96,10 +96,10 @@ body {
     -ms-overflow-style: none; /* Hide scrollbar IE and Edge */
 }
 
-/* Hide scrollbar for Chrome/Safari/Opera */
+/* Hide scrollbar for Chrome/Safari/Opera
 .tab-navigation::-webkit-scrollbar {
     display: none;
-}
+} */
 
 .tab-item {
     padding: 8px 15px;

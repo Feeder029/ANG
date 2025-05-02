@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         `D_Gender`, `D_YearsofExperience`, 
         `D_Specialty`, `ACC_Username`, 
         `ACC_Email`, `ACC_DateCreated`, 
-        `Full Address` as FA,UPPER(`STAT_Name`) as STAT_Name, `ACC_Profile` 
+        `Full Address` as FA,UPPER(`STAT_Name`) as STAT_Name, `ACC_Profile`, AccountID
          FROM `dentistlist` 
          ORDER BY 
          CASE UPPER(`STAT_Name`)
@@ -55,10 +55,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             GET($conn, $Count);
     }
 
+} else if($_SERVER['REQUEST_METHOD'] === 'POST'){
+
+    $json = file_get_contents('php://input');
+    $data = json_decode($json, true);
+
+    if (isset($data['AccountID']) && isset($data['StatusID'])) {
+        $AccID = intval($data['AccountID']);
+        $statusID = intval($data['StatusID']);
+        
+        $stmt = $conn->prepare("UPDATE `account` SET `StatusID` = ? WHERE `AccountID` = ?");
+        $stmt->bind_param("ii", $statusID, $AccID);
+        
+        if ($stmt->execute()) {
+            echo json_encode(['success' => true, 'message' => 'Dentist Account status updated successfully']);
+        } else {
+            echo json_encode(['error' => 'Failed to update Dentist Account: ' . $conn->error]);
+        }
+        
+        $stmt->close();
+        exit;
+    } 
+
 }
-
-
-
 
 
 ?>
