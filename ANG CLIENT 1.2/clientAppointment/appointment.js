@@ -4,8 +4,9 @@ import { GetCookie } from '../../Cookies/cookies.js';
 let selectedDate = null;
 let selectedTime = null;
 let selectedServices = []; // Changed from selectedProcedure to an array of services
-let bookedSlots = {}; // Will store dates and their booked time slots
-
+let bookedSlots = {
+    // "2025-5-5": [`9:00 AM`, `1:00 PM`]
+};
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize the calendar with Philippines time
@@ -15,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
     populateCalendar(philippinesTime.getFullYear(), philippinesTime.getMonth());
 
     ServiceDisplay();
+    GetTimeSlots();
     
     // Generate some random booked slots for demonstration
     // generateRandomBookedSlots();
@@ -31,7 +33,7 @@ function ServiceDisplay() {
     .then(response => response.json())
     .then(iconData => {
         
-        fetch('appointment.php') // Call the php which we will get the datas
+        fetch('appointment.php?action=getservices') // Call the php which we will get the datas
         .then(response => response.json())
         .then(data => {
             let display = '';
@@ -202,9 +204,14 @@ function selectDate(dayElement, year, month, day) {
 
 // Time Slot Functions
 function updateTimeSlots(date) {
+    console.log(bookedSlots)
+
+
+// This will give you: "2025-5-5": ["9:00 AM", "1:00 PM"]
+
     const timeSlots = document.querySelectorAll('.time-slot');
     const dateKey = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-    
+
     // Reset all time slots
     timeSlots.forEach(slot => {
         slot.classList.remove('active', 'booked');
@@ -548,3 +555,20 @@ function AddServiceAppointment(AppointmentID, ServiceID, isLastService, QR) {
         });
     });
 }
+
+
+function GetTimeSlots(){
+
+    fetch('appointment.php?action=getunavailabletimeslots')
+    .then(response=>response.json())
+    .then(data=>{
+
+        data.forEach(item=>{
+            const TimeSlots = item.TimeSlots.replace(/`/g, '').split(',').map(slot => slot.trim());
+            bookedSlots[item.FormattedDate] = TimeSlots;
+        })
+       
+    })
+    .catch(error => console.error('Error fetching icon.json data:', error));
+}
+
