@@ -3,9 +3,777 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Dental Clinic Dashboard</title>
+    <style>
+        :root {
+            --primary: #1e88e5;
+            --primary-dark: #1565c0;
+            --primary-light: #bbdefb;
+            --secondary: #f5f5f5;
+            --text-dark: #333;
+            --text-light: #fff;
+            --gray: #9e9e9e;
+            --light-gray: #e0e0e0;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --danger: #f44336;
+            --pending: #ffc107;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f8fa;
+            color: var(--text-dark);
+        }
+        
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* No sidebar styles needed */
+        
+        .icon {
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+        }
+        
+        /* Main Content */
+        main {
+            flex: 1;
+            margin-left: 250px;
+            padding: 20px 30px;
+        }
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .page-title {
+            font-size: 28px;
+            font-weight: 600;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-weight: bold;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .stat-title {
+            font-size: 14px;
+            color: var(--gray);
+            margin-bottom: 10px;
+        }
+        
+        .stat-value {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .stat-comparison {
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .positive {
+            color: var(--success);
+        }
+        
+        .negative {
+            color: var(--danger);
+        }
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 25px;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+        
+        .card-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--light-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .card-body {
+            padding: 20px;
+        }
+        
+        .appointment-list {
+            list-style: none;
+        }
+        
+        .appointment-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .appointment-item:last-child {
+            border-bottom: none;
+        }
+        
+        .patient-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-weight: bold;
+            margin-right: 15px;
+        }
+        
+        .appointment-details {
+            flex: 1;
+        }
+        
+        .patient-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .appointment-info {
+            font-size: 14px;
+            color: var(--gray);
+            display: flex;
+            gap: 15px;
+        }
+        
+        .appointment-status {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .status-confirmed {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: var(--success);
+        }
+        
+        .status-pending {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: var(--pending);
+        }
+        
+        .status-cancelled {
+            background-color: rgba(244, 67, 54, 0.1);
+            color: var(--danger);
+        }
+        
+        .action-btn {
+            padding: 8px 15px;
+            border-radius: 5px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .action-btn:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        th {
+            font-weight: 600;
+            color: var(--gray);
+            font-size: 14px;
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .dentist-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .dentist-card {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: var(--secondary);
+            transition: all 0.3s;
+        }
+        
+        .dentist-card:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .dentist-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-weight: bold;
+            margin-right: 15px;
+            font-size: 20px;
+        }
+        
+        .dentist-info {
+            flex: 1;
+        }
+        
+        .dentist-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .dentist-specialty {
+            font-size: 14px;
+            color: var(--gray);
+        }
+        
+        .dentist-stats {
+            display: flex;
+            gap: 15px;
+            margin-top: 8px;
+        }
+        
+        .dentist-stat {
+            font-size: 13px;
+        }
+        
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+        }
+        
+        .calendar-header {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            margin-bottom: 10px;
+        }
+        
+        .calendar-day {
+            text-align: center;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--gray);
+        }
+        
+        .calendar-date {
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .calendar-date:hover {
+            background-color: var(--primary-light);
+            color: var(--primary);
+        }
+        
+        .today {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .has-appointments {
+            position: relative;
+        }
+        
+        .has-appointments::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background-color: var(--primary);
+        }
+        
+        .search-bar {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: 5px 0 0 5px;
+            outline: none;
+            font-size: 14px;
+        }
+        
+        .search-button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0 15px;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+        
+        .filter-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .filter-select {
+            padding: 8px 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: 5px;
+            outline: none;
+            font-size: 14px;
+            background-color: white;
+        }
+        
+        .notification-badge {
+            background-color: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            margin-left: auto;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            main {
+                margin-left: 0;
+                padding: 15px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>UNDER CONSTRUCTION TO MASON AKO GAGI</h1>
-</body>
-</html>
+    <div class="container">
+        <!-- Main Content Only - No Sidebar -->
+        <main style="margin-left: 0; width: 100%;">
+            <header class="page-header">
+                <h1 class="page-title">Dashboard</h1>
+                <div class="user-profile">
+                    <div class="user-avatar">AD</div>
+                    <div>Dr. Admin</div>
+                </div>
+            </header>
+
+            <!-- Stats Row -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-title">Today's Appointments</div>
+                    <div class="stat-value">12</div>
+                    <div class="stat-comparison positive">
+                        <span>↑ 20%</span> vs last week
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Pending Appointments</div>
+                    <div class="stat-value">8</div>
+                    <div class="stat-comparison negative">
+                        <span>↓ 5%</span> vs last week
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Total Patients</div>
+                    <div class="stat-value">152</div>
+                    <div class="stat-comparison positive">
+                        <span>↑ 12%</span> vs last month
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Services Completed</div>
+                    <div class="stat-value">87</div>
+                    <div class="stat-comparison positive">
+                        <span>↑ 8%</span> vs last month
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-grid">
+                <!-- Left Column -->
+                <div>
+                    <!-- Upcoming Appointments -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">Upcoming Appointments</h2>
+                            <button class="action-btn">View All</button>
+                        </div>
+                        <div class="card-body">
+                            <div class="search-bar">
+                                <input type="text" class="search-input" placeholder="Search appointments...">
+                                <button class="search-button">🔍</button>
+                            </div>
+                            <div class="filter-row">
+                                <select class="filter-select">
+                                    <option>All Status</option>
+                                    <option>Confirmed</option>
+                                    <option>Pending</option>
+                                    <option>Cancelled</option>
+                                </select>
+                                <select class="filter-select">
+                                    <option>All Services</option>
+                                    <option>Cleaning</option>
+                                    <option>Root Canal</option>
+                                    <option>Extraction</option>
+                                    <option>Check-up</option>
+                                </select>
+                                <select class="filter-select">
+                                    <option>Today</option>
+                                    <option>This Week</option>
+                                    <option>This Month</option>
+                                </select>
+                            </div>
+                            <ul class="appointment-list">
+                                <li class="appointment-item">
+                                    <div class="patient-avatar">JD</div>
+                                    <div class="appointment-details">
+                                        <div class="patient-name">John Doe</div>
+                                        <div class="appointment-info">
+                                            <span>Today, 10:00 AM</span>
+                                            <span>Teeth Cleaning</span>
+                                        </div>
+                                    </div>
+                                    <span class="appointment-status status-confirmed">Confirmed</span>
+                                </li>
+                                <li class="appointment-item">
+                                    <div class="patient-avatar">MS</div>
+                                    <div class="appointment-details">
+                                        <div class="patient-name">Maria Smith</div>
+                                        <div class="appointment-info">
+                                            <span>Today, 11:30 AM</span>
+                                            <span>Root Canal</span>
+                                        </div>
+                                    </div>
+                                    <span class="appointment-status status-confirmed">Confirmed</span>
+                                </li>
+                                <li class="appointment-item">
+                                    <div class="patient-avatar">RJ</div>
+                                    <div class="appointment-details">
+                                        <div class="patient-name">Robert Johnson</div>
+                                        <div class="appointment-info">
+                                            <span>Today, 2:00 PM</span>
+                                            <span>Consultation</span>
+                                        </div>
+                                    </div>
+                                    <span class="appointment-status status-pending">Pending</span>
+                                </li>
+                                <li class="appointment-item">
+                                    <div class="patient-avatar">AL</div>
+                                    <div class="appointment-details">
+                                        <div class="patient-name">Alice Lee</div>
+                                        <div class="appointment-info">
+                                            <span>Today, 3:30 PM</span>
+                                            <span>Tooth Extraction</span>
+                                        </div>
+                                    </div>
+                                    <span class="appointment-status status-cancelled">Cancelled</span>
+                                </li>
+                                <li class="appointment-item">
+                                    <div class="patient-avatar">PG</div>
+                                    <div class="appointment-details">
+                                        <div class="patient-name">Peter Garcia</div>
+                                        <div class="appointment-info">
+                                            <span>Tomorrow, 9:00 AM</span>
+                                            <span>Follow-up</span>
+                                        </div>
+                                    </div>
+                                    <span class="appointment-status status-confirmed">Confirmed</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Recent Billing -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">Recent Billing</h2>
+                            <button class="action-btn">View All</button>
+                        </div>
+                        <div class="card-body">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Invoice ID</th>
+                                        <th>Patient</th>
+                                        <th>Service</th>
+                                        <th>Date</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>INV-001</td>
+                                        <td>John Doe</td>
+                                        <td>Teeth Cleaning</td>
+                                        <td>May 3, 2025</td>
+                                        <td>$120</td>
+                                        <td><span class="appointment-status status-confirmed">Paid</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>INV-002</td>
+                                        <td>Maria Smith</td>
+                                        <td>Root Canal</td>
+                                        <td>May 3, 2025</td>
+                                        <td>$850</td>
+                                        <td><span class="appointment-status status-pending">Pending</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>INV-003</td>
+                                        <td>Robert Johnson</td>
+                                        <td>Consultation</td>
+                                        <td>May 2, 2025</td>
+                                        <td>$75</td>
+                                        <td><span class="appointment-status status-confirmed">Paid</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>INV-004</td>
+                                        <td>Alice Lee</td>
+                                        <td>X-Ray</td>
+                                        <td>May 1, 2025</td>
+                                        <td>$200</td>
+                                        <td><span class="appointment-status status-confirmed">Paid</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div>
+                    <!-- Calendar Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">May 2025</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="calendar-header">
+                                <div class="calendar-day">Sun</div>
+                                <div class="calendar-day">Mon</div>
+                                <div class="calendar-day">Tue</div>
+                                <div class="calendar-day">Wed</div>
+                                <div class="calendar-day">Thu</div>
+                                <div class="calendar-day">Fri</div>
+                                <div class="calendar-day">Sat</div>
+                            </div>
+                            <div class="calendar">
+                                <div class="calendar-date"></div>
+                                <div class="calendar-date"></div>
+                                <div class="calendar-date"></div>
+                                <div class="calendar-date">1</div>
+                                <div class="calendar-date has-appointments">2</div>
+                                <div class="calendar-date today">3</div>
+                                <div class="calendar-date">4</div>
+                                <div class="calendar-date">5</div>
+                                <div class="calendar-date has-appointments">6</div>
+                                <div class="calendar-date">7</div>
+                                <div class="calendar-date">8</div>
+                                <div class="calendar-date has-appointments">9</div>
+                                <div class="calendar-date">10</div>
+                                <div class="calendar-date">11</div>
+                                <div class="calendar-date">12</div>
+                                <div class="calendar-date has-appointments">13</div>
+                                <div class="calendar-date">14</div>
+                                <div class="calendar-date">15</div>
+                                <div class="calendar-date has-appointments">16</div>
+                                <div class="calendar-date">17</div>
+                                <div class="calendar-date">18</div>
+                                <div class="calendar-date">19</div>
+                                <div class="calendar-date has-appointments">20</div>
+                                <div class="calendar-date">21</div>
+                                <div class="calendar-date">22</div>
+                                <div class="calendar-date">23</div>
+                                <div class="calendar-date">24</div>
+                                <div class="calendar-date">25</div>
+                                <div class="calendar-date has-appointments">26</div>
+                                <div class="calendar-date">27</div>
+                                <div class="calendar-date">28</div>
+                                <div class="calendar-date has-appointments">29</div>
+                                <div class="calendar-date">30</div>
+                                <div class="calendar-date">31</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Available Dentists -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">Available Dentists</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="dentist-list">
+                                <div class="dentist-card">
+                                    <div class="dentist-avatar">JD</div>
+                                    <div class="dentist-info">
+                                        <div class="dentist-name">Dr. Jane Doe</div>
+                                        <div class="dentist-specialty">Orthodontist</div>
+                                        <div class="dentist-stats">
+                                            <span class="dentist-stat">8 years experience</span>
+                                            <span class="dentist-stat">4 appointments today</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="dentist-card">
+                                    <div class="dentist-avatar">MS</div>
+                                    <div class="dentist-info">
+                                        <div class="dentist-name">Dr. Mike Smith</div>
+                                        <div class="dentist-specialty">General Dentistry</div>
+                                        <div class="dentist-stats">
+                                            <span class="dentist-stat">12 years experience</span>
+                                            <span class="dentist-stat">3 appointments today</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="dentist-card">
+                                    <div class="dentist-avatar">KJ</div>
+                                    <div class="dentist-info">
+                                        <div class="dentist-name">Dr. Karen Johnson</div>
+                                        <div class="dentist-specialty">Pediatric Dentist</div>
+                                        <div class="dentist-stats">
+                                            <span class="dentist-stat">5 years experience</span>
+                                            <span class="dentist-stat">2 appointments today</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Services Overview -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">Popular Services</h2>
+                        </div>
+                        <div class="card-body">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Service</th>
+                                        <th>Duration</th>
+                                        <th>Appointments</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Teeth Cleaning</td>
+                                        <td>30 min</td>
+                                        <td>32</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Check-up</td>
+                                        <td>20 min</td>
+                                        <td>28</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Root Canal</td>
+                                        <td>60 min</td>
+                                        <td>15</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tooth Extraction</td>
+                                        <td>45 min</td>
+                                        <td>12</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
