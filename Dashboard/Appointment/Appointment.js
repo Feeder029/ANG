@@ -19,6 +19,8 @@ function GetAppointment(Condition){
             </thead>       
         `
 
+        let dashboarddisplay = ``;
+
         data.forEach(item => {
 
 
@@ -50,6 +52,8 @@ function GetAppointment(Condition){
                         </td>
                     </tr>
                 `
+
+
 
             }
 
@@ -94,6 +98,9 @@ window.DisplaySchedule = GetAppointment;
 
 
 function GetCount(){
+
+    console.log("WORKING")
+
     fetch("Appointment.php?action=count")
     .then(response=>response.json())
     .then(data=>{
