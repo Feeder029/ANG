@@ -13,7 +13,7 @@ $action = isset($_GET['action']) ? $_GET['action'] : '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
-    $Services = $conn->query("SELECT `ServiceID`, `SER_Name`, `SER_Details`,
+    $Services = $conn->query("SELECT `SER_ImagePath`,`ServiceID`, `SER_Name`, `SER_Details`,
     CASE
     -- When duration is less than 1 hour, just show minutes
     WHEN TIME_TO_SEC(SER_Duration) < 3600 THEN

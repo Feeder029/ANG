@@ -497,10 +497,7 @@ function AddServiceAppointment(AppointmentID, ServiceID, isLastService, QR) {
             console.log("Appointment service status:", data.AS.status);
             console.log("Message:", data.AS.message);
 
-            if (data.AS.status === 'success') {
-                // Now we can also log the appointment service ID
-                console.log("Appointment Service ID:", data.AS.id);
-                
+            if (data.AS.status === 'success') {                
                 // Only show success message after the last service is added
                 if (isLastService) {
                     let qrpath = '../../'+QR;

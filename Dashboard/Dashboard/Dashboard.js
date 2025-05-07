@@ -17,8 +17,6 @@ function GetNumbers(){
             AccClass = ClassStatement(item.PatientGrowthPercentage)
             AppClass = ClassStatement(item.AppointmentGrowthPercentage)
             RevenueClass = ClassStatement(item.RevenueGrowthPercentage)
-
-            console.log(AccClass)
             
 
             headerdisplay += `<div class="header-left">
@@ -79,8 +77,6 @@ function GetNumbers(){
     }).catch(error=>console.error('Error fetching Appointment.php data:', error))
 }
 
-
-
 function GetAppointment(){
 
     fetch("../Appointment/Appointment.php?action=getappointment")
@@ -124,6 +120,36 @@ function GetAppointment(){
 }
 
 
+function PendingAccounts(){
+
+    fetch("../Patient/Patient.php?action=getpatient")
+    .then(response=>response.json())
+    .then(data=>{
+
+        let display = `
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>`;
+
+        console.log(data)
+
+        data.forEach(item => {
+            display += `
+            
+            
+            
+            `
+        })
+
+    }).catch(error=>console.error('Error Fetching Accounts.php: ', error))
+
+    
+}
+
 
 function ClassStatement(item){
 
@@ -141,4 +167,4 @@ function ClassStatement(item){
 
 GetNumbers();
 GetAppointment();
-
+PendingAccounts();

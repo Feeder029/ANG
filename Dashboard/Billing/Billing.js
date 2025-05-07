@@ -99,6 +99,42 @@ function GetCount(){
 }
 
 
+let AppID = 0;
+
+function AppointmentDropdown(){
+
+    fetch("../Appointment/Appointment.php?action=getappointment")
+    .then(response=>response.json())
+    .then(data=>{
+
+        let display = ``;
+        data.forEach(item=>{
+
+            if(item.STAT_Name=="COMPLETE"&&item.BillingID==null){
+                // console.log(item)
+
+                const imgSrc = item.image ? 
+                `data:image/jpeg;base64,${item.image}` : 
+                "/api/placeholder/100/100";
+
+
+                display += `<div class="select-item" onclick="selectClient(this, ${item.AppointmentID})">
+                    <img src="${imgSrc}" class="profile-pic" alt="${item.DisplayName}">
+                    <div class="client-info">
+                    <div class="client-name">${item.DisplayName}</div>
+                    <div class="client-details">${item.ACC_Email} • ${item.Services} • ${item.App_ChosenDate} • ${item.App_ChosenTime} </div>
+                    </div>
+                </div>`
+            }
+
+            document.getElementById('selectItems').innerHTML = display; // Add to the HTML
+
+        })
+
+
+    }).catch(error=>console.error('Error Fetching Dropdown Appointments: ', error))
+}
+
 function Count(paid,unpaid,pending) {
 
     const paidspan = document.querySelector('#paid-status span');
@@ -110,6 +146,150 @@ function Count(paid,unpaid,pending) {
     pendingspan.textContent = pending;
 }
 
+const today = new Date().toISOString().split('T')[0];
+document.getElementById('billingDate').value = today;
 
-GetCount();
-DisplayBilling("ALL");
+
+function togglePaymentFields() {
+    const status = document.getElementById('paymentstatus').value;
+    const paymentDetails = document.getElementById('paymentDetails');
+            
+    if (status === '8') {
+        paymentDetails.classList.remove('hidden');
+    } else {
+        paymentDetails.classList.add('hidden');
+    }
+
+}
+
+function toggleDropdown() {
+    const dropdownItems = document.getElementById('selectItems');
+    if (dropdownItems.style.display === 'block') {
+        dropdownItems.style.display = 'none';
+    } else {
+        dropdownItems.style.display = 'block';
+    }
+}
+
+function selectClient(element, AppointmentID) {
+    const selectedDiv = document.querySelector('.select-selected span');
+    const clientInfo = document.getElementById('clientInfo');
+    const content = element.querySelector('.client-info').cloneNode(true);
+    const profilePic = element.querySelector('.profile-pic').cloneNode(true);
+    
+    // Clear the previous content and add the new one
+    selectedDiv.innerHTML = '';
+    selectedDiv.appendChild(profilePic);
+    selectedDiv.appendChild(content);
+    
+    AppID = AppointmentID;
+    
+    // Hide dropdown
+    document.getElementById('selectItems').style.display = 'none';
+}
+
+function Submit() {
+    var AppIDs = AppID;  
+    var Status = document.getElementById("paymentstatus");
+    var StatusValue = Status ? Status.value : null;
+    
+    var PaymentMethod = document.getElementById("paymentMethod");
+    var PMValue = PaymentMethod ? PaymentMethod.value : null;
+    
+    var AM = document.getElementById("amount");
+    var AMValue = AM ? AM.value : null;
+
+
+    var Date = document.getElementById("billingDate")?.value || null;
+    var PM = document.getElementById("payment")?.value || null;
+    var Fee = document.getElementById("Fee")?.value || null;
+
+    
+    fetch('Billing.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'           
+        },
+        body: JSON.stringify({
+            AppointmentID: AppIDs,
+            StatusID: StatusValue,
+            PaymentMethodID: PMValue,
+            BillingDate: Date,
+            Amount: Fee,
+            Payment: PM
+        })
+    })
+    .then(response => {
+        console.log("Response status:", response.status);
+        return response.json();
+    })
+    .then(data => {
+        console.log("Full response data:", data);
+
+            console.log("Appointment service status:", data.status);
+
+            if (data.status === 'success') {        
+                
+                console.log(AppID);
+                AppID = 0;
+                Main();
+
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Billing has been successfully added!',
+                        confirmButtonText: 'OK',
+                        zIndex: 9999     
+                    });
+
+
+                }
+            else {
+                Swal.fire({
+                    title: 'Error',
+                    text: data.message,
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#d33'
+                });
+            }
+        }) 
+    .catch(error => {
+        console.error('Fetch error:', error);
+        Swal.fire({
+            title: 'Error',
+            text: "An error occurred while adding billing to the appointment.",
+            icon: 'error',
+            position: 'top',
+            toast: true,
+            showConfirmButton: false,
+            timer: 3000
+        });
+    });
+}
+
+Window.Submit = Submit;
+Window.selectClient = selectClient;
+
+
+window.onclick = function(event) {
+    if (!event.target.closest('.custom-select-container')) {
+        document.getElementById('selectItems').style.display = 'none';
+    }
+}
+
+
+
+
+function Main(){
+    GetCount();
+    AppointmentDropdown();
+    DisplayBilling("ALL");
+}
+
+Main();
+
+
+
+

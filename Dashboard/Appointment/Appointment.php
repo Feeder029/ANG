@@ -18,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $Sched_Query = $conn->query(
             "SELECT 
               a.AppointmentID,
+              c.BillingID,
               b.DisplayName,
               b.ACC_Profile,
               b.ACC_Email,
@@ -31,6 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
               `appointmentlist` a
               JOIN 
               `patientlist` b ON a.PatientID = b.PatientID
+              LEFT JOIN 
+              `billinglist` c ON a.AppointmentID = c.AppointmentID
               ORDER BY 
               CASE 
               WHEN DATE(a.App_ChosenDate) = CURDATE() THEN 0 

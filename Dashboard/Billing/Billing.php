@@ -39,6 +39,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             GET($conn, $Count);
     }
 
-    }
+} else if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+
+  $json = file_get_contents('php://input');
+  $data = json_decode($json, true);
+  
+  if(isset($data['AppointmentID'], $data['StatusID'], $data['PaymentMethodID'], $data['BillingDate'], $data['Amount'], $data['Payment'])) {
+    $AppID = $conn->real_escape_string($data['AppointmentID']);
+    $StatusID = $conn->real_escape_string($data['StatusID']);
+    $PaymentMethodID = $conn->real_escape_string($data['PaymentMethodID']);
+    $BillingDate = $conn->real_escape_string($data['BillingDate']);
+    $Amount = $conn->real_escape_string($data['Amount']);
+    $Payment = $conn->real_escape_string($data['Payment']);
+
+    $insertData = [
+      'AppointmentID' => $AppID,
+      'PaymentMethodID' => $PaymentMethodID,
+      'StatusID' => $StatusID,
+      'BILL_Date' => $BillingDate,
+      'Amount' => $Amount, 
+      'Payment' => $Payment
+    ];
+  
+    $response = POST($conn, 'blling', $insertData, 'id');
+    echo json_encode($response);
+    exit;
+} else {
+  $response = ['AS' => ['status' => 'error', 'message' => 'Missing required data']];
+  echo json_encode($response);
+  exit;
+}
+
+
+}
 
 ?>
