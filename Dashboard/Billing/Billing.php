@@ -4,7 +4,7 @@ include '../../Database/DBConnect.php';
 require '../../ANG CLIENT 1.2/clientIndex/globalfunction.php';
 
 if (!$conn) {
-    die(json_encode(['error' => "Connection f  ailed: " . mysqli_connect_error()]));
+    die(json_encode(['error' => "Connection failed: " . mysqli_connect_error()]));
 }
 
 
@@ -44,7 +44,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
   $json = file_get_contents('php://input');
   $data = json_decode($json, true);
   
-  if(isset($data['AppointmentID'], $data['StatusID'], $data['PaymentMethodID'], $data['BillingDate'], $data['Amount'], $data['Payment'])) {
+  // Handle update action
+  if(isset($data['action']) && $data['action'] === 'update' && isset($data['BillingID'])) {
+    $BillingID = $conn->real_escape_string($data['BillingID']);
+    $StatusID = $conn->real_escape_string($data['StatusID']);
+    $PaymentMethodID = $conn->real_escape_string($data['PaymentMethodID']);
+    $BillingDate = $conn->real_escape_string($data['BillingDate']);
+    $Amount = $conn->real_escape_string($data['Amount']);
+    $Payment = $conn->real_escape_string($data['Payment']);
+    
+    // Create update query
+    $updateQuery = "UPDATE `blling` SET 
+                    `PaymentMethodID` = '$PaymentMethodID', 
+                    `StatusID` = '$StatusID',
+                    `BILL_Date` = " . ($BillingDate ? "'$BillingDate'" : "NULL") . ",
+                    `Amount` = '$Amount',
+                    `Payment` = " . ($Payment ? "'$Payment'" : "NULL") . "
+                    WHERE `BillingID` = '$BillingID'";
+    
+    if($conn->query($updateQuery)) {
+      $response = ['status' => 'success', 'message' => 'Billing record updated successfully'];
+    } else {
+      $response = ['status' => 'error', 'message' => 'Failed to update billing record: ' . $conn->error];
+    }
+    
+    echo json_encode($response);
+    exit;
+  }
+  // Handle regular insert
+  else if(isset($data['AppointmentID'], $data['StatusID'], $data['PaymentMethodID'])) {
     $AppID = $conn->real_escape_string($data['AppointmentID']);
     $StatusID = $conn->real_escape_string($data['StatusID']);
     $PaymentMethodID = $conn->real_escape_string($data['PaymentMethodID']);
@@ -64,13 +92,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $response = POST($conn, 'blling', $insertData, 'id');
     echo json_encode($response);
     exit;
-} else {
-  $response = ['AS' => ['status' => 'error', 'message' => 'Missing required data']];
-  echo json_encode($response);
-  exit;
+  } else {
+    $response = ['status' => 'error', 'message' => 'Missing required data'];
+    echo json_encode($response);
+    exit;
+  }
 }
-
-
-}
-
 ?>

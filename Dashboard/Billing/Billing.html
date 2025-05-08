@@ -76,28 +76,7 @@
                         <div class="arrow-down"></div>
                     </div>
                     <div class="select-items" id="selectItems">
-
-                        <div class="select-item" onclick="selectClient(this, 'client2')">
-                            <img src="/api/placeholder/40/40" class="profile-pic" alt="Maria Garcia">
-                            <div class="client-info">
-                                <div class="client-name">Maria Garcia</div>
-                                <div class="client-details">maria@example.com • Manicure • May 8, 2025 2:30 PM</div>
-                            </div>
-                        </div>
-                        <div class="select-item" onclick="selectClient(this, 'client3')">
-                            <img src="/api/placeholder/40/40" class="profile-pic" alt="Alex Smith">
-                            <div class="client-info">
-                                <div class="client-name">Alex Smith</div>
-                                <div class="client-details">alex@example.com • Facial • May 10, 2025 11:15 AM</div>
-                            </div>
-                        </div>
-                        <div class="select-item" onclick="selectClient(this, 'client3')">
-                            <img src="/api/placeholder/40/40" class="profile-pic" alt="Alex Smith">
-                            <div class="client-info">
-                                <div class="client-name">Alex Smith</div>
-                                <div class="client-details">alex@example.com • Facial • May 10, 2025 11:15 AM</div>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
                 <input type="hidden" id="clientInfo" name="clientInfo">
@@ -106,7 +85,7 @@
             <div class="form-row">
                 <div class="form-group half">
                     <label for="amount">Amount</label>
-                    <input type="number" id="payment" placeholder="Enter amount" required>
+                    <input type="number" id="Fee" placeholder="Enter amount" required>
                 </div>
                 
                 <div class="form-group half">
@@ -127,7 +106,7 @@
                 
                 <div class="form-group">
                     <label for="payment">Payment</label>
-                    <input type="number" id="Fee" placeholder="Enter payment amount" min="0" step="0.01">
+                    <input type="number" id="payment" placeholder="Enter payment amount" min="0" step="0.01">
                 </div>
 
                 <div class="form-group">
@@ -145,6 +124,7 @@
             <button class="submit-btn" onclick="Submit()">Submit</button>
         </div>
     </div>
+
 
     
     <script src="Billing.js?v=1.0.1"></script>
