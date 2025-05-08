@@ -52,7 +52,9 @@ function DisplayPatients(CONDITION){
                 } 
         
                 display += `
-                            <button id="delete" class="denied" data-value="${item.AccountID}"><i class="fa-solid fa-trash"></i></button>
+                            <button id="delete" class="denied" data-value="${item.AccountID}"><i class="fa-solid fa-circle-xmark
+
+"></i></button>
                             <button id="view"><i class="fa-solid fa-eye"></i></button>
                         </td>
                     </tr>`;

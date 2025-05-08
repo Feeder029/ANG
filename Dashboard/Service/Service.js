@@ -11,7 +11,9 @@ function DisplayServices() {
                         <button class="actions-btn" id="actions">...</button>
                         <div class="action-menu hidden">
                             <i class="fa-solid fa-pen-to-square"></i>
-                            <i class="fa-solid fa-trash"></i>
+                            <i class="fa-solid fa-circle-xmark
+
+"></i>
                         </div>
                         <div class="card-left">
                             <i class="fa-solid fa-tooth"></i>

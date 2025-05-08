@@ -36,6 +36,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     FROM `services`;");
     GET($conn,$Services);
 
+} elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    if (isset($data['Name'], $data['Duration'], $data['Description'])) {
+        $ServiceName = $conn->real_escape_string($data['Name']);
+        $Duration = $conn->real_escape_string($data['Duration']);
+        $Description = $conn->real_escape_string($data['Description']);
+
+        $insertData = [
+            'SER_Name' => $ServiceName,
+            'SER_Duration' => $Duration,
+            'SER_Details' => $Description
+        ];
+        
+        $response = POST($conn, 'services', $insertData, 'id');
+        echo json_encode($response);
+        exit;
+    } 
+
 }
 
 

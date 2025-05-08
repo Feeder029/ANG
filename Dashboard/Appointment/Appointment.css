@@ -247,8 +247,8 @@ tr:nth-child(even) {
     background-color: transparent;
 }
 
-#edit{
-    color: rgb(53, 234, 53);
+#accept{
+    color: rgb(17, 0, 201);
 }
 
 #delete{

@@ -46,7 +46,9 @@ function DisplayBilling(CONDITION){
                         <td id="date">${(item.BILL_Date && item.BILL_Date !== '0000-00-00') ? item.BILL_Date : 'N/A'}</td>
                         <!-- <td id="time">8:00 PM</td> -->
                         <td class="action">
-                            <button id="delete"><i class="fa-solid fa-trash"></i></button>
+                            <button id="delete"><i class="fa-solid fa-circle-xmark
+
+"></i></button>
                             <button id="edit" class="viewmore" value="${item.BillingID}" popovertarget="myheader"><i class="fa-solid fa-pen-to-square"></i></i></button>
                         </td>
                     </tr>

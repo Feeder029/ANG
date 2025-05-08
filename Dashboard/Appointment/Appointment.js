@@ -44,17 +44,15 @@ function GetAppointment(Condition){
                         <td id="status" class="${item.STAT_Name}-status"><p>${item.STAT_Name}</p></td>
                         <td id="submitdate">${item.SubmissionDate} <BR> ${item.SubmissionTime}</td>
                         <td class="action">
-                            <button id="edit"><i class="fa-solid fa-pen-to-square"></i></button>
+                            <button id="accept" class="btn-accept" data-value="${item.AppointmentID}" title="Is this appointment complete?"><i class="fa-solid fa-clipboard-check"></i></button>
                             <button id="delete" class="btn-cancel" data-value="${item.AppointmentID}" title="Do you want to cancel this appointment?">
-                            <i class="fa-solid fa-trash"></i>
+                            <i class="fa-solid fa-circle-xmark
+"></i>
                             </button>
                             <button id="view"><i class="fa-solid fa-eye"></i></button>
                         </td>
                     </tr>
                 `
-
-
-
             }
 
 
@@ -86,6 +84,28 @@ function GetAppointment(Condition){
                   // User clicked "Reschedule"
                   CancelAppointment(7, appointmentID);
                 }
+              });
+            });
+          });
+
+        document.querySelectorAll('.btn-accept').forEach(function(button) {
+            button.addEventListener('click', function() {
+              const appointmentID = this.getAttribute('data-value');
+              
+              Swal.fire({
+                title: 'Appointment Options',
+                text: 'What would you like to do with this appointment?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                denyButtonColor: '#3085d6',
+                cancelButtonColor: '#858585',
+                confirmButtonText: 'Complete Appointment',           
+                cancelButtonText: 'Go Back'
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  CancelAppointment(5, appointmentID);
+                } 
               });
             });
           });
