@@ -1,0 +1,263 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+:root{
+    --black: #252525 ;
+    --white: #fff;
+    --Blue: #155E95;
+    --lightblue: #37AFE1;
+    --background: #F7F7F7;
+    --sidecolor: #E8F9FF;
+    --fontcolor: #568fa6;
+    
+}
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f7f7f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px; 
+    color: var(--Blue);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    font-weight: 600;
+    font-size: large;
+    z-index: 1000;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+.form-box {
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+    max-width: 400px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--Blue);
+    font-size: 1.8rem;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group-inline {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+}
+
+.input-inline {
+    width: 48%;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
+    
+}
+
+input,
+select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+
+}
+
+input:focus{
+    outline: none;
+    border: 1px solid;
+    border-color: var(--lightblue);
+    
+}
+.form-footer {
+    text-align: center;
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+}
+
+p {
+    margin-top: 10px;
+    font-size: 0.9rem;
+}
+
+span {
+    color: var(--Blue);
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+span:hover {
+    text-decoration: none;
+}
+
+#selectLabelMargin{
+    padding-top: 10px;
+}
+                            /* show password icon */
+
+.show-password-icon{
+    margin-bottom: 15px;
+}
+.password-wrapper {
+    position: relative;
+}
+
+.password-wrapper input {
+    width: 100%;
+    padding-right: 40px; 
+}
+
+.password-wrapper i {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #555;
+}
+
+                       /* Sign up Button */
+button{
+    cursor: pointer;
+    width: 100%;
+    height: 45px;
+    display: flex;
+     justify-content: center;
+    align-items: center;
+     border-radius:50px;
+    background: var(--lightblue);
+    font-family:sans-serif;
+    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.1);
+    border: none;
+    padding: 15px 10px;
+    color: var(--white);
+    font-size: 1.125em;
+    transition: all 0.3s ease-in-out ;
+}
+
+button:hover{
+    color: var(--white);
+    background-color: var(--Blue);
+   
+}
+
+            /* Forgot password */
+.forgot-password{
+  padding-top: 10px;
+}
+.forgot-password-a{
+    text-decoration: none;
+    color: var(--Blue);
+   font-size: 15px;
+}
+
+            /* fix register form */
+            /* register form Back Button */
+#back-btn-1{
+ 
+}
+.login-or-signup{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+    .form-container {
+        padding: 25px;
+    }
+
+    h2 {
+        font-size: 1.6rem;
+    }
+
+    .input-group {
+        margin-bottom: 12px;
+        
+    }
+
+    p {
+        font-size: 0.95rem;
+    }
+    .navbar{
+        display: none;
+    }
+    button{
+        height: 20px;
+        font-size:13px ;
+    }
+}
+
+
+@media (max-width: 480px) {
+    .form-container {
+        padding: 15px;  /* Reduced padding */
+    }
+
+    h2 {
+        font-size: 1.4rem;  /* Smaller heading font size */
+    }
+
+    .input-group input,
+    .input-group select {
+        font-size: 0.9rem;  /* Smaller font for inputs */
+        padding: 8px;  /* Reduced padding for inputs */
+    }
+   
+    .input-group-inline .input-inline {
+        width: 45%;  /* Reduce the width for inline inputs (e.g., gender, age, etc.) */
+    }
+
+    p {
+        font-size: 0.85rem;  /* Reduced font size for paragraph */
+    }
+    label{
+        font-size: 14px;
+    }
+     option{
+        font-size: 11px;
+        padding: 1px;
+    }
+    .input-inline select{
+        font-size: 11px;
+        height: 36px;
+    }
+}
