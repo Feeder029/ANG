@@ -36,7 +36,7 @@ function Profiles(){
                     <input type="text" class="field-input" id="email" value="${data.Patient.Email}" readonly>
                 </div>
 
-                <div class="profile-field">
+                <div class="profile-field" style="display: none;">
                     <div class="field-label">FACEBOOK ACCOUNT:</div>
                     <input type="text" class="field-input" id="FB" value="${data.Patient.FacebookAccount}" readonly>
                 </div>

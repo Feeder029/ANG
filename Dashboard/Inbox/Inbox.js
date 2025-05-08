@@ -127,6 +127,7 @@ function displayAppointments() {
                     
                     display += `
                     <div class="appointment-item">
+                         
                         <input type="checkbox" class="appointment-checkbox" checked>
                         <div class="appointment-info">
                             <div class="appointment-title"><span class="appointment-name">${item.DisplayName}</span> | <span class="appointment-email">${item.ACC_Email}</span></div>
@@ -245,4 +246,24 @@ function SendEmail(email, name, date, time, service) {
             resolve(false);
         });
     });
+}
+
+function Email(){
+
+
+    fetch('inbox.php?action=sendemail', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, name: name, date: date, time: time, service:service})
+    })
+    .then(res => {
+        if (!res.ok) throw new Error(`Server error: ${res.status}`);
+        return res.json();
+    })
+    .then(data => {
+
+
+
+    }).catch(error=>console.error('Error fetching Inbox.php data:', error))
+
 }

@@ -143,7 +143,9 @@ if ($action == 'sendemail') {
     
     // End script execution to prevent additional output
     exit;
-} 
+}  else if($action == 'email'){
+
+}
 
 // Flush the output
 ob_end_flush();
