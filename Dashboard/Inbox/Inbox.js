@@ -38,11 +38,21 @@ document.addEventListener('DOMContentLoaded', function() {
                     const appointmentItem = checkbox.closest('.appointment-item');
                     const emailElement = appointmentItem.querySelector('.appointment-email');
                     const nameElement = appointmentItem.querySelector('.appointment-name');
+                    const appointmentDetails = appointmentItem.querySelector('.appointment-details').textContent;
+
+                    // Split to get individual parts
+                    const [dayAndTime, services] = appointmentDetails.split(' || Services: ');
+                    const [day, time] = dayAndTime.split(' at ');
                     
+                    // Assign to variables
+                    const DayElement = day.trim();
+                    const TimeElement = time.trim();
+                    const ServicesElement = services.trim();
+                                       
                     if (emailElement) {
                         const email = emailElement.textContent;
                         const name = nameElement ? nameElement.textContent : 'Patient';
-                        SendEmail(email, name);
+                        SendEmail(email, name, DayElement, TimeElement, ServicesElement);
                     }
                 });
                 
@@ -147,13 +157,24 @@ function displayAppointments() {
                             const appointmentItem = checkbox.closest('.appointment-item');
                             const emailElement = appointmentItem.querySelector('.appointment-email');
                             const nameElement = appointmentItem.querySelector('.appointment-name');
+
+                            const appointmentDetails = appointmentItem.querySelector('.appointment-details').textContent;
+
+                            // Split to get individual parts
+                            const [dayAndTime, services] = appointmentDetails.split(' || Services: ');
+                            const [day, time] = dayAndTime.split(' at ');
+                            
+                            // Assign to variables
+                            const DayElement = day.trim();
+                            const TimeElement = time.trim();
+                            const ServicesElement = services.trim();
                             
                             if (emailElement) {
                                 const email = emailElement.textContent;
                                 const name = nameElement ? nameElement.textContent : 'Patient';
                                 
                                 // Call SendEmail function with proper parameters
-                                SendEmail(email, name)
+                                SendEmail(email, name, DayElement, TimeElement, ServicesElement)
                                     .then(success => {
                                         sentCount++;
                                         if (sentCount === totalToSend) {
@@ -188,14 +209,13 @@ function displayAppointments() {
         });
 }
 
-function SendEmail(email, name) {
-
+function SendEmail(email, name, date, time, service) {
     console.log(email)
     return new Promise((resolve, reject) => {
-        fetch('inbox.php', {
+        fetch('inbox.php?action=sendemail', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: email, name: name })
+            body: JSON.stringify({ email: email, name: name, date: date, time: time, service:service})
         })
         .then(res => {
             if (!res.ok) throw new Error(`Server error: ${res.status}`);
