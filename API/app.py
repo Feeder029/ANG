@@ -8,6 +8,8 @@ import os
 import base64
 from io import BytesIO
 import socket
+import random
+import string
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -31,7 +33,7 @@ def get_connection():
         user='root',
         password='',
         database='ang_appointmentdb'
-    )
+)
 
 # ---------------------- CREATE RECEIPT QR & INPUT DATABASE ---------------------- #
 
@@ -63,15 +65,16 @@ def inputinfo(PatID, StatusID, ChosenDate, ChosenTime, QRPath, QRData):
             conn.close()     
 
 # Generate QR Code
-def generate_qr(PatID, ChosenDate, ChosenTime):
+def generate_qr(PatID, ChosenDate, ChosenTime,services):
     # Create QR code data
-    qr_data = f"ChosenDate: {ChosenDate}, Chosen Time: {ChosenTime}"
+    qr_data = f"ChosenDate: {ChosenDate}, Chosen Time: {ChosenTime}, Services: {services}"
     qr = qrcode.make(qr_data)
     
     # Save to file system
     qr_directory = "QR_IMAGES"
     os.makedirs(qr_directory, exist_ok=True)
-    qr_filename = f"QR_CODE_{ChosenDate.replace('-', '')}_{ChosenTime.replace(':', '').replace(' ', '')}.png"
+    random_string = ''.join(random.choices(string.ascii_letters + string.digits, k=6))
+    qr_filename = f"QR_CODE_{random_string}.png"
     qr_path = os.path.join(qr_directory, qr_filename)
     qr.save(qr_path)
     print(f"QR code saved as {qr_path}")
@@ -90,11 +93,13 @@ def handle_request():
     PatID = data.get("PID")
     ChosenDate = data.get("APP_ChosenDate")
     ChosenTime = data.get("APP_ChosenTime")
+    services = data.get("Services")
 
     if not PatID or not ChosenDate or not ChosenTime:
         return jsonify({"error": "Missing Details"}), 400
     
-    qr_filename, qr_binary = generate_qr(PatID, ChosenDate, ChosenTime)
+
+    qr_filename, qr_binary = generate_qr(PatID, ChosenDate, ChosenTime,services)
     appointment_id = inputinfo(PatID, 4, ChosenDate, ChosenTime, qr_filename, qr_binary)
     
     # Get the server's IP address and port for QR access
@@ -126,6 +131,34 @@ def serve_qr_image(filename):
 def index():
     ip = get_ip_address()
     return f"Flask server is running on {ip}:5000"
+
+# Get Services
+# def Services(ID, Date, Time):
+#     try:
+#         conn = get_connection()
+#         cursor = conn.cursor(dictionary=True)
+        
+#         # For debugging - notice the space between values
+#         print(f"Debug values: {ID} | {Date} | {Time}")
+        
+#         # Correct way to use parameterized queries - remove the quotes around %s
+#         sql = "SELECT `Services` FROM `appointmentlist` WHERE `PatientID` = %s AND `App_ChosenDate` = %s AND `App_ChosenTime` = %s"
+#         cursor.execute(sql, (ID, Date, Time))
+        
+#         result = cursor.fetchone()
+#         conn.close()
+        
+#         if result:
+#             print(result)
+#             return result['Services']
+#         else:
+#             print("No result found for these parameters")
+#             return None
+            
+#     except Exception as e:
+#         print(f"Error: {e}")
+#         return None       
+
 
 # ---------------------- RUN THE FLASK SERVER ---------------------- #
 if __name__ == "__main__":

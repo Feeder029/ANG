@@ -368,7 +368,7 @@ function bookAppointment() {
             const PatientID = GetCookie('patientID');
            
             // Create the appointment first, then associate services
-            AddAppointment(PatientID, DBDate, formattedMilitaryTime);
+            AddAppointment(PatientID, DBDate, formattedMilitaryTime, servicesText);
            
             // Mark the time slot as booked
             const dateKey = `${selectedDate.getFullYear()}-${selectedDate.getMonth() + 1}-${selectedDate.getDate()}`;
@@ -418,7 +418,7 @@ function resetSelections() {
 }
 
 //Import Appointment to Database
-function AddAppointment(PID, ACD, ACT) {
+function AddAppointment(PID, ACD, ACT,servicesText) {
     //appointment.php
     fetch('http://192.168.100.41:5000/update_database_qr', {
         method: 'POST',
@@ -428,7 +428,8 @@ function AddAppointment(PID, ACD, ACT) {
         body: JSON.stringify({
             PID: PID,                  // Changed from PatientID to PID
             APP_ChosenDate: ACD,       // This matches the Flask endpoint
-            APP_ChosenTime: ACT        // This matches the Flask endpoint
+            APP_ChosenTime: ACT,       // This matches the Flask endpoint
+            Services: servicesText
         })
     })
     .then(response => {
