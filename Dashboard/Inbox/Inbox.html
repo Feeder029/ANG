@@ -3,12 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="Inbox.css">
-    <title>Inbox</title>
+    <title>Appointment Reminders Inbox</title>
+    <link rel="stylesheet" href="Inbox.css?v=1.1.5">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-    <h1>UNDER CONSTRUCTION</h1>
+    <div class="main-content">
+        <div class="inbox-header">
+            <h2>Inbox</h2>
+            <div class="search-box">
+                <span>🔍</span>
+                <input type="text" placeholder="Search reminders...">
+            </div>
+        </div>
+        
+        <div class="action-buttons">
+            <button class="btn btn-primary" id="autoRemindersBtn">
+                <span>🔔</span> Auto-Send Reminders
+            </button>
+            <button class="btn btn-outline">
+                <span>📝</span> Create Custom Reminder
+            </button>
+        </div>
+        
+        <div class="pending-reminders" id="pendingRemindersSection" style="display: none;">
+
+
+        </div>
+        
+        <div class="message-list">
+            <div class="message-item unread">
+                <div class="message-icon">
+                    <span>📨</span>
+                </div>
+                <div class="message-content">
+                    <div class="message-header">
+                        <div>
+                            <span class="message-title">Appointment Reminder: Dr. Johnson - Cardiology</span>
+                            <span class="appointment-time">Tomorrow at 10:30 AM</span>
+                        </div>
+                        <span class="message-time">Today, 9:15 AM</span>
+                    </div>
+                    <div class="message-preview">
+                        This is a reminder that you have an appointment scheduled with Dr. Johnson in the Cardiology department tomorrow at 10:30 AM. Please arrive 15 minutes early to complete any necessary paperwork.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="message-item unread">
+                <div class="message-icon urgent">
+                    <span>⚠️</span>
+                </div>
+                <div class="message-content">
+                    <div class="message-header">
+                        <div>
+                            <span class="message-title">CANCELLATION: Appointment Rescheduled</span>
+                            <span class="appointment-time" style="background-color: #ffecef; color: #dc3545;">Canceled</span>
+                        </div>
+                        <span class="message-time">Today, 8:30 AM</span>
+                    </div>
+                    <div class="message-preview">
+                        Your appointment with Dr. Williams scheduled for tomorrow at 8:00 AM has been canceled. Please call our office to reschedule at your earliest convenience or use the reschedule button below.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="message-item">
+                <div class="message-icon">
+                    <span>📨</span>
+                </div>
+                <div class="message-content">
+                    <div class="message-header">
+                        <div>
+                            <span class="message-title">Appointment Reminder: Dental Checkup</span>
+                            <span class="appointment-time">Tomorrow at 2:15 PM</span>
+                        </div>
+                        <span class="message-time">Today, 7:45 AM</span>
+                    </div>
+                    <div class="message-preview">
+                        This is a reminder of your dental checkup appointment tomorrow at 2:15 PM with Dr. Smith. Please remember to bring your insurance card and arrive 10 minutes early.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="message-item">
+                <div class="message-icon">
+                    <span>📨</span>
+                </div>
+                <div class="message-content">
+                    <div class="message-header">
+                        <div>
+                            <span class="message-title">Appointment Reminder: Physical Therapy</span>
+                            <span class="appointment-time">Yesterday at 3:30 PM</span>
+                        </div>
+                        <span class="message-time">Monday, 9:30 AM</span>
+                    </div>
+                    <div class="message-preview">
+                        This is a reminder that you had a physical therapy session scheduled yesterday at 3:30 PM. We noticed you didn't attend. Please contact us to reschedule your appointment.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="message-item">
+                <div class="message-icon">
+                    <span>📨</span>
+                </div>
+                <div class="message-content">
+                    <div class="message-header">
+                        <div>
+                            <span class="message-title">Appointment Confirmed: MRI Scan</span>
+                            <span class="appointment-time">Next Monday at 11:45 AM</span>
+                        </div>
+                        <span class="message-time">Sunday, 3:20 PM</span>
+                    </div>
+                    <div class="message-preview">
+                        Your MRI scan appointment has been confirmed for next Monday at 11:45 AM. You will receive a reminder one day before your appointment with preparation instructions.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
     
-    <script src="Inbox.js"></script>
+    <script src="Inbox.js?v=2"></script>
 </body>
 </html>
