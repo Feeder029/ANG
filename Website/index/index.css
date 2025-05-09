@@ -369,6 +369,7 @@ header{
 .service-box-details h2{
     font-size: medium;
     text-align: justify;
+    font-weight: 500;
 
 }
 .service-button button {
