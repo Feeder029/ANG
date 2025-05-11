@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (!document.querySelector(".side-bar ul button.active")) {
         links[0].classList.add("active");
-        iframe.src = "../Dashboard/Dashboard/Dashboard.html?v=1.13"; 
+        iframe.src = "../../Dashboard/Dashboard/Dashboard.html?v=12"; 
     }
 
     links.forEach(link => {

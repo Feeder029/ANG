@@ -420,7 +420,7 @@ function resetSelections() {
 //Import Appointment to Database
 function AddAppointment(PID, ACD, ACT,servicesText) {
     //appointment.php
-    fetch('http://192.168.100.41:5000/update_database_qr', {
+    fetch('http://192.168.94.115:5000/update_database_qr', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

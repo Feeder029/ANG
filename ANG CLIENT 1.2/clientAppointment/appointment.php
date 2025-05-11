@@ -86,7 +86,7 @@ FROM (
     AND (
         a.App_ChosenDate > CURDATE() OR
         (a.App_ChosenDate = CURDATE() AND a.App_ChosenTime >= CURTIME())
-    )
+    )  AND a.STAT_Name LIKE 'Booked'
     
     UNION ALL
     

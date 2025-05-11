@@ -21,7 +21,7 @@ function GetNumbers(){
 
             headerdisplay += `<div class="header-left">
             <p>Good Morning/Evening,</p>
-            <h1>Dr. Laura Jaden</h1>
+            <h1>Dr. Alvin Gumafelix</h1>
             <p>Dentist, BDS, BChD</p>
             <p>You have total <span class="appointment-count">${item.TodayAppointment} appointments</span> today.</p>
             </div>`;
